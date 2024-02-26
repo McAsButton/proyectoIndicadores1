@@ -30,5 +30,11 @@ class ResultadoIndicador{
     function setFechacalculo($fechacalculo){
         $this->fechacalculo=$fechacalculo;
     }
+    function getFkidindicador(){
+        return $this->fkidindicador;
+    }
+    function setFkidindicador($fkidindicador){
+        $this->fkidindicador=$fkidindicador;
+    }
 }
 ?>
