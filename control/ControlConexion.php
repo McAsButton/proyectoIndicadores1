@@ -61,7 +61,7 @@ class ControlConexion{
 	}
 }
 ?>
-
+//
 //
 /*
 class ControlConexion{
