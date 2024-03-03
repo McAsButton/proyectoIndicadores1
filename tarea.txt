@@ -1,0 +1,3 @@
+Hacer funcionar el modifica y el borrar de usuarios
+*opcional botones
+*reto programar el consultar
