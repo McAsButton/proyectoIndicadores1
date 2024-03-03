@@ -1,4 +1,5 @@
 <?php
+include 'Conexion.php';
 class ControlUsuario{
     var $objUsuario; //Declara el atributo
     function __construct($objUsuario){
@@ -7,28 +8,27 @@ class ControlUsuario{
     function guardar(){
         $email = $this->objUsuario->getEmail();
         $contrasena = $this->objUsuario->getContrasena();
-        $objControlConexion = new ControlConexion();
-        $comandoSql = "INSERT INTO usuario (email, contrasena) VALUES ('$email', '$contrasena')";
-        $objControlConexion->abrirBd('localhost', 'root', '', 'bdindicadores1', 3306);
-        $objControlConexion->ejecutarComandoSql($comandoSql);
-        $objControlConexion->cerrarBd();
+        $conexionBD = new ConexionBD("mysql:dbname=bdindicadores1;host=127.0.0.1", "root", "");
+        $pdo = $conexionBD->conectar();
+        $comandoSql = $pdo->prepare("INSERT INTO usuario (email, contrasena) VALUES ('$email', '$contrasena')");
+        $comandoSql->execute();
+        $conexionBD->desconectar();
     }
     function modificar($newContra){
         $email = $this->objUsuario->getEmail();
-        $objControlConexion = new ControlConexion();
-        $comandoSql = "UPDATE usuario SET 'contrasena'= '$newContra' WHERE 'email' = '$email'";
-        $objControlConexion->abrirBd('localhost', 'root', '', 'bdindicadores1', 3306);
-        $objControlConexion->ejecutarComandoSql($comandoSql);
-        $objControlConexion->cerrarBd();
+        $conexionBD = new ConexionBD("mysql:dbname=bdindicadores1;host=127.0.0.1", "root", "");
+        $pdo = $conexionBD->conectar();
+        $comandoSql = $pdo->prepare("UPDATE usuario SET contrasena = '$newContra' WHERE email = '$email'");
+        $comandoSql->execute();
+        $conexionBD->desconectar();
     }
     function borrar(){
         $email = $this->objUsuario->getEmail();
-        $contrasena = $this->objUsuario->getContrasena();
-        $objControlConexion = new ControlConexion();
-        $comandoSql = "DELETE FROM usuario WHERE 'email' = '$email'";
-        $objControlConexion->abrirBd('localhost', 'root', '', 'bdindicadores1', 3306);
-        $objControlConexion->ejecutarComandoSql($comandoSql);
-        $objControlConexion->cerrarBd();
+        $conexionBD = new ConexionBD("mysql:dbname=bdindicadores1;host=127.0.0.1", "root", "");
+        $pdo = $conexionBD->conectar();
+        $comandoSql = $pdo->prepare("DELETE FROM usuario WHERE 'email' = '$email'");
+        $comandoSql->execute();
+        $conexionBD->desconectar();
     }
     function consultar(){
         //$email = $this->objUsuario->getEmail();
