@@ -15,9 +15,9 @@ class ResultadoIndicador{
     function getId(){
         return $this->id;
     }
-    function setId($id){
-        $this->id=$id;
-    }
+    // function setId($id){
+    //     $this->id=$id;
+    // }  No se usa por ser autoincremental
     function getResultado(){
         return $this->resultado;
     }
