@@ -2,25 +2,24 @@
 include '../control/ControlUsuario.php';
 include '../modelo/Usuario.php';
 
-$objUsuario = new Usuario("", "");
-$controlUsuario = new ControlUsuario($objUsuario);
-$comandoSql = $controlUsuario->consultar();
+$controlUsuario = new ControlUsuario(null); // Crea un objeto de la clase ControlUsuario sin un objeto Usuario
+$comandoSql = $controlUsuario->consultar(); // Ejecuta la consulta para listar los usuarios
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST["email"];
-    $contrasena = $_POST["contrasena"];
-    $action = $_POST["action"];
+if ($_SERVER["REQUEST_METHOD"] == "POST") { // Si se envió un formulario por el método POST
+    $email = $_POST["email"]; // Obtiene el email del formulario
+    $contrasena = $_POST["contrasena"]; // Obtiene la contraseña del formulario
+    $action = $_POST["action"]; // Obtiene la acción del formulario
 
-    if (!empty($email)) {
-        if($action == 'modificar'){
-            $objUsuario = new Usuario($email, $contrasena);
-            $controlUsuario = new ControlUsuario($objUsuario);
+    if (!empty($email)) { // Si el email no está vacío
+        $objUsuario = new Usuario($email, $contrasena); // Crea un objeto de la clase Usuario con los datos del formulario
+        $controlUsuario = new ControlUsuario($objUsuario); // Crea un objeto de la clase ControlUsuario con el objeto Usuario
+        if($action == 'modificar'){ // Si la acción es modificar
             $controlUsuario->modificar();
             header("Location: test.php");
             exit();
         }elseif($action == 'guardar'){
-            $objUsuario = new Usuario($email, $contrasena);
-            $controlUsuario = new ControlUsuario($objUsuario);
+            // $objUsuario = new Usuario($email, $contrasena);
+            // $controlUsuario = new ControlUsuario($objUsuario);
             $controlUsuario->guardar();
             header("Location: test.php");
             exit();
@@ -41,8 +40,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         } elseif ($action == 'confirm_delete') {
             // Acción de eliminar usuario en la base de datos
-            $objUsuario = new Usuario($email, $contrasena);
-            $controlUsuario = new ControlUsuario($objUsuario);
+            // $objUsuario = new Usuario($email, $contrasena);
+            // $controlUsuario = new ControlUsuario($objUsuario);
             $controlUsuario->borrar($email);
             header("Location: test.php");
             exit();
@@ -56,10 +55,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Bootstrap User Management Data Table</title>
+<title>Administración de usuarios</title>
+<link rel="icon" type="image/png" href="favicon.png"/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <style>
@@ -81,7 +81,7 @@ body {
 }
 .table-title {
     padding-bottom: 15px;
-    background: #299be4;
+    background: #212529;
     color: #fff;
     padding: 16px 30px;
     margin: -20px -25px 10px;
@@ -340,7 +340,7 @@ table.table .avatar {
         <form id="deleteForm" method="post" action="test.php" enctype="multipart/form-data">
             <div class="modal-header">						
                 <h4 class="modal-title">Borrar Usuario</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">					
                 <p>Esta seguro que desea eliminar este usuario?</p>
