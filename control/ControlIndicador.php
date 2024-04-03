@@ -26,7 +26,7 @@ class ControlIndicador{
         $fkidnumeral=$this->objIndicador->getFkidnumeral();
         $fkidparagrafo=$this->objIndicador->getFkidparagrafo();
 
-        $conexionBD = new ConexionBD("mysql:host=localhost;dbname=bdindicadores1;","root","");
+        $conexionBD = new ConexionBD("mysql:host=".$GLOBALS['host'].";dbname=".$GLOBALS['db'], $GLOBALS['user'], $GLOBALS['password']); //Crea un objeto de la clase ConexionBD
         $pdo = $conexionBD->conectar();
         $comandoSql = $pdo->prepare("SELECT * FROM usuario");
         $comandoSql->execute();

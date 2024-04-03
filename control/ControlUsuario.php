@@ -20,7 +20,9 @@ class ControlUsuario{
         $contrasena = $this->objUsuario->getContrasena(); //Obtiene la contraseña del objeto
         $conexionBD = new ConexionBD("mysql:host=".$GLOBALS['host'].";dbname=".$GLOBALS['db'], $GLOBALS['user'], $GLOBALS['password']); //Crea un objeto de la clase ConexionBD
         $pdo = $conexionBD->conectar(); //Conecta a la base de datos
-        $comandoSql = $pdo->prepare("INSERT INTO usuario (email, contrasena) VALUES ('$email', '$contrasena')"); //Prepara la consulta SQL
+        $comandoSql = $pdo->prepare("INSERT INTO usuario (email, contrasena) VALUES (:email, :contrasena)"); //Prepara la consulta SQL
+        $comandoSql->bindParam(':email', $email); //Asigna el valor de email a la consulta SQL
+        $comandoSql->bindParam(':contrasena', $contrasena); //Asigna el valor de contrasena a la consulta SQL
         $comandoSql->execute(); //Ejecuta la consulta SQL
         $conexionBD->desconectar(); //Desconecta de la base de datos
     }
@@ -29,14 +31,17 @@ class ControlUsuario{
         $newContra = $this->objUsuario->getContrasena(); //Obtiene la contraseña del objeto
         $conexionBD = new ConexionBD("mysql:host=".$GLOBALS['host'].";dbname=".$GLOBALS['db'], $GLOBALS['user'], $GLOBALS['password']); //Crea un objeto de la clase ConexionBD
         $pdo = $conexionBD->conectar(); //Conecta a la base de datos
-        $comandoSql = $pdo->prepare("UPDATE usuario SET contrasena = '$newContra' WHERE email = '$email'"); //Prepara la consulta SQL
+        $comandoSql = $pdo->prepare("UPDATE usuario SET contrasena = :newContra WHERE email = :email"); //Prepara la consulta SQL
+        $comandoSql->bindParam(':email', $email); //Asigna el valor de email a la consulta SQL
+        $comandoSql->bindParam(':newContra', $newContra); //Asigna el valor de newContra a la consulta SQL
         $comandoSql->execute(); //Ejecuta la consulta SQL
         $conexionBD->desconectar(); //Desconecta de la base de datos
     }
     function borrar($email){ //Funcion para borrar un usuario
         $conexionBD = new ConexionBD("mysql:host=".$GLOBALS['host'].";dbname=".$GLOBALS['db'], $GLOBALS['user'], $GLOBALS['password']); //Crea un objeto de la clase ConexionBD
         $pdo = $conexionBD->conectar(); //Conecta a la base de datos
-        $comandoSql = $pdo->prepare("DELETE FROM usuario WHERE email = '$email'"); //Prepara la consulta SQL
+        $comandoSql = $pdo->prepare("DELETE FROM usuario WHERE email = :email"); //Prepara la consulta SQL
+        $comandoSql->bindParam(':email', $email); //Asigna el valor de email a la consulta SQL
         $comandoSql->execute(); //Ejecuta la consulta SQL
         $conexionBD->desconectar(); //Desconecta de la base de datos
     }
