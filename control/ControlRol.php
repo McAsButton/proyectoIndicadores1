@@ -1,6 +1,6 @@
 <?php
 include 'Conexion.php'; // cspell:disable-line <- desabilita el corrector ortografico para esta linea
-include '../modelo/Rol.php';
+include 'configBd.php'; // cspell:disable-line <- desabilita el corrector ortografico para esta linea
 
 class ControlRol{
     var $objRol;

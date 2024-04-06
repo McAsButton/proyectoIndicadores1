@@ -1,6 +1,6 @@
 <?php
 include '../Conexion.php'; // cspell:disable-line <- desabilita el corrector ortografico para esta linea
-include '../modelo/UnidadMedicion.php'; // cspell:disable-line <- desabilita el corrector ortografico para esta linea
+include 'configBd.php'; // cspell:disable-line <- desabilita el corrector ortografico para esta linea
 
 class ControlUnidadMedicion{
     var $objUnidadMedicion;

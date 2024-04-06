@@ -1,6 +1,6 @@
 <?php
 include '../Conexion.php'; // cspell:disable-line <- desabilita el corrector ortografico para esta linea
-include '../modelo/TipoActor.php';
+include 'configBd.php'; // cspell:disable-line <- desabilita el corrector ortografico para esta linea
 
 class ControlTipoActor{
     var $objTipoActor;

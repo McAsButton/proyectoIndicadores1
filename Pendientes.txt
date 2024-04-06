@@ -1,0 +1,16 @@
+Agregar la tabla frecuencia en la BD (id y nombre)
+Programar el listar en el control usuario (ejemplo del profesor enviando un objeto null)
+Al modulo legal no se le debe hacer crud (solo requiere listar)
+Mover estilos de la vista usuario a un nuevo archivo para limpar el codigo
+Quitar doble validacion al presionar eliminar usuario
+
+
+
+
+Paginador para listar en grupos (5 - 10 registros por pagina)
+
+Validar uso de botones de acuerdo al ejemplo del profesor con la propiedad id y name, nosotros lo hacemos en base a un campo oculto llamado action
+_GET['boton'] trae el value del objeto llamado boton en la url
+_POST['boton'] trae el value del objeto boton de forma oculta
+
+Control de acceso (login y mostrar informacion dependiendo del rol del usuario)
