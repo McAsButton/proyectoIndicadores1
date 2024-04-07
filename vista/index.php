@@ -59,10 +59,22 @@
           <li><a class="nav-link scrollto" href="#services">Servicios</a></li> <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
           <li><a class="nav-link scrollto " href="#portfolio">Portafolio</a></li> <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
           <li><a class="nav-link scrollto" href="#team">Equipo</a></li> <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
-          <!-- <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
+          <li><a class="nav-link scrollto" href="#contact">Contacto</a></li> <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
+          <li class="dropdown"><a href="#"><span>Vistas</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
-              <li><a href="#">Drop Down 1</a></li>
-              <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
+              <li><a href="VistaFuente.php">Vista Fuente</a></li>
+              <li><a href="VistaRepresenVisual.php">Vista Represen Visual</a></li>
+              <li><a href="VistaRol.php">Vista Rol</a></li>
+              <li><a href="VistaSeccion.php">Vista Sección</a></li><!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
+              <li><a href="VistaSentido.php">Vista Sentido</a></li>
+              <li><a href="VistaSubSeccion.php">Vista Sub Sección</a></li><!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
+              <li><a href="VistaTipoActor.php">Vista Tipo Actor</a></li>
+              <li><a href="VistaTipoIndicador.php">Vista Tipo Indicador</a></li>
+              <li><a href="VistaUnidadMedicion.php">Vista Unidad Medición</a></li><!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
+            </ul>
+          </li>
+              
+              <!-- <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
                 <ul>
                   <li><a href="#">Deep Drop Down 1</a></li>
                   <li><a href="#">Deep Drop Down 2</a></li>
@@ -76,7 +88,6 @@
               <li><a href="#">Drop Down 4</a></li>
             </ul>
           </li> -->
-          <li><a class="nav-link scrollto" href="#contact">Contacto</a></li> <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
           <li><button type="button" class="btn btn-outline-light d-table" data-bs-toggle="modal" data-bs-target="#ModalLogin">Login</button></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>

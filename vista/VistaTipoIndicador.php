@@ -1,34 +1,29 @@
 <?php
-include '../control/ControlUsuario.php';
-include '../modelo/Usuario.php';
+include '../control/ControlTipoIndicador.php';
+include '../modelo/TipoIndicador.php';
 
-$controlUsuario = new ControlUsuario(null); // Crea un objeto de la clase ControlUsuario sin un objeto Usuario
-$comandoSql = $controlUsuario->listar(); // Ejecuta la consulta para listar los usuarios
+$ControlTipoIndicador = new ControlTipoIndicador(null); // 
+$comandoSql = $ControlTipoIndicador->listar(); // 
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") { // Si se envió un formulario por el método POST
-    $email = $_POST["email"]; // Obtiene el email del formulario
-    $contrasena = $_POST["contrasena"]; // Obtiene la contraseña del formulario
-    $action = $_POST["action"]; // Obtiene la acción del formulario
+if ($_SERVER["REQUEST_METHOD"] == "POST") { 
+    $id = $_POST["id"]; 
+    $nombre = $_POST["nombre"]; 
+    $action = $_POST["action"]; 
 
-    if (!empty($email)) { // Si el email no está vacío
-        $objUsuario = new Usuario($email, $contrasena); // Crea un objeto de la clase Usuario con los datos del formulario
-        $controlUsuario = new ControlUsuario($objUsuario); // Crea un objeto de la clase ControlUsuario con el objeto Usuario
+    if (!empty($id)) { 
+        $TipoIndicador = new TipoIndicador($id, $nombre); 
+        $ControlTipoIndicador = new ControlTipoIndicador($TipoIndicador); 
         if($action == 'modificar'){ // Si la acción es modificar
-            $controlUsuario->modificar();
-            header("Location: VistaUsuario.php");
+            $ControlTipoIndicador->modificar();
+            header("Location: VistaTipoIndicador.php");
             exit();
         }elseif($action == 'guardar'){
-            // $objUsuario = new Usuario($email, $contrasena);
-            // $controlUsuario = new ControlUsuario($objUsuario);
-            $controlUsuario->guardar();
-            header("Location: VistaUsuario.php");
+            $ControlTipoIndicador->agregar();
+            header("Location: VistaTipoIndicador.php");
             exit();
         } elseif ($action == 'delete') {
-            // Acción de eliminar usuario en la base de datos
-            // $objUsuario = new Usuario($email, $contrasena);
-            // $controlUsuario = new ControlUsuario($objUsuario);
-            $controlUsuario->borrar($email);
-            header("Location: VistaUsuario.php");
+            $ControlTipoIndicador->eliminar($id);
+            header("Location: VistaTipoIndicador.php");
             exit();
         }
     }
@@ -40,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { // Si se envió un formulario por el
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Administración de usuarios</title>
+<title>Administración de Tipo Indicador</title>
 <!-- Favicons -->
 <link href="assets/img/favicon.png" rel="icon">
 <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -58,10 +53,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { // Si se envió un formulario por el
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-5">
-                        <h2><b>Administrar</b> Usuarios</h2>
+                        <h2><b>Administrar</b> Tipo Indicador</h2>
                     </div>
                     <div class="col-sm-7">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUser"><i class="bi bi-person-plus"></i><span>Nuevo Usuario</span></button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTipoIndicador"><i class="bi bi-person-plus"></i><span>Nuevo Tipo Indicador</span></button>
                     </div>
                 </div>
             </div>
@@ -69,9 +64,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { // Si se envió un formulario por el
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Email</th>
-                        <th>Contraseña</th>						
-                        <th>Rol</th>
+                        <th>Id</th>
+                        <th>Nombre</th>						
                         <th>Acción</th>
                     </tr>
                 </thead>
@@ -84,16 +78,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { // Si se envió un formulario por el
                     ?>
                     <tr>
                         <td><?= $num ?></td>
-                        <td><?= $dato['email'] ?></td>
-                        <td><?= $dato['contrasena'] ?></td>
+                        <td><?= $dato['id'] ?></td>
+                        <td><?= $dato['nombre'] ?></td>
                         <td></td>
                         <td>
                             <div class="btn-group" role="group">
-                                <form method="post" action="VistaUsuario.php" enctype="multipart/form-data">
-                                    <button type="button" class="btn btn-warning btn-sm" name="modificar" data-bs-toggle="modal" data-bs-target="#editUser" data-bs-whatever="<?= $dato['email'] ?>"><i class="bi bi-pencil-square" style="font-size: 0.75rem;"></i></button>
+                                <form method="post" action="VistaTipoIndicador.php" enctype="multipart/form-data">
+                                    <button type="button" class="btn btn-warning btn-sm" name="modificar" data-bs-toggle="modal" data-bs-target="#editTipoIndicador" data-bs-whatever="<?= $dato['id'] ?>"><i class="bi bi-pencil-square" style="font-size: 0.75rem;"></i></button>
                                 </form>
-                                <form method="post" action="VistaUsuario.php" enctype="multipart/form-data">
-                                    <button type="button" class="btn btn-danger btn-sm" name="delete" data-bs-toggle="modal" data-bs-target="#deleteUser" data-bs-email="<?= $dato['email'] ?>"><i class="bi bi-trash-fill" style="font-size: 0.75rem;"></i></button>
+                                <form method="post" action="VistaTipoIndicador.php" enctype="multipart/form-data">
+                                    <button type="button" class="btn btn-danger btn-sm" name="delete" data-bs-toggle="modal" data-bs-target="#deleteTipoIndicador" data-bs-id="<?= $dato['id'] ?>"><i class="bi bi-trash-fill" style="font-size: 0.75rem;"></i></button>
                                 </form>
                             </div>
                         </td>                        
@@ -107,22 +101,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { // Si se envió un formulario por el
     </div>
 </div>
 <!-- Add Modal HTML -->
-<div class="modal fade" id="addUser" tabindex="-1" aria-labelledby="addUser" aria-hidden="true">
+<div class="modal fade" id="addTipoIndicador" tabindex="-1" aria-labelledby="addTipoIndicador" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-        <form method="post" action="VistaUsuario.php" enctype="multipart/form-data">
+        <form method="post" action="VistaTipoIndicador.php" enctype="multipart/form-data">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Usuario</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Tipo Indicador</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
             <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">@</span>
-                        <input type="email" name='email' value="" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1">
+                        <span class="input-group-text" id="basic-addon1">Id</span>
+                        <input type="text" name='id' value="" class="form-control" placeholder="Id" aria-label="Id" aria-describedby="basic-addon1">
                     </div>
                     <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">**</span>
-                        <input type="password" name='contrasena' class="form-control" placeholder="Contraseña" aria-label="Contrasena" aria-describedby="basic-addon1">
+                        <span class="input-group-text" id="basic-addon1">Nombre</span>
+                        <input type="text" name='nombre' class="form-control" placeholder="Nombre" aria-label="nombre" aria-describedby="basic-addon1">
                     </div>
             </div>
             <div class="modal-footer">
@@ -135,22 +129,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { // Si se envió un formulario por el
   </div>
 </div>
 <!-- Edit Modal HTML -->
-<div class="modal fade" id="editUser" tabindex="-1" aria-labelledby="editUser" aria-hidden="true">
+<div class="modal fade" id="editTipoIndicador" tabindex="-1" aria-labelledby="editTipoIndicador" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-        <form method="post" action="VistaUsuario.php" enctype="multipart/form-data">
+        <form method="post" action="VistaTipoIndicador.php" enctype="multipart/form-data">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Modificar Usuario</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modificar Tipo Indicador</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
             <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">@</span>
-                        <input type="email" name='email' value="" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1" id="email" readonly>
+                        <span class="input-group-text" id="basic-addon1">Id</span>
+                        <input type="text" name='id' value="" class="form-control" placeholder="Id" aria-label="Id" aria-describedby="basic-addon1" id="id" readonly>
                     </div>
                     <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">**</span>
-                        <input type="password" name='contrasena' class="form-control" placeholder="Contraseña" aria-label="Contrasena" aria-describedby="basic-addon1">
+                        <span class="input-group-text" id="basic-addon1">Nombre</span>
+                        <input type="text" name='nombre' class="form-control" placeholder="Nombre" aria-label="nombre" aria-describedby="basic-addon1">
                     </div>
             </div>
             <div class="modal-footer">
@@ -163,20 +157,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { // Si se envió un formulario por el
   </div>
 </div>
 <!-- Delete Modal HTML -->
-<div class="modal fade" id="deleteUser" tabindex="-1" aria-labelledby="editUser" aria-hidden="true">
+<div class="modal fade" id="deleteTipoIndicador" tabindex="-1" aria-labelledby="editTipoIndicador" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-        <form id="deleteForm" method="post" action="VistaUsuario.php" enctype="multipart/form-data">
+        <form id="deleteForm" method="post" action="VistaTipoIndicador.php" enctype="multipart/form-data">
             <div class="modal-header">						
-                <h4 class="modal-title">Borrar Usuario</h4>
+                <h4 class="modal-title">Borrar Tipo Indicador</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">					
-                <p>Esta seguro que desea eliminar este usuario?</p>
+                <p>Esta seguro que desea eliminar este Tipo Indicador?</p>
                 <p class="text-warning"><small>Esta accion no se puede deshacer.</small></p>
             </div>
             <div class="modal-footer">
-                <input type="hidden" name="email" value="<?= $dato['email'] ?>" id="email">
+                <input type="hidden" name="id" value="<?= $dato['id'] ?>" id="id">
+                <input type="hidden" name="nombre" value="<?= $dato['nombre'] ?>" id="nombre">
                 <input type="hidden" name="action" value="delete">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button type="submit" class="btn btn-warning" formmethod="post" name="delete" id="confirmDelete">Eliminar</button>
@@ -187,42 +182,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { // Si se envió un formulario por el
 </div>     
 </body>
 <script>
-const editUser = document.getElementById('editUser')
-if (editUser) {
-    editUser.addEventListener('show.bs.modal', event => {
+const editTipoIndicador = document.getElementById('editTipoIndicador')
+if (editTipoIndicador) {
+    editTipoIndicador.addEventListener('show.bs.modal', event => {
         // Button that triggered the modal
         const button = event.relatedTarget
         // Extract info from data-bs-* attributes
-        const user = button.getAttribute('data-bs-whatever')
+        const TipoIndicador = button.getAttribute('data-bs-whatever')
         // If necessary, you could initiate an Ajax request here
         // and then do the updating in a callback.
 
         // Update the modal's content.
-        const modalTitle = editUser.querySelector('.modal-title')
-        const emailInput = editUser.querySelector('#email')
+        const modalTitle = editTipoIndicador.querySelector('.modal-title')
+        const idInput = editTipoIndicador.querySelector('#id')
         
-        modalTitle.textContent = `Modificar usuario ${user}`
-        emailInput.value = user
+        modalTitle.textContent = `Modificar Tipo Indicador ${TipoIndicador}`
+        idInput.value = TipoIndicador
     })
 }
 
-const deleteUser = document.getElementById('deleteUser')
-if (deleteUser) {
-    deleteUser.addEventListener('show.bs.modal', event => {
+const deleteTipoIndicador = document.getElementById('deleteTipoIndicador')
+if (deleteTipoIndicador) {
+    deleteTipoIndicador.addEventListener('show.bs.modal', event => {
         // Button that triggered the modal
         const button = event.relatedTarget
         // Extract info from data-bs-* attributes
-        const email = button.getAttribute('data-bs-email')
-        const contrasena = button.getAttribute('data-bs-contrasena')
+        const id = button.getAttribute('data-bs-id')
+        const nombre = button.getAttribute('data-bs-nombre')
         // If necessary, you could initiate an Ajax request here
         // and then do the updating in a callback.
 
         // Update the modal's content.
-        const modalTitle = deleteUser.querySelector('.modal-title')
-        const emailInput = deleteUser.querySelector('#email')
+        const modalTitle = deleteTipoIndicador.querySelector('.modal-title')
+        const idInput = deleteTipoIndicador.querySelector('#id')
         
-        modalTitle.textContent = `Eliminar usuario ${email}`
-        emailInput.value = email
+        modalTitle.textContent = `Eliminar Tipo Indicador ${id}`
+        idInput.value = id
     })
 }
 </script>

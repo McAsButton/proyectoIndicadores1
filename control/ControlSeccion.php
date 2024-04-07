@@ -1,5 +1,5 @@
 <?php
-include '../Conexion.php'; // cspell:disable-line <- desabilita el corrector ortografico para esta linea
+include 'Conexion.php'; // cspell:disable-line <- desabilita el corrector ortografico para esta linea
 include 'configBd.php'; // cspell:disable-line <- desabilita el corrector ortografico para esta linea
 
 class ControlSeccion{
@@ -9,51 +9,13 @@ class ControlSeccion{
         $this->objSeccion=$objSeccion;
     }
     
-    function consultar(){
-        $id=$this->objSeccion->getId();
-        $nombre=$this->objSeccion->getNombre();
+    function listar(){
         $conexionBD = new ConexionBD("mysql:host=".$GLOBALS['host'].";dbname=".$GLOBALS['db'], $GLOBALS['user'], $GLOBALS['password']); //Crea un objeto de la clase ConexionBD
-        $pdo = $conexionBD->conectar();
-        $comandoSql = $pdo->prepare("SELECT * FROM seccion WHERE id=:id"); // cspell:disable-line <- desabilita el corrector ortografico para esta linea
-        $comandoSql->bindParam(':id', $id);
-        $comandoSql->execute();
-        $conexionBD->desconectar();
+        $pdo = $conexionBD->conectar(); //Conecta a la base de datos
+        $comandoSql = $pdo->prepare("SELECT * FROM seccion"); //Prepara la consulta SQL // cspell:disable-line <- desabilita el corrector ortografico para esta linea
+        $comandoSql->execute(); //Ejecuta la consulta SQL
+        $conexionBD->desconectar(); //Desconecta de la base de datos
+        return $comandoSql->fetchAll(PDO::FETCH_ASSOC); //Retorna los datos de la consulta
     }
-
-    function agregar(){
-        $id=$this->objSeccion->getId();
-        $nombre=$this->objSeccion->getNombre();
-        $conexionBD = new ConexionBD("mysql:host=".$GLOBALS['host'].";dbname=".$GLOBALS['db'], $GLOBALS['user'], $GLOBALS['password']); //Crea un objeto de la clase ConexionBD
-        $pdo = $conexionBD->conectar();
-        $comandoSql = $pdo->prepare("INSERT INTO seccion (nombre) VALUES (:id, :nombre)"); // cspell:disable-line <- desabilita el corrector ortografico para esta linea
-        $comandoSql->bindParam(':id', $id);
-        $comandoSql->bindParam(':nombre', $nombre);
-        $comandoSql->execute();
-        $conexionBD->desconectar();
-    }
-
-    function modificar(){
-        $id=$this->objSeccion->getId();
-        $nombre=$this->objSeccion->getNombre();
-        $conexionBD = new ConexionBD("mysql:host=".$GLOBALS['host'].";dbname=".$GLOBALS['db'], $GLOBALS['user'], $GLOBALS['password']); //Crea un objeto de la clase ConexionBD
-        $pdo = $conexionBD->conectar();
-        $comandoSql = $pdo->prepare("UPDATE seccion SET nombre=:nombre WHERE id=:id"); // cspell:disable-line <- desabilita el corrector ortografico para esta linea
-        $comandoSql->bindParam(':id', $id);
-        $comandoSql->bindParam(':nombre', $nombre);
-        $comandoSql->execute();
-        $conexionBD->desconectar();
-    }
-
-    function eliminar(){
-        $id=$this->objSeccion->getId();
-        $nombre=$this->objSeccion->getNombre();
-        $conexionBD = new ConexionBD("mysql:host=".$GLOBALS['host'].";dbname=".$GLOBALS['db'], $GLOBALS['user'], $GLOBALS['password']); //Crea un objeto de la clase ConexionBD
-        $pdo = $conexionBD->conectar();
-        $comandoSql = $pdo->prepare("DELETE FROM seccion WHERE id=:id"); // cspell:disable-line <- desabilita el corrector ortografico para esta linea
-        $comandoSql->bindParam(':id', $id);
-        $comandoSql->execute();
-        $conexionBD->desconectar();
-    }
-
 }
 ?>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-03-2024 a las 16:48:15
+-- Tiempo de generación: 07-04-2024 a las 02:14:03
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -147,6 +147,17 @@ INSERT INTO `articulo` (`id`, `nombre`, `descripcion`, `fkidseccion`, `fkidsubse
 ('2.5.3.2.9.2', 'De los programas acreditados en alta calidad', 'En el caso de los programas que hayan obtenido la acreditación en alta calidad y esta se encuentre vigente según la normatividad colombiana, el Ministerio de Educación Nacional procederá de oficio a la renovación del registro calificado del mismo, por el término de la vigencia de la acreditación del programa, si esta fuere superior a 7 años. \\r\\nEl término de la renovación del registro calificado se contará a partir de la fecha de ejecutoria del acto administrativo que otorga o renueva la acreditación en alta calidad', '9', '0'),
 ('2.5.3.2.9.3', 'De la negativa de la renovación de acreditación de alta calidad del programa', 'Si el programa no obtiene la renovación de la acreditación en alta calidad, la institución tendrá sesenta (60) días hábiles para aportar la documentación necesaria y solicitar ante el Ministerio de Educación Nacional la renovación del registro calificado a través del Sistema de Aseguramiento de la Calidad de la Educación Superior (SACES). En este caso, la vigencia del registro calificado del programa se extenderá hasta que el Ministerio de Educación Nacional resuelva de fondo la solicitud de renovación', '9', '0'),
 ('2.5.3.2.9.4', 'Instituciones y programas en proceso de acreditación', 'Las instituciones o programas que se encuentren en proceso de acreditación o de renovación de acreditación en alta calidad y que a su vez se encuentre en trámite de renovación del registro calificado y que este se hubiese presentado dentro del término previsto para tal efecto, continuará hasta su culminación y podrá interrumpirse dicho proceso por una sola vez y hasta por el término de seis meses el plazo establecido en el artículo 3° de la Ley 1188 de 2008. De obtenerse la acreditación de la institución o de los programas, será otorgado el registro calificado, en caso contrario se continuará con el trámite establecido en la Sección 8 del presente CAPÍTULO, Trámite del Registro Calificado', '9', '0');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `frecuencia`
+--
+
+CREATE TABLE `frecuencia` (
+  `id` varchar(2) NOT NULL COMMENT 'TRIAL',
+  `nombre` varchar(200) NOT NULL COMMENT 'TRIAL'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT 'TRIAL';
 
 -- --------------------------------------------------------
 
@@ -690,9 +701,10 @@ INSERT INTO `usuario` (`email`, `contrasena`) VALUES
 ('admin@empresa.com', '1234567'),
 ('carlosarturo.castrocastro@gmail.com', 'e0bc614e4fd035a488619799853b075143deea596c477b8dc077e309c0fe42e9'),
 ('hugo@empresa.com', '1234567'),
+('masa@correo.com', '123456789654321'),
 ('paraborrar2@empresa.com', 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'),
 ('paraborrar3@empresa.com', '8bb0cf6eb9b17d0f7d22b456f121257dc1254e1f01665370476383ea776df414'),
-('paraborrar@empresa.com', 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855');
+('paraborrar@empresa.com', '');
 
 -- --------------------------------------------------------
 
