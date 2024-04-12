@@ -13,7 +13,8 @@ class ControlUsuario{
         $comandoSql = $pdo->prepare("SELECT * FROM usuario"); //Prepara la consulta SQL
         $comandoSql->execute(); //Ejecuta la consulta SQL
         $conexionBD->desconectar(); //Desconecta de la base de datos
-        return $comandoSql->fetchAll(PDO::FETCH_ASSOC); //Retorna los datos de la consulta
+        return $comandoSql; //Retorna los datos de la consulta
+        // return $comandoSql->fetchAll(PDO::FETCH_ASSOC); //Retorna los datos de la consulta
     }
     function consultar(){ //Funcion para consultar los usuarios
         $email = $this->objUsuario->getEmail(); //Obtiene el email del objeto

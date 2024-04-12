@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-04-2024 a las 02:14:03
+-- Tiempo de generación: 09-04-2024 a las 19:19:59
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -155,9 +155,20 @@ INSERT INTO `articulo` (`id`, `nombre`, `descripcion`, `fkidseccion`, `fkidsubse
 --
 
 CREATE TABLE `frecuencia` (
-  `id` varchar(2) NOT NULL COMMENT 'TRIAL',
-  `nombre` varchar(200) NOT NULL COMMENT 'TRIAL'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT 'TRIAL';
+  `id` int(11) NOT NULL COMMENT 'TRIAL',
+  `nombre` varchar(2000) NOT NULL COMMENT 'TRIAL'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='TRIAL';
+
+--
+-- Volcado de datos para la tabla `frecuencia`
+--
+
+INSERT INTO `frecuencia` (`id`, `nombre`) VALUES
+(1, 'Frecuencia 1'),
+(3, 'Frecuencia 3'),
+(4, 'Frecuencia 4'),
+(5, 'Frecuencia 5'),
+(7, 'Frecuencia 7');
 
 -- --------------------------------------------------------
 
@@ -701,7 +712,10 @@ INSERT INTO `usuario` (`email`, `contrasena`) VALUES
 ('admin@empresa.com', '1234567'),
 ('carlosarturo.castrocastro@gmail.com', 'e0bc614e4fd035a488619799853b075143deea596c477b8dc077e309c0fe42e9'),
 ('hugo@empresa.com', '1234567'),
-('masa@correo.com', '123456789654321'),
+('masa2@correo.com', 'dfgsdfggf65457'),
+('masa3@correo.com', '342532gfhdgf'),
+('masa4@correo.com', '5463654ghjfghjf'),
+('masa@correo.com', '12345523dfgsfdg'),
 ('paraborrar2@empresa.com', 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'),
 ('paraborrar3@empresa.com', '8bb0cf6eb9b17d0f7d22b456f121257dc1254e1f01665370476383ea776df414'),
 ('paraborrar@empresa.com', '');
@@ -773,6 +787,12 @@ ALTER TABLE `articulo`
   ADD KEY `articulo_ibfk_2` (`fkidsubseccion`);
 
 --
+-- Indices de la tabla `frecuencia`
+--
+ALTER TABLE `frecuencia`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `fuente`
 --
 ALTER TABLE `fuente`
@@ -796,7 +816,8 @@ ALTER TABLE `indicador`
   ADD KEY `indicador_ibfk_5` (`fkidarticulo`),
   ADD KEY `indicador_ibfk_6` (`fkidliteral`),
   ADD KEY `indicador_ibfk_7` (`fkidnumeral`),
-  ADD KEY `indicador_ibfk_8` (`fkidparagrafo`);
+  ADD KEY `indicador_ibfk_8` (`fkidparagrafo`),
+  ADD KEY `indicador_ibfk_9` (`fkidfrecuencia`);
 
 --
 -- Indices de la tabla `literal`
@@ -922,10 +943,16 @@ ALTER TABLE `variablesporindicador`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `frecuencia`
+--
+ALTER TABLE `frecuencia`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT de la tabla `fuente`
 --
 ALTER TABLE `fuente`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `indicador`
@@ -937,7 +964,7 @@ ALTER TABLE `indicador`
 -- AUTO_INCREMENT de la tabla `represenvisual`
 --
 ALTER TABLE `represenvisual`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `resultadoindicador`
@@ -949,25 +976,25 @@ ALTER TABLE `resultadoindicador`
 -- AUTO_INCREMENT de la tabla `rol`
 --
 ALTER TABLE `rol`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `sentido`
 --
 ALTER TABLE `sentido`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `tipoactor`
 --
 ALTER TABLE `tipoactor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `tipoindicador`
 --
 ALTER TABLE `tipoindicador`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `unidadmedicion`
@@ -1021,7 +1048,8 @@ ALTER TABLE `indicador`
   ADD CONSTRAINT `indicador_ibfk_5` FOREIGN KEY (`fkidarticulo`) REFERENCES `articulo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `indicador_ibfk_6` FOREIGN KEY (`fkidliteral`) REFERENCES `literal` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `indicador_ibfk_7` FOREIGN KEY (`fkidnumeral`) REFERENCES `numeral` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `indicador_ibfk_8` FOREIGN KEY (`fkidparagrafo`) REFERENCES `paragrafo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `indicador_ibfk_8` FOREIGN KEY (`fkidparagrafo`) REFERENCES `paragrafo` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `indicador_ibfk_9` FOREIGN KEY (`fkidfrecuencia`) REFERENCES `frecuencia` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `literal`

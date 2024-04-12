@@ -1,7 +1,5 @@
 Preguntar al profesor como se va a manejar el tema de autoincrementales.
 
-Paginador para listar en grupos (5 - 10 registros por pagina)
-
 Validar uso de botones de acuerdo al ejemplo del profesor con la propiedad id y name, nosotros lo hacemos en base a un campo oculto llamado action
 _GET['boton'] trae el value del objeto llamado boton en la url
 _POST['boton'] trae el value del objeto boton de forma oculta

@@ -15,7 +15,7 @@ class ControlRepresenVisual{
         $comandoSql = $pdo->prepare("SELECT * FROM represenvisual"); //Prepara la consulta SQL // cspell:disable-line <- desabilita el corrector ortografico para esta linea
         $comandoSql->execute(); //Ejecuta la consulta SQL
         $conexionBD->desconectar(); //Desconecta de la base de datos
-        return $comandoSql->fetchAll(PDO::FETCH_ASSOC); //Retorna los datos de la consulta
+        return $comandoSql; //Retorna los datos de la consulta
     }
     
     function consultar(){

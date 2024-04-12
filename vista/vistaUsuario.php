@@ -33,159 +33,182 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { // Si se envió un formulario por el
         }
     }
 }
-?>
+include 'header.php'; ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Administración de usuarios</title>
-<!-- Favicons -->
-<link href="assets/img/favicon.png" rel="icon">
-<link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet" href="assets/css/miStyle.css">
-</head>
-<body>
-<div class="container-xl">
-    <div class="table-responsive">
-        <div class="table-wrapper">
-            <div class="table-title">
-                <div class="row">
-                    <div class="col-sm-5">
-                        <h2><b>Administrar</b> Usuarios</h2>
+<!-- ======= Hero Section ======= -->
+<section id="hero">
+    <div class="hero-container" data-aos="fade-up" data-aos-delay="150">
+        <div class="container-xl">
+            <div class="table-responsive">
+                <div class="table-wrapper">
+                    <div class="table-title">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <h2><b>Administrar</b> Usuarios</h2>
+                            </div>
+                            <div class="col-sm-7">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUser"><i class="bi bi-person-plus"></i><span>Nuevo Usuario</span></button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-sm-7">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUser"><i class="bi bi-person-plus"></i><span>Nuevo Usuario</span></button>
+                    <table class="table table-striped table-hover table-responsive-sm">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Email</th>
+                                <th>Contraseña</th>						
+                                <th>Rol</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php 
+                            // Paginación
+                            // Obtener todos los registros
+                            $registros_completos = $comandoSql->fetchAll(PDO::FETCH_ASSOC); // Obtiene todos los registros de la consulta
+
+                            // Configuración de la paginación
+                            $registros_por_pagina = 5; // Cambiar según la cantidad deseada por página
+                            $total_registros = count($registros_completos); // Cantidad total de registros
+                            $total_paginas = ceil($total_registros / $registros_por_pagina); // Cantidad total de páginas a mostrar
+                            $pagina_actual = isset($_GET['nume']) ? $_GET['nume'] : 1; // Página actual por GET
+                            $inicio = ($pagina_actual - 1) * $registros_por_pagina; // Registro de inicio de la página actual
+                            $registros_pagina = array_slice($registros_completos, $inicio, $registros_por_pagina); // Registros a mostrar en la página actual
+
+                            foreach ($registros_pagina as $indice => $dato) {
+                                $num_registro = $inicio + $indice + 1;
+                            ?>
+                            <tr>
+                                <td><?= $num_registro ?></td>
+                                <td><?= $dato['email'] ?></td>
+                                <td><?= $dato['contrasena'] ?></td>
+                                <td></td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <form method="post" action="VistaUsuario.php" enctype="multipart/form-data">
+                                            <button type="button" class="btn btn-warning btn-sm" name="modificar" data-bs-toggle="modal" data-bs-target="#editUser" data-bs-whatever="<?= $dato['email'] ?>"><i class="bi bi-pencil-square" style="font-size: 0.75rem;"></i></button>
+                                        </form>
+                                        <form method="post" action="VistaUsuario.php" enctype="multipart/form-data">
+                                            <button type="button" class="btn btn-danger btn-sm" name="delete" data-bs-toggle="modal" data-bs-target="#deleteUser" data-bs-email="<?= $dato['email'] ?>"><i class="bi bi-trash-fill" style="font-size: 0.75rem;"></i></button>
+                                        </form>
+                                    </div>
+                                </td>                        
+                            </tr>
+                            <?php
+                            }
+                            $registros_mostrados = min($registros_por_pagina, $total_registros - $inicio);
+                            ?>
+                        </tbody>                         
+                    </table>
+                    <!-- Mostrar enlaces de paginación -->
+                    <div class="clearfix">
+                        <div class="hint-text">Mostrando <b><?= $registros_mostrados ?> de <b><?= $total_registros ?></b> usuarios</div>
+                        <ul class="pagination">
+                            <?php 
+                            // Botón "Anterior"
+                            echo "<li class='page-item " . ($pagina_actual == 1 ? 'disabled' : '') . "'><a href='VistaUsuario.php?nume=" . ($pagina_actual - 1) . "' class='page-link'>Anterior</a></li>";
+
+                            // Números de página
+                            for ($i=1; $i <= $total_paginas; $i++) { 
+                                if($pagina_actual == $i){
+                                    echo "<li class='page-item active'><a href='VistaUsuario.php?nume=$i' class='page-link'>$i</a></li>";
+                                }else{
+                                    echo "<li class='page-item'><a href='VistaUsuario.php?nume=$i' class='page-link'>$i</a></li>";
+                                }
+                            }
+                        
+                            // Botón "Siguiente"
+                            echo "<li class='page-item " . ($pagina_actual == $total_paginas ? 'disabled' : '') . "'><a href='VistaUsuario.php?nume=" . ($pagina_actual + 1) . "' class='page-link'>Siguiente</a></li>";
+                            ?>
+                        </ul>
                     </div>
                 </div>
             </div>
-            <table class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Email</th>
-                        <th>Contraseña</th>						
-                        <th>Rol</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    <?php 
-                    $num = 0;
-                    foreach ($comandoSql as $dato) {
-                        $num++;
-                    ?>
-                    <tr>
-                        <td><?= $num ?></td>
-                        <td><?= $dato['email'] ?></td>
-                        <td><?= $dato['contrasena'] ?></td>
-                        <td></td>
-                        <td>
-                            <div class="btn-group" role="group">
-                                <form method="post" action="VistaUsuario.php" enctype="multipart/form-data">
-                                    <button type="button" class="btn btn-warning btn-sm" name="modificar" data-bs-toggle="modal" data-bs-target="#editUser" data-bs-whatever="<?= $dato['email'] ?>"><i class="bi bi-pencil-square" style="font-size: 0.75rem;"></i></button>
-                                </form>
-                                <form method="post" action="VistaUsuario.php" enctype="multipart/form-data">
-                                    <button type="button" class="btn btn-danger btn-sm" name="delete" data-bs-toggle="modal" data-bs-target="#deleteUser" data-bs-email="<?= $dato['email'] ?>"><i class="bi bi-trash-fill" style="font-size: 0.75rem;"></i></button>
-                                </form>
-                            </div>
-                        </td>                        
-                    </tr>
-                    <?php
-                    }
-                    ?>
-                </tbody>
-            </table>
         </div>
     </div>
-</div>
-<!-- Add Modal HTML -->
-<div class="modal fade" id="addUser" tabindex="-1" aria-labelledby="addUser" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-        <form method="post" action="VistaUsuario.php" enctype="multipart/form-data">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Usuario</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-            <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">@</span>
-                        <input type="email" name='email' value="" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1">
-                    </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">**</span>
-                        <input type="password" name='contrasena' class="form-control" placeholder="Contraseña" aria-label="Contrasena" aria-describedby="basic-addon1">
-                    </div>
-            </div>
-            <div class="modal-footer">
-                <input type="hidden" name="action" value="guardar">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-primary" formmethod="post" name="guardar">Guardar</button>
-            </div>
-        </form>
+</section><!-- End Hero -->
+
+<main id="main">
+    <!-- Add Modal HTML -->
+    <div class="modal fade" id="addUser" tabindex="-1" aria-labelledby="addUser" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="VistaUsuario.php" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Usuario</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">@</span>
+                            <input type="email" name='email' value="" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">**</span>
+                            <input type="password" name='contrasena' class="form-control" placeholder="Contraseña" aria-label="Contrasena" aria-describedby="basic-addon1">
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="action" value="guardar">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" formmethod="post" name="guardar">Guardar</button>
+                </div>
+            </form>
+        </div>
     </div>
-  </div>
-</div>
-<!-- Edit Modal HTML -->
-<div class="modal fade" id="editUser" tabindex="-1" aria-labelledby="editUser" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-        <form method="post" action="VistaUsuario.php" enctype="multipart/form-data">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Modificar Usuario</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-            <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">@</span>
-                        <input type="email" name='email' value="" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1" id="email" readonly>
-                    </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">**</span>
-                        <input type="password" name='contrasena' class="form-control" placeholder="Contraseña" aria-label="Contrasena" aria-describedby="basic-addon1">
-                    </div>
-            </div>
-            <div class="modal-footer">
-                <input type="hidden" name="action" value="modificar">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-warning" formmethod="post" name="modificar">Guardar</button>
-            </div>
-        </form>
     </div>
-  </div>
-</div>
-<!-- Delete Modal HTML -->
-<div class="modal fade" id="deleteUser" tabindex="-1" aria-labelledby="editUser" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-        <form id="deleteForm" method="post" action="VistaUsuario.php" enctype="multipart/form-data">
-            <div class="modal-header">						
-                <h4 class="modal-title">Borrar Usuario</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">					
-                <p>Esta seguro que desea eliminar este usuario?</p>
-                <p class="text-warning"><small>Esta accion no se puede deshacer.</small></p>
-            </div>
-            <div class="modal-footer">
-                <input type="hidden" name="email" value="<?= $dato['email'] ?>" id="email">
-                <input type="hidden" name="action" value="delete">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-warning" formmethod="post" name="delete" id="confirmDelete">Eliminar</button>
-            </div>
-        </form>
+    <!-- Edit Modal HTML -->
+    <div class="modal fade" id="editUser" tabindex="-1" aria-labelledby="editUser" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="VistaUsuario.php" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modificar Usuario</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">@</span>
+                            <input type="email" name='email' value="" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1" id="email" readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">**</span>
+                            <input type="password" name='contrasena' class="form-control" placeholder="Contraseña" aria-label="Contrasena" aria-describedby="basic-addon1">
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="action" value="modificar">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-warning" formmethod="post" name="modificar">Guardar</button>
+                </div>
+            </form>
+        </div>
     </div>
-  </div>
-</div>     
-</body>
+    </div>
+    <!-- Delete Modal HTML -->
+    <div class="modal fade" id="deleteUser" tabindex="-1" aria-labelledby="editUser" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="deleteForm" method="post" action="VistaUsuario.php" enctype="multipart/form-data">
+                <div class="modal-header">						
+                    <h4 class="modal-title">Borrar Usuario</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">					
+                    <p>Esta seguro que desea eliminar este usuario?</p>
+                    <p class="text-warning"><small>Esta accion no se puede deshacer.</small></p>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="email" value="<?= $dato['email'] ?>" id="email">
+                    <input type="hidden" name="action" value="delete">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-warning" formmethod="post" name="delete" id="confirmDelete">Eliminar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>     
+</main><!-- End #main -->
 <script>
 const editUser = document.getElementById('editUser')
 if (editUser) {
@@ -226,4 +249,5 @@ if (deleteUser) {
     })
 }
 </script>
-</html>
+
+<?php include 'footer.php'; ?>

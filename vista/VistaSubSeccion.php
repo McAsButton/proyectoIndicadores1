@@ -1,67 +1,95 @@
-<?php
+<?php 
 include '../control/ControlSubSeccion.php'; // cspell:disable-line <- desabilita el corrector ortografico para esta linea
 include '../modelo/SubSeccion.php'; // cspell:disable-line <- desabilita el corrector ortografico para esta linea
 
 $controlSubSeccion = new ControlSubSeccion(null);
 $comandoSql = $controlSubSeccion->listar(); 
-?>
+include 'header.php'; ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Administración de SubSecciones</title>
-<!-- Favicons -->
-<link href="assets/img/favicon.png" rel="icon">
-<link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet" href="assets/css/miStyle.css">
-</head>
-<body>
-<div class="container-xl">
-    <div class="table-responsive">
-        <div class="table-wrapper">
-            <div class="table-title">
-                <div class="row">
-                    <div class="col-sm-5">
-                        <h2><b>Administrar</b> SubSecciones</h2>
+<!-- ======= Hero Section ======= -->
+<section id="hero">
+    <div class="hero-container" data-aos="fade-up" data-aos-delay="150">
+        <div class="container-xl">
+            <div class="table-responsive">
+                <div class="table-wrapper">
+                    <div class="table-title">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <h2><b>Administrar</b> SubSecciones</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Id</th>
+                                <th>Nombre</th>	
+                                <th></th>					
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <?php 
+                            // Paginación
+                            // Obtener todos los registros
+                            $registros_completos = $comandoSql->fetchAll(PDO::FETCH_ASSOC); // Obtiene todos los registros de la consulta
+
+                            // Configuración de la paginación
+                            $registros_por_pagina = 5; // Cambiar según la cantidad deseada por página
+                            $total_registros = count($registros_completos); // Cantidad total de registros
+                            $total_paginas = ceil($total_registros / $registros_por_pagina); // Cantidad total de páginas a mostrar
+                            $pagina_actual = isset($_GET['nume']) ? $_GET['nume'] : 1; // Página actual por GET
+                            $inicio = ($pagina_actual - 1) * $registros_por_pagina; // Registro de inicio de la página actual
+                            $registros_pagina = array_slice($registros_completos, $inicio, $registros_por_pagina); // Registros a mostrar en la página actual
+
+                            foreach ($registros_pagina as $indice => $dato) {
+                                $num_registro = $inicio + $indice + 1;
+                            ?>
+                            <tr>
+                                <td><?= $num_registro ?></td>
+                                <td><?= $dato['id'] ?></td>
+                                <td><?= $dato['nombre'] ?></td>
+                                <td></td>                      
+                            </tr>
+                            <?php
+                            }
+                            $registros_mostrados = min($registros_por_pagina, $total_registros - $inicio);
+                            ?>
+                        </tbody>
+                    </table>
+                    <!-- Mostrar enlaces de paginación -->
+                    <div class="clearfix">
+                        <div class="hint-text">Mostrando <b><?= $registros_mostrados ?> de <b><?= $total_registros ?></b> usuarios</div>
+                        <ul class="pagination">
+                            <?php 
+                            // Botón "Anterior"
+                            echo "<li class='page-item " . ($pagina_actual == 1 ? 'disabled' : '') . "'><a href='VistaSubSeccion.php?nume=" . ($pagina_actual - 1) . "' class='page-link'>Anterior</a></li>";
+
+                            // Números de página
+                            for ($i=1; $i <= $total_paginas; $i++) { 
+                                if($pagina_actual == $i){
+                                    echo "<li class='page-item active'><a href='VistaSubSeccion.php?nume=$i' class='page-link'>$i</a></li>";
+                                }else{
+                                    echo "<li class='page-item'><a href='VistaSubSeccion.php?nume=$i' class='page-link'>$i</a></li>";
+                                }
+                            }
+                        
+                            // Botón "Siguiente"
+                            echo "<li class='page-item " . ($pagina_actual == $total_paginas ? 'disabled' : '') . "'><a href='VistaSubSeccion.php?nume=" . ($pagina_actual + 1) . "' class='page-link'>Siguiente</a></li>";
+                            ?>
+                        </ul>
                     </div>
                 </div>
             </div>
-            <table class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Id</th>
-                        <th>Nombre</th>	
-                        <th></th>					
-                    </tr>
-                </thead>
-                <tbody>
-
-                    <?php 
-                    $num = 0;
-                    foreach ($comandoSql as $dato) {
-                        $num++;
-                    ?>
-                    <tr>
-                        <td><?= $num ?></td>
-                        <td><?= $dato['id'] ?></td>
-                        <td><?= $dato['nombre'] ?></td>
-                        <td></td>                      
-                    </tr>
-                    <?php
-                    }
-                    ?>
-                </tbody>
-            </table>
         </div>
     </div>
-</div>     
-</body>
-</html>
+</section><!-- End Hero -->
+
+<main id="main">
+
+</main><!-- End #main -->
+
+
+
+<?php include 'footer.php'; ?>
