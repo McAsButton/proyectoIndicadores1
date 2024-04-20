@@ -100,7 +100,7 @@ include 'header.php'; ?>
                         <ul class="pagination">
                             <?php 
                             // Botón "Anterior"
-                            echo "<li class='page-item " . ($pagina_actual == 1 ? 'disabled' : '') . "'><a href='VistaFuente.php?nume=" . ($pagina_actual - 1) . "' class='page-link'>Anterior</a></li>";
+                            echo "<li class='page-item " . ($pagina_actual == 1 ? 'disabled' : '') . "' style='" . ($pagina_actual == 1 ? 'display: none;' : '') . "'><a href='VistaFuente.php?nume=" . ($pagina_actual - 1) . "' class='page-link'>Anterior</a></li>";
 
                             // Números de página
                             for ($i=1; $i <= $total_paginas; $i++) { 
@@ -112,7 +112,7 @@ include 'header.php'; ?>
                             }
                         
                             // Botón "Siguiente"
-                            echo "<li class='page-item " . ($pagina_actual == $total_paginas ? 'disabled' : '') . "'><a href='VistaFuente.php?nume=" . ($pagina_actual + 1) . "' class='page-link'>Siguiente</a></li>";
+                            echo "<li class='page-item " . ($pagina_actual == $total_paginas ? 'disabled' : '') . "' style='" . ($pagina_actual == $total_paginas ? 'display: none;' : '') . "'><a href='VistaFuente.php?nume=" . ($pagina_actual + 1) . "' class='page-link'>Siguiente</a></li>";
                             ?>
                         </ul>
                     </div>

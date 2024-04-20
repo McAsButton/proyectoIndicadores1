@@ -1,5 +1,5 @@
 <?php
-include 'Conexion.php'; // cspell:disable-line <- desabilita el corrector ortografico para esta linea
+include_once 'Conexion.php'; // cspell:disable-line <- desabilita el corrector ortografico para esta linea
 include 'configBd.php'; // cspell:disable-line <- desabilita el corrector ortografico para esta linea
 
 class ControlRol{
@@ -18,15 +18,14 @@ class ControlRol{
         return $comandoSql; //Retorna los datos de la consulta
     }
     
-    function consultar(){
-        $id=$this->objRol->getId();
-        $nombre=$this->objRol->getNombre();
+    function consultar($id){
         $conexionBD = new ConexionBD("mysql:host=".$GLOBALS['host'].";dbname=".$GLOBALS['db'], $GLOBALS['user'], $GLOBALS['password']); //Crea un objeto de la clase ConexionBD
         $pdo = $conexionBD->conectar();
         $comandoSql = $pdo->prepare("SELECT * FROM rol WHERE id=:id");
         $comandoSql->bindParam(':id', $id);
         $comandoSql->execute();
         $conexionBD->desconectar();
+        return $comandoSql;
     }
 
     function agregar(){
