@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-04-2024 a las 19:19:59
+-- Tiempo de generación: 21-04-2024 a las 22:33:37
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -513,11 +513,11 @@ CREATE TABLE `rol` (
 --
 
 INSERT INTO `rol` (`id`, `nombre`) VALUES
-(1, 'admin'),
+(1, 'Admin'),
 (2, 'Verificador'),
 (3, 'Validador'),
 (4, 'Administrativo'),
-(5, 'invitado');
+(5, 'Invitado');
 
 -- --------------------------------------------------------
 
@@ -544,6 +544,15 @@ INSERT INTO `rol_usuario` (`fkemail`, `fkidrol`) VALUES
 ('carlosarturo.castrocastro@gmail.com', 3),
 ('carlosarturo.castrocastro@gmail.com', 5),
 ('hugo@empresa.com', 5),
+('masa3@correo.com', 1),
+('masa3@correo.com', 2),
+('masa3@correo.com', 3),
+('masa3@correo.com', 4),
+('masa@correo.com', 1),
+('masa@correo.com', 2),
+('masa@correo.com', 3),
+('masa@correo.com', 4),
+('masa@correo.com', 5),
 ('paraborrar2@empresa.com', 1),
 ('paraborrar2@empresa.com', 2),
 ('paraborrar2@empresa.com', 3),
@@ -712,10 +721,8 @@ INSERT INTO `usuario` (`email`, `contrasena`) VALUES
 ('admin@empresa.com', '1234567'),
 ('carlosarturo.castrocastro@gmail.com', 'e0bc614e4fd035a488619799853b075143deea596c477b8dc077e309c0fe42e9'),
 ('hugo@empresa.com', '1234567'),
-('masa2@correo.com', 'dfgsdfggf65457'),
-('masa3@correo.com', '342532gfhdgf'),
-('masa4@correo.com', '5463654ghjfghjf'),
-('masa@correo.com', '12345523dfgsfdg'),
+('masa3@correo.com', '4263465fghdfghdfh'),
+('masa@correo.com', 'sdfasfsaf25243543'),
 ('paraborrar2@empresa.com', 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'),
 ('paraborrar3@empresa.com', '8bb0cf6eb9b17d0f7d22b456f121257dc1254e1f01665370476383ea776df414'),
 ('paraborrar@empresa.com', '');

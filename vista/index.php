@@ -1,9 +1,43 @@
 <?php
   ob_start();
 ?>
+<?php
+include_once '../control/configBd.php';
+include_once '../control/ControlEntidad.php';
+include_once '../control/ControlConexionPdo.php';
+include_once '../modelo/Entidad.php';
+session_start();
+$loginEmail="";
+$loginContrasena="";
+$loginBoton="";
+if(isset($_POST['txtLoginEmail']))$loginEmail=$_POST['txtLoginEmail'];
+if(isset($_POST['txtLoginContrasena']))$loginContrasena=$_POST['txtLoginContrasena'];
+if(isset($_POST['btnLogin']))$loginBoton=$_POST['btnLogin'];
+if($loginBoton=="Login"){
+  $validar=false;
+  $sql="SELECT * FROM usuario WHERE email=? AND contrasena=?";
+  $objControlEntidad=new ControlEntidad('usuario');
+  $objUsuario=$objControlEntidad->consultar($sql,[$loginEmail,$loginContrasena]);
+  if($objUsuario){
+    $_SESSION['email']=$loginEmail;
+    //$datosUsuario = ['email' => $email, 'contrasena' => $contrasena];
+		//$objUsuario = new Entidad($datosUsuario);
+    $objControlRolUsuario = new ControlEntidad('rol_usuario');
+    $sql = "SELECT rol.id as id, rol.nombre as nombre
+        FROM rol_usuario INNER JOIN rol ON rol_usuario.fkidrol = rol.id
+        WHERE fkemail = ?";
+    $parametros = [$loginEmail];
+    $listaRolesDelUsuario = $objControlRolUsuario->consultar($sql, $parametros);
+    $_SESSION['listaRolesDelUsuario']=$listaRolesDelUsuario;
+    var_dump($listaRolesDelUsuario);
+    header('Location: index.php');
+  }
+  else header('Location: index.php');
+}
+?>
 
 <?php include 'header.html'; ?>
-<?php include 'body.html'; ?>
+<?php include 'body.php'; ?>
 <?php include 'modalLogin.php'; ?>
 
 <!-- ======= Hero Section ======= -->

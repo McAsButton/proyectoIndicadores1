@@ -1,1 +1,2 @@
-<?php header("Location: vista/index.php"); ?>
+<?php header("Location: vista/index.php"); 
+?>

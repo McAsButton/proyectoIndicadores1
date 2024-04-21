@@ -1,12 +1,1 @@
-Preguntar al profesor como se va a manejar el tema de autoincrementales.
-
-Validar uso de botones de acuerdo al ejemplo del profesor con la propiedad id y name, nosotros lo hacemos en base a un campo oculto llamado action
-_GET['boton'] trae el value del objeto llamado boton en la url
-_POST['boton'] trae el value del objeto boton de forma oculta
-
-Control de acceso (login y mostrar informacion dependiendo del rol del usuario)
-
-Clase 20 abril
-Dentro de cada carpeta deberia haber un index para que el usuario no tenga la posibilidad de ver el arbol de carpetas
-El modelo y el control son genericos
-ob_start() y ob_end_flush()
+Hacer todas las demas vista.
