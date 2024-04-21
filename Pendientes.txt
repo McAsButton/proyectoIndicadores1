@@ -5,3 +5,8 @@ _GET['boton'] trae el value del objeto llamado boton en la url
 _POST['boton'] trae el value del objeto boton de forma oculta
 
 Control de acceso (login y mostrar informacion dependiendo del rol del usuario)
+
+Clase 20 abril
+Dentro de cada carpeta deberia haber un index para que el usuario no tenga la posibilidad de ver el arbol de carpetas
+El modelo y el control son genericos
+ob_start() y ob_end_flush()
