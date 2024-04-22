@@ -39,10 +39,10 @@ include 'header.php'; ?>
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-5">
-                                <h2><b>Administrar</b> RepresenVisual</h2>
+                                <h2><b>Administrar</b> Representaciones Visuales</h2>
                             </div>
                             <div class="col-sm-7">
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRepresenVisual"><i class="bi bi-person-plus"></i><span>Nueva RepresenVisual</span></button>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRepresenVisual"><i class="bi bi-person-plus"></i><span>Nueva Representacion Visual</span></button>
                             </div>
                         </div>
                     </div>

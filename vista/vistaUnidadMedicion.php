@@ -60,10 +60,10 @@ switch($boton){
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-5">
-                                <h2><b>Administrar</b> Unidad de medición</h2>
+                                <h2><b>Administrar</b> Unidades de Medición</h2>
                             </div>
                             <div class="col-sm-7">
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUnidadMedicion"><i class="bi bi-person-plus"></i><span>Nuevo Unidad de Medición</span></button> <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUnidadMedicion"><i class="bi bi-person-plus"></i><span>Nueva Unidad de Medición</span></button> <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
                             </div>
                         </div>
                     </div>

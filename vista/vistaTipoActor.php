@@ -57,10 +57,10 @@ switch($boton){
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-5">
-                                <h2><b>Administrar</b> Tipo Actor</h2>
+                                <h2><b>Administrar</b> Tipos de Actores</h2>
                             </div>
                             <div class="col-sm-7">
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTipoActor"><i class="bi bi-person-plus"></i><span>Nuevo Tipo Actor</span></button>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTipoActor"><i class="bi bi-person-plus"></i><span>Nuevo Tipo de Actor</span></button>
                             </div>
                         </div>
                     </div>
