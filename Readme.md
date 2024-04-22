@@ -5,5 +5,3 @@ Proyecto final de clase para la Optativa I (Programación Orientada a la Web con
 ## Contribuidores
 
 [![Contribuidores](https://contrib.rocks/image?repo=mcasbutton/proyectoindicadores1)](https://github.com/mcasbutton/proyectoindicadores1)
-
-<p align="right">(<a href="#">volver arriba</a>)</p>

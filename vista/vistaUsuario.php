@@ -10,7 +10,6 @@ session_start();
 if($_SESSION['email']==null)header('Location: index.php');
 $permisoParaEntrar=false;
 $listaRolesDelUsuario=$_SESSION['listaRolesDelUsuario'];
-//var_dump($listaRolesDelUsuario);
 for($i=0;$i<count($listaRolesDelUsuario);$i++){
     if($listaRolesDelUsuario[$i]->__get('nombre')=="Admin")$permisoParaEntrar=true;
 }
@@ -190,22 +189,22 @@ switch ($boton) {
                     </table>
                     <!-- Mostrar enlaces de paginación -->
                     <div class="clearfix">
-                        <div class="hint-text">Mostrando <b><?= $registros_mostrados ?> de <b><?= $total_registros ?></b> usuarios</div>
+                        <div class="hint-text">Mostrando <b><?= $registros_mostrados ?></b> de <b><?= $total_registros ?></b> usuarios</div>
                         <ul class="pagination">
                             <?php 
                             // Botón "Anterior"
-                            echo "<li class='page-item " . ($pagina_actual == 1 ? 'disabled' : '') . "' style='" . ($pagina_actual == 1 ? 'display: none;' : '') . "'><a href='VistaUsuario.php?pagina=" . ($pagina_actual - 1) . "' class='page-link'>Anterior</a></li>";
+                            echo "<li class='page-item " . ($pagina_actual == 1 ? 'disabled' : '') . "' style='" . ($pagina_actual == 1 ? 'display: none;' : '') . "'><a href='vistaUsuario.php?pagina=" . ($pagina_actual - 1) . "' class='page-link'>Anterior</a></li>";
 
                             // Números de página
                             for ($i=1; $i <= $total_paginas; $i++) { 
                                 if($pagina_actual == $i){
-                                    echo "<li class='page-item active'><a href='VistaUsuario.php?pagina=$i' class='page-link'>$i</a></li>";
+                                    echo "<li class='page-item active'><a href='vistaUsuario.php?pagina=$i' class='page-link'>$i</a></li>";
                                 }else{
-                                    echo "<li class='page-item'><a href='VistaUsuario.php?pagina=$i' class='page-link'>$i</a></li>";
+                                    echo "<li class='page-item'><a href='vistaUsuario.php?pagina=$i' class='page-link'>$i</a></li>";
                                 }
                             }
                             // Botón "Siguiente"
-                            echo "<li class='page-item " . ($pagina_actual == $total_paginas ? 'disabled' : '') . "' style='" . ($pagina_actual == $total_paginas ? 'display: none;' : '') . "'><a href='VistaUsuario.php?pagina=" . ($pagina_actual + 1) . "' class='page-link'>Siguiente</a></li>";
+                            echo "<li class='page-item " . ($pagina_actual == $total_paginas ? 'disabled' : '') . "' style='" . ($pagina_actual == $total_paginas ? 'display: none;' : '') . "'><a href='vistaUsuario.php?pagina=" . ($pagina_actual + 1) . "' class='page-link'>Siguiente</a></li>";
                             ?>
                         </ul>
                     </div>
@@ -312,7 +311,7 @@ switch ($boton) {
                         <p class="text-warning"><small>Ésta acción no se puede deshacer.</small></p>
                     </div>
                     <div class="modal-footer">
-                        <input type="hidden" name="txtEmail" value="" id="emaildel">
+                        <input type="hidden" name="txtEmail" value="" id="txtEmail">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-warning" formmethod="post" name="bt" id="confirmDelete" value="Eliminar" >Eliminar</button>
                     </div>
@@ -395,7 +394,7 @@ switch ($boton) {
 
             // Update the modal's content.
             const modalTitle = deleteUser.querySelector('.modal-title')
-            const emailInput = deleteUser.querySelector('#emaildel')
+            const emailInput = deleteUser.querySelector('#txtEmail')
             
             modalTitle.textContent = `Eliminar usuario ${email}`
             emailInput.value = email
