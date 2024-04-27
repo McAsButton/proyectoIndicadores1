@@ -1,0 +1,5 @@
+Agregar vista frecuencia.
+Agregar consultar en las vistas.
+Agregar notificaciones de guardado, modificacion o eliminacion.
+Tablas de mosulo legal no requieren vista
+En el menu quitar la palabra vista
