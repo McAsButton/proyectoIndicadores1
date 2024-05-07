@@ -1,5 +1,5 @@
 <?php
-ob_start();
+ob_start(); 
 ?>
 <?php
 include_once '../control/configBd.php';
