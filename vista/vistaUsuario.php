@@ -339,7 +339,7 @@ switch ($boton) {
                         <input type="hidden" name="action" value="modificar">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-warning" formmethod="post" name="bt" value="Modificar">Guardar</button>
-                        <button type="submit" class="btn btn-danger" formmethod="post" name="bt" value="Eliminar" hidden>Eliminar</button>
+                        <button type="submit" class="btn btn-danger" formmethod="post" name="bt" id="confirmDelete" value="Eliminar" hidden>Eliminar</button>
                     </div>
                 </form>
             </div>
@@ -394,6 +394,8 @@ switch ($boton) {
 
         // Abrir el modal editUser
         const editUserModal = new bootstrap.Modal(document.getElementById('editUser'));
+        // Hacer visible el botón confirmDelete
+        document.getElementById('confirmDelete').removeAttribute('hidden');
         editUserModal.show();
 
         // Cargar datos en el modal
