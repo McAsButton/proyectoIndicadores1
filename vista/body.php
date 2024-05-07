@@ -14,18 +14,22 @@
                     <li><a class="nav-link scrollto" href="index.php#contact">Contacto</a></li> <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
                     <?php
                     if (isset($_SESSION['email'])) {
-                        echo '<li class="dropdown"><a href="#"><span>Vistas</span> <i class="bi bi-chevron-down"></i></a>';
+                        echo '<li class="dropdown"><a href="#"><span>Usuario</span> <i class="bi bi-chevron-down"></i></a>';
+                        echo '<ul>';
+                        echo '<li><a href="vistaRol.php">Rol</a></li>';
+                        echo '<li><a href="vistaUsuario.php">Usuario</a></li>';
+                        echo '</ul>';
+                        echo '</li>';
+                        echo '<li class="dropdown"><a href="#"><span>Indicadores</span> <i class="bi bi-chevron-down"></i></a>';
                         echo '<ul>';
                         echo '<li><a href="vistaFrecuencia.php">Frecuencia</a></li>';
                         echo '<li><a href="vistaFuente.php">Fuente</a></li>';
                         echo '<li><a href="vistaRepresenVisual.php">Represen Visual</a></li>';
-                        echo '<li><a href="vistaRol.php">Rol</a></li>';
                         echo '<li><a href="vistaResultadoIndicador.php">Resultado Indicador</a></li>';
                         echo '<li><a href="vistaSentido.php">Sentido</a></li>';
                         echo '<li><a href="vistaTipoActor.php">Tipo Actor</a></li>';
                         echo '<li><a href="vistaTipoIndicador.php">Tipo Indicador</a></li>';
                         echo '<li><a href="vistaUnidadMedicion.php">Unidad Medición</a></li>';
-                        echo '<li><a href="vistaUsuario.php">Usuario</a></li>';
                         echo '</ul>';
                         echo '</li>';
                     }
