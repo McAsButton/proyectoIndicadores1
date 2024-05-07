@@ -151,10 +151,10 @@ switch($boton){
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtId' id="txtID" value="" class="form-control" placeholder="Id" aria-label="Id" aria-describedby="basic-addon1">
-                        </div>
+        <!-- <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">A</span>
+                    <input type="text" name='txtId' id="txtID" value="" class="form-control" placeholder="Id" aria-label="Id" aria-describedby="basic-addon1">
+                </div> -->
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
                             <input type="text" name='txtDescripcion' id="txtDescripcion" class="form-control" placeholder="descripción" aria-label="descripcion" aria-describedby="basic-addon1"> <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
@@ -178,7 +178,7 @@ switch($boton){
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                <div class="input-group mb-3">
+                <div class="input-group mb-3" hidden>
                             <span class="input-group-text" id="basic-addon1">A</span>
                             <input type="text" name='txtId' id="txtId" value="" class="form-control" placeholder="Id" aria-label="Id" aria-describedby="basic-addon1" id="id" readonly>
                         </div>

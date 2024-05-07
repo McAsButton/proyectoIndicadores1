@@ -6,6 +6,8 @@ include_once '../control/configBd.php';
 include_once '../control/ControlEntidad.php';
 include_once '../control/ControlConexionPdo.php';
 include_once '../modelo/Entidad.php';
+include_once 'notificacion.html';
+
 session_start();
 if($_SESSION['email']==null)header('Location: index.php');
 $permisoParaEntrar=false;
@@ -38,10 +40,15 @@ switch($boton){
       header('Location: vistaTipoIndicador.php');
       break;
     case 'Eliminar':
-      $objControlTipoIndicador = new ControlEntidad('tipoindicador');
-      $objControlTipoIndicador->borrar('id', $id);
-      header('Location: vistaTipoIndicador.php');
-      break;
+        try{            
+            // Intentar eliminar el registro
+            $objControlTipoIndicador = new ControlEntidad('tipoindicador');
+            $objControlTipoIndicador->borrar('id', $id);
+            header('Location: vistaTipoIndicador.php?spawnNote=1');
+        }catch(PDOException $e){
+            header('Location: vistaTipoIndicador.php?spawnNote=0');
+        }
+        break;
     }
 ?>
 
@@ -148,14 +155,14 @@ switch($boton){
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                <!-- <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">A</span>
+                    <input type="text" name='txtId' id="txtId" value="" class="form-control" placeholder="Id" aria-label="id" aria-describedby="basic-addon1">
+                </div> -->
                 <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtId' id="txtId" value="" class="form-control" placeholder="Id" aria-label="id" aria-describedby="basic-addon1">
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtNombre' id="txtNombre" class="form-control" placeholder="Nombre" aria-label="nombre" aria-describedby="basic-addon1">
-                        </div>
+                    <span class="input-group-text" id="basic-addon1">A</span>
+                    <input type="text" name='txtNombre' id="txtNombre" class="form-control" placeholder="Nombre" aria-label="nombre" aria-describedby="basic-addon1">
+                </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -175,14 +182,14 @@ switch($boton){
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                <div class="input-group mb-3" hidden>
+                    <span class="input-group-text" id="basic-addon1">A</span>
+                    <input type="text" name='txtId' id="txtId" value="" class="form-control" placeholder="Id" aria-label="id" aria-describedby="basic-addon1" id="id" readonly>
+                </div>
                 <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtId' id="txtId" value="" class="form-control" placeholder="Id" aria-label="id" aria-describedby="basic-addon1" id="id" readonly>
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtNombre' id="txtNombre" class="form-control" placeholder="Nombre" aria-label="nombre" aria-describedby="basic-addon1">
-                        </div>
+                    <span class="input-group-text" id="basic-addon1">A</span>
+                    <input type="text" name='txtNombre' id="txtNombre" class="form-control" placeholder="Nombre" aria-label="nombre" aria-describedby="basic-addon1">
+                </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -217,49 +224,65 @@ switch($boton){
 </main><!-- End #main -->
 
 <script>
-const editTipoIndicador = document.getElementById('editTipoIndicador')
-if (editTipoIndicador) {
-    editTipoIndicador.addEventListener('show.bs.modal', event => {
-        // Button that triggered the modal
-        const button = event.relatedTarget
-        // Extract info from data-bs-* attributes
-        const TipoIndicador = button.getAttribute('data-bs-whatever')
-        const Nombre = button.getAttribute('data-bs-name')
-        // If necessary, you could initiate an Ajax request here
-        // and then do the updating in a callback.
-        console.log(TipoIndicador)
-        console.log(Nombre)
+    window.addEventListener("DOMContentLoaded",() => {
+    const nc = new NotificationCenter();
 
-        // Update the modal's content.
-        const modalTitle = editTipoIndicador.querySelector('.modal-title')
-        const idInput = editTipoIndicador.querySelector('#txtId')
-        const nombreInput = editTipoIndicador.querySelector('#txtNombre')
-        
-        modalTitle.textContent = `Modificar TipoIndicador ${TipoIndicador}`
-        idInput.value = TipoIndicador
-        nombreInput.value = Nombre
-    })
-}
+    // Crear un objeto URLSearchParams con la parte de búsqueda de la URL
+    const params = new URLSearchParams(window.location.search);
 
-const deleteTipoIndicador = document.getElementById('deleteTipoIndicador')
-if (deleteTipoIndicador) {
-    deleteTipoIndicador.addEventListener('show.bs.modal', event => {
-        // Button that triggered the modal
-        const button = event.relatedTarget
-        // Extract info from data-bs-* attributes
-        const id = button.getAttribute('data-bs-id')
-        const nombre = button.getAttribute('data-bs-nombre')
-        // If necessary, you could initiate an Ajax request here
-        // and then do the updating in a callback.
+    // Verificar si el parámetro spawnNote está en la URL
+    if (params.has('spawnNote')) {
+        // Obtener el valor del parámetro spawnNote
+        const spawnNoteValue = parseInt(params.get('spawnNote'));
 
-        // Update the modal's content.
-        const modalTitle = deleteTipoIndicador.querySelector('.modal-title')
-        const idInput = deleteTipoIndicador.querySelector('#txtId')
-        
-        modalTitle.textContent = `Eliminar TipoIndicador ${id}`
-        idInput.value = id
-    })
-}
+        // Llamar al método spawnNote con el valor obtenido
+        nc.spawnNote(spawnNoteValue);
+    }
+    });
+
+    const editTipoIndicador = document.getElementById('editTipoIndicador')
+    if (editTipoIndicador) {
+        editTipoIndicador.addEventListener('show.bs.modal', event => {
+            // Button that triggered the modal
+            const button = event.relatedTarget
+            // Extract info from data-bs-* attributes
+            const TipoIndicador = button.getAttribute('data-bs-whatever')
+            const Nombre = button.getAttribute('data-bs-name')
+            // If necessary, you could initiate an Ajax request here
+            // and then do the updating in a callback.
+            console.log(TipoIndicador)
+            console.log(Nombre)
+
+            // Update the modal's content.
+            const modalTitle = editTipoIndicador.querySelector('.modal-title')
+            const idInput = editTipoIndicador.querySelector('#txtId')
+            const nombreInput = editTipoIndicador.querySelector('#txtNombre')
+            
+            modalTitle.textContent = `Modificar TipoIndicador ${TipoIndicador}`
+            idInput.value = TipoIndicador
+            nombreInput.value = Nombre
+        })
+    }
+
+    const deleteTipoIndicador = document.getElementById('deleteTipoIndicador')
+    if (deleteTipoIndicador) {
+        deleteTipoIndicador.addEventListener('show.bs.modal', event => {
+            // Button that triggered the modal
+            const button = event.relatedTarget
+            // Extract info from data-bs-* attributes
+            const id = button.getAttribute('data-bs-id')
+            const nombre = button.getAttribute('data-bs-nombre')
+            // If necessary, you could initiate an Ajax request here
+            // and then do the updating in a callback.
+
+            // Update the modal's content.
+            const modalTitle = deleteTipoIndicador.querySelector('.modal-title')
+            const idInput = deleteTipoIndicador.querySelector('#txtId')
+            
+            modalTitle.textContent = `Eliminar TipoIndicador ${id}`
+            idInput.value = id
+        })
+    }
 </script>
 
 <?php include 'footer.html'; ?>

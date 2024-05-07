@@ -6,6 +6,8 @@ include_once '../control/configBd.php';
 include_once '../control/ControlEntidad.php';
 include_once '../control/ControlConexionPdo.php';
 include_once '../modelo/Entidad.php';
+include_once 'notificacion.html';
+
 session_start();
 if($_SESSION['email']==null)header('Location: index.php');
 $permisoParaEntrar=false;
@@ -28,64 +30,101 @@ $email = $_POST['txtEmail'] ?? ''; // Captura el email del formulario
 $contrasena = $_POST['txtContrasena'] ?? ''; // Captura la contraseña del formulario
 $roles_modal = $_POST['roles_modal'] ?? []; // Captura los roles seleccionados del formulario
 $roles = implode(", ", $roles_modal) ?? ''; // Convierte el array de roles en un string separado por comas
+$consultarEmail = $_POST['txtConsultarEmail'] ?? ''; // Captura el email del formulario para consultar
 
 switch ($boton) {
     case 'Guardar':
-         //1. modifica en tabla principal  
-        $datosUsuario = ['email' => $email, 'contrasena' => $contrasena];
-        $objUsuario = new Entidad($datosUsuario);
-		$objControlUsuario = new ControlEntidad('usuario');
-		$objControlUsuario->guardar($objUsuario);
-        //2. tomar del arreglo de roles los id y guardar los datos en la tabla intermedia
-        if (!empty($roles_modal)) {
-			foreach ($roles_modal as $key => $id) {
-                $datosRolUsuario = ['fkemail' => $email, 'fkidrol' => $id];
-                $objRolUsuario = new Entidad($datosRolUsuario);
-                // Crear un objeto ControlEntidad para la tabla de roles de usuario
-				$objControlRolUsuario = new ControlEntidad('rol_usuario');
-				
-				// Llamar al método guardar con el objeto Entidad
-				$objControlRolUsuario->guardar($objRolUsuario);
+        try {
+            //1. modifica en tabla principal  
+            $datosUsuario = ['email' => $email, 'contrasena' => $contrasena];
+            $objUsuario = new Entidad($datosUsuario);
+            $objControlUsuario = new ControlEntidad('usuario');
+            $objControlUsuario->guardar($objUsuario);
+            //2. tomar del arreglo de roles los id y guardar los datos en la tabla intermedia
+            if (!empty($roles_modal)) {
+                foreach ($roles_modal as $key => $id) {
+                    $datosRolUsuario = ['fkemail' => $email, 'fkidrol' => $id];
+                    $objRolUsuario = new Entidad($datosRolUsuario);
+                    // Crear un objeto ControlEntidad para la tabla de roles de usuario
+                    $objControlRolUsuario = new ControlEntidad('rol_usuario');
+                    
+                    // Llamar al método guardar con el objeto Entidad
+                    $objControlRolUsuario->guardar($objRolUsuario);
+                }
             }
-		}
-        header('Location: VistaUsuario.php');
-		break;
-    case 'Modificar':
-        //1. modifica en tabla principal    
-        $datosUsuario=['email' => $email, 'contrasena' => $contrasena];
+            header('Location: VistaUsuario.php?spawnNote=1');
+        } catch (Exception $e) {
+            header('Location: VistaUsuario.php?spawnNote=0');
+        }
+        break;
+    case 'Consultar':
+        $datosUsuario=['email' => $consultarEmail];
         $objUsuario=new Entidad($datosUsuario);
         $objControlUsuario = new ControlEntidad('usuario');
-        $objControlUsuario->modificar('email', $email, $objUsuario);
-
-        //2. borrar todos los registros asociados de la tabla principal en la tabla intermedia
-        $objControlRolUsuario = new ControlEntidad('rol_usuario');
-        $objControlRolUsuario->borrar('fkemail',$email);
-
-        //3. tomar del arreglo de roles los id y guardar los datos en la tabla intermedia
-        if (!empty($roles_modal)) {
-			foreach ($roles_modal as $key => $id) {
-                $datosRolUsuario = ['fkemail' => $email, 'fkidrol' => $id];
-                $objRolUsuario = new Entidad($datosRolUsuario);
-                // Crear un objeto ControlEntidad para la tabla de roles de usuario
-				$objControlRolUsuario = new ControlEntidad('rol_usuario');
-				
-				// Llamar al método guardar con el objeto Entidad
-				$objControlRolUsuario->guardar($objRolUsuario);
+        $objUsuario = $objControlUsuario->buscarPorId('email', $consultarEmail);
+        
+        if ($objUsuario !== null) {
+            $contrasena = $objUsuario->__get('contrasena');
+            $objControlRolUsuario = new ControlEntidad('rol_usuario');
+            $sql = "SELECT rol.id as id, rol.nombre as nombre
+                FROM rol_usuario INNER JOIN rol ON rol_usuario.fkidrol = rol.id
+                WHERE fkemail = ?";
+            $parametros = [$consultarEmail];
+            $arregloConsultaRoles = $objControlRolUsuario->consultar($sql, $parametros);
+            $ids = [];
+            foreach ($arregloConsultaRoles as $rol) {
+                $propiedades = $rol->obtenerPropiedades();
+                $ids[] = $propiedades['id'];
             }
-		}
-        header('Location: VistaUsuario.php');
-		break;
-    case 'Eliminar':
-        $objControlUsuario= new ControlEntidad('usuario');
-        $objControlUsuario->borrar('email', $email);
-        header('Location: vistaUsuario.php');
-        break;
+            $idsString = implode(" ", $ids);
+            $rolesParam = json_encode($ids);
+            header('Location: VistaUsuario.php?email=' . $consultarEmail . '&contrasena=' . $contrasena . '&roles=' . urlencode($rolesParam));
+        } else {
+            // header('Location: VistaUsuario.php?spawnNote=0');
+        }
+    break;
+    case 'Modificar':
+        try {
+            //1. modifica en tabla principal    
+            $datosUsuario=['email' => $email, 'contrasena' => $contrasena];
+            $objUsuario=new Entidad($datosUsuario);
+            $objControlUsuario = new ControlEntidad('usuario');
+            $objControlUsuario->modificar('email', $email, $objUsuario);
 
+            //2. borrar todos los registros asociados de la tabla principal en la tabla intermedia
+            $objControlRolUsuario = new ControlEntidad('rol_usuario');
+            $objControlRolUsuario->borrar('fkemail',$email);
+
+            //3. tomar del arreglo de roles los id y guardar los datos en la tabla intermedia
+            if (!empty($roles_modal)) {
+                foreach ($roles_modal as $key => $id) {
+                    $datosRolUsuario = ['fkemail' => $email, 'fkidrol' => $id];
+                    $objRolUsuario = new Entidad($datosRolUsuario);
+                    // Crear un objeto ControlEntidad para la tabla de roles de usuario
+                    $objControlRolUsuario = new ControlEntidad('rol_usuario');
+                    
+                    // Llamar al método guardar con el objeto Entidad
+                    $objControlRolUsuario->guardar($objRolUsuario);
+                }
+            }
+            header('Location: VistaUsuario.php?spawnNote=1');
+        } catch (Exception $e) {
+            header('Location: VistaUsuario.php?spawnNote=0');
+        }
+        break;
+    case 'Eliminar':
+        try {
+            $objControlUsuario= new ControlEntidad('usuario');
+            $objControlUsuario->borrar('email', $email);
+            header('Location: VistaUsuario.php?spawnNote=1');
+        } catch (Exception $e) {
+            header('Location: VistaUsuario.php?spawnNote=0');
+        }
+        break;
     default:
     // Lógica por defecto, si es necesaria
     break;
 }
-
 ?>
 <?php include 'header.html'; ?>
 <?php include 'body.php'; ?>
@@ -98,12 +137,20 @@ switch ($boton) {
                 <div class="table-wrapper">
                     <div class="table-title">
                         <div class="row d-flex align-items-center">
-                            <div class="col-sm-5">
+                            <div class="col-sm">
                                 <h2><b>Administrar</b> Usuarios</h2>
                             </div>
-                            <div class="col-sm-7">
+                            <div class="col-sm">
+                                <form class="d-flex" method="post" action="VistaUsuario.php">
+                                    <input class="form-control mr-2 mb-1" type="search" placeholder="Buscar email" aria-label="Search" id="txtConsultarEmail" name="txtConsultarEmail">
+                                    <button class="btn btn-outline-success" type="submit" formmethod="post" name="bt" value="Consultar"><i class="bi bi-search"></i></button>
+                                </form>
+                            </div>
+                            <div class="col-sm">
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUser"><i class="bi bi-person-plus"></i><span>Nuevo Usuario</span></button>
                             </div>
+                            
+                            
                         </div>
                     </div>
                     <table class="table table-striped table-hover table-responsive-sm">
@@ -292,6 +339,7 @@ switch ($boton) {
                         <input type="hidden" name="action" value="modificar">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-warning" formmethod="post" name="bt" value="Modificar">Guardar</button>
+                        <button type="submit" class="btn btn-danger" formmethod="post" name="bt" value="Eliminar" hidden>Eliminar</button>
                     </div>
                 </form>
             </div>
@@ -321,66 +369,135 @@ switch ($boton) {
     </div> 
 </main><!-- End #main -->
 <script>
-    const editUser = document.getElementById('editUser')
+    window.addEventListener("DOMContentLoaded",() => {
+    const nc = new NotificationCenter();
+
+    // Crear un objeto URLSearchParams con la parte de búsqueda de la URL
+    const params = new URLSearchParams(window.location.search);
+
+    // Verificar si el parámetro spawnNote está en la URL
+    if (params.has('spawnNote')) {
+        // Obtener el valor del parámetro spawnNote
+        const spawnNoteValue = parseInt(params.get('spawnNote'));
+
+        // Llamar al método spawnNote con el valor obtenido
+        nc.spawnNote(spawnNoteValue);
+    }
+    if (params.has('email') && params.has('contrasena') && params.has('roles')) {
+        const rolescodi = params.get('roles');
+        const rolesdecodi = decodeURIComponent(rolescodi);
+        // Obtener los valores de los parámetros
+        const email = params.get('email');
+        const pass = params.get('contrasena');
+        const roles = JSON.parse(rolesdecodi);
+        
+
+        // Abrir el modal editUser
+        const editUserModal = new bootstrap.Modal(document.getElementById('editUser'));
+        editUserModal.show();
+
+        // Cargar datos en el modal
+        cargarDatos(email, pass, roles);
+    }
+    });
+
+    // Listener para el botón "Modificar"
+    const editUser = document.getElementById('editUser');
     if (editUser) {
         editUser.addEventListener('show.bs.modal', event => {
-            const button = event.relatedTarget
-            const email = button.getAttribute('data-bs-email')
-            const pass = button.getAttribute('data-bs-pass')
-            const roles = button.getAttribute('data-bs-roles').split(',').map(Number) // Convertir a array de números
-            
-            
-            const modalTitle = editUser.querySelector('.modal-title')
-            const emailInput = editUser.querySelector('#txtEmail')
-            const passInput = editUser.querySelector('#txtContrasena')
-            const checkboxesContainer = editUser.querySelector('#checkboxes-container')
-            
-            modalTitle.textContent = `Modificar usuario ${email}`
-            emailInput.value = email
-            passInput.value = pass;
+            const button = event.relatedTarget;
+            const email = button.getAttribute('data-bs-email');
+            const pass = button.getAttribute('data-bs-pass');
+            const roles = button.getAttribute('data-bs-roles').split(',').map(Number); // Convertir a array de números
 
-            // Resetear todos los checkboxes a falso
-            document.querySelectorAll('.form-check-input').forEach(checkbox => {
-                checkbox.checked = false;
-            });
+            console.log(roles);
 
-            // Activar checks en base a fkidrol
-            roles.forEach(rol => {
-                const checkbox = document.getElementById(`opcion${rol}_modal`);
-                if (checkbox) {
-                    checkbox.checked = true
-                }
-            })
-
-
-
-            // Validar checkboxes para el modal de editar usuario
-            const checkboxesEdit = document.querySelectorAll('#editUser .form-check-input');
-            const modifyButtonEdit = document.querySelector('#editUser [name="bt"][value="Modificar"]');
-
-            function validarCheckboxesEdit() {
-                let alMenosUnoSeleccionado = false;
-                checkboxesEdit.forEach(checkbox => {
-                    if (checkbox.checked) {
-                        alMenosUnoSeleccionado = true;
-                    }
-                });
-
-                if (alMenosUnoSeleccionado) {
-                    modifyButtonEdit.disabled = false;
-                } else {
-                    modifyButtonEdit.disabled = true;
-                }
-            }
-
-            checkboxesEdit.forEach(checkbox => {
-                checkbox.addEventListener('click', validarCheckboxesEdit);
-            });
-
-            validarCheckboxesEdit(); // Para validar en el inicio, cuando el modal se abre por primera vez
-        
-        })
+            // Cargar datos en el modal
+            cargarDatos(email, pass, roles);
+        });
     }
+
+    // Función para cargar los datos en el modal
+    function cargarDatos(email, pass, roles) {
+        const modalTitle = editUser.querySelector('.modal-title');
+        const emailInput = editUser.querySelector('#txtEmail');
+        const passInput = editUser.querySelector('#txtContrasena');
+
+        modalTitle.textContent = `Modificar usuario ${email}`;
+        emailInput.value = email;
+        passInput.value = pass;
+
+        // Resetear todos los checkboxes a falso
+        document.querySelectorAll('.form-check-input').forEach(checkbox => {
+            checkbox.checked = false;
+        });
+
+        // Activar checks en base a fkidrol
+        roles.forEach(rol => {
+            const checkbox = document.getElementById(`opcion${rol}_modal`);
+            if (checkbox) {
+                checkbox.checked = true;
+            }
+        });
+
+        // Validar checkboxes
+        validarCheckboxes();
+    }
+    // const editUser = document.getElementById('editUser')
+    // if (editUser) {
+    //     editUser.addEventListener('show.bs.modal', event => {
+    //         const button = event.relatedTarget
+    //         const email = button.getAttribute('data-bs-email')
+    //         const pass = button.getAttribute('data-bs-pass')
+    //         const roles = button.getAttribute('data-bs-roles').split(',').map(Number) // Convertir a array de números           
+    //         const modalTitle = editUser.querySelector('.modal-title')
+    //         const emailInput = editUser.querySelector('#txtEmail')
+    //         const passInput = editUser.querySelector('#txtContrasena')
+    //         const checkboxesContainer = editUser.querySelector('#checkboxes-container')
+            
+    //         modalTitle.textContent = `Modificar usuario ${email}`
+    //         emailInput.value = email
+    //         passInput.value = pass;
+
+    //         // Resetear todos los checkboxes a falso
+    //         document.querySelectorAll('.form-check-input').forEach(checkbox => {
+    //             checkbox.checked = false;
+    //         });
+
+    //         // Activar checks en base a fkidrol
+    //         roles.forEach(rol => {
+    //             const checkbox = document.getElementById(`opcion${rol}_modal`);
+    //             if (checkbox) {
+    //                 checkbox.checked = true
+    //             }
+    //         })
+    //         // Validar checkboxes para el modal de editar usuario
+    //         const checkboxesEdit = document.querySelectorAll('#editUser .form-check-input');
+    //         const modifyButtonEdit = document.querySelector('#editUser [name="bt"][value="Modificar"]');
+
+    //         function validarCheckboxesEdit() {
+    //             let alMenosUnoSeleccionado = false;
+    //             checkboxesEdit.forEach(checkbox => {
+    //                 if (checkbox.checked) {
+    //                     alMenosUnoSeleccionado = true;
+    //                 }
+    //             });
+
+    //             if (alMenosUnoSeleccionado) {
+    //                 modifyButtonEdit.disabled = false;
+    //             } else {
+    //                 modifyButtonEdit.disabled = true;
+    //             }
+    //         }
+
+    //         checkboxesEdit.forEach(checkbox => {
+    //             checkbox.addEventListener('click', validarCheckboxesEdit);
+    //         });
+
+    //         validarCheckboxesEdit(); // Para validar en el inicio, cuando el modal se abre por primera vez
+        
+    //     })
+    // }
 
     const deleteUser = document.getElementById('deleteUser')
     if (deleteUser) {

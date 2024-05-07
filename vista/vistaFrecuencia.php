@@ -15,8 +15,8 @@ for($i=0;$i<count($listaRolesDelUsuario);$i++){
 }
 if(!$permisoParaEntrar)header('Location: index.php');
 
-$objControlSentido = new ControlEntidad('sentido');
-$arregloSentidos = $objControlSentido->listar();
+$objControlFrecuencia = new ControlEntidad('frecuencia');
+$arregloFrecuencia = $objControlFrecuencia->listar();
 
 $boton = $_POST['bt'] ?? ''; // Captura el valor del botón
 $id = $_POST['txtId'] ?? ''; // Captura el valor del id
@@ -24,23 +24,23 @@ $nombre = $_POST['txtNombre'] ?? ''; // Captura el valor del nombre
 
 switch($boton){
     case 'Guardar':
-        $datosSentido = ['id' => $id, 'nombre' => $nombre];
-        $objSentido = new Entidad($datosSentido);
-        $objControlSentido = new ControlEntidad('sentido');
-        $objControlSentido->guardar($objSentido);
-        header('Location: vistaSentido.php');
+        $datosFrecuencia = ['id' => $id, 'nombre' => $nombre];
+        $objFrecuencia = new Entidad($datosFrecuencia);
+        $objControlFrecuencia = new ControlEntidad('frecuencia');
+        $objControlFrecuencia->guardar($objFrecuencia);
+        header('Location: vistaFrecuencia.php');
         break;
     case 'Modificar':
-      $datosSentido = ['id' => $id, 'nombre' => $nombre];
-      $objSentido = new Entidad($datosSentido);
-      $objControlSentido = new ControlEntidad('sentido');
-      $objControlSentido->modificar('id', $id, $objSentido);
-      header('Location: vistaSentido.php');
+      $datosFrecuencia = ['id' => $id, 'nombre' => $nombre];
+      $objFrecuencia = new Entidad($datosFrecuencia);
+      $objControlFrecuencia = new ControlEntidad('frecuencia');
+      $objControlFrecuencia->modificar('id', $id, $objFrecuencia);
+      header('Location: vistaFrecuencia.php');
       break;
     case 'Eliminar':
-      $objControlSentido = new ControlEntidad('sentido');
-      $objControlSentido->borrar('id', $id);
-      header('Location: vistaSentido.php');
+      $objControlFrecuencia = new ControlEntidad('frecuencia');
+      $objControlFrecuencia->borrar('id', $id);
+      header('Location: vistaFrecuencia.php');
       break;
     }
 ?>
@@ -57,10 +57,10 @@ switch($boton){
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-5">
-                                <h2><b>Administrar</b> Sentidos</h2>
+                                <h2><b>Administrar</b> Frecuencias</h2>
                             </div>
                             <div class="col-sm-7">
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSentido"><i class="bi bi-person-plus"></i><span>Nuevo Sentido</span></button>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFrecuencia"><i class="bi bi-person-plus"></i><span>Nueva Frecuencia</span></button>
                             </div>
                         </div>
                     </div>
@@ -78,7 +78,7 @@ switch($boton){
                             <?php 
                             // Paginación
                             $registros_por_pagina = 5;
-                            $total_registros = count($arregloSentidos);
+                            $total_registros = count($arregloFrecuencia);
                             $total_paginas = ceil($total_registros / $registros_por_pagina);
                             $pagina_actual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
                             $inicio = ($pagina_actual - 1) * $registros_por_pagina;
@@ -86,8 +86,8 @@ switch($boton){
 
                             for($i = $inicio; $i < $fin && $i < $total_registros; $i++){
                               $num_registro = $i + 1;
-                              $getid = $arregloSentidos[$i]->__get('id');
-                              $getnombre = $arregloSentidos[$i]->__get('nombre');
+                              $getid = $arregloFrecuencia[$i]->__get('id');
+                              $getnombre = $arregloFrecuencia[$i]->__get('nombre');
                             ?>
                             <tr>
                                 <td><?= $num_registro ?></td>
@@ -95,11 +95,11 @@ switch($boton){
                                 <td><?= $getnombre ?></td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <form method="post" action="VistaSentido.php" enctype="multipart/form-data">
-                                            <button type="button" class="btn btn-warning btn-sm" name="modificar" data-bs-toggle="modal" data-bs-target="#editSentido" data-bs-whatever="<?= $getid ?>"data-bs-name="<?= $getnombre ?>"><i class="bi bi-pencil-square" style="font-size: 0.75rem;"></i></button>
+                                        <form method="post" action="vistaFrecuencia.php" enctype="multipart/form-data">
+                                            <button type="button" class="btn btn-warning btn-sm" name="modificar" data-bs-toggle="modal" data-bs-target="#editFrecuencia" data-bs-whatever="<?= $getid ?>"data-bs-name="<?= $getnombre ?>"><i class="bi bi-pencil-square" style="font-size: 0.75rem;"></i></button>
                                         </form>
-                                        <form method="post" action="VistaSentido.php" enctype="multipart/form-data">
-                                            <button type="button" class="btn btn-danger btn-sm" name="delete" data-bs-toggle="modal" data-bs-target="#deleteSentido" data-bs-id="<?= $getid ?>"><i class="bi bi-trash-fill" style="font-size: 0.75rem;"></i></button>
+                                        <form method="post" action="vistaFrecuencia.php" enctype="multipart/form-data">
+                                            <button type="button" class="btn btn-danger btn-sm" name="delete" data-bs-toggle="modal" data-bs-target="#deleteFrecuencia" data-bs-id="<?= $getid ?>"><i class="bi bi-trash-fill" style="font-size: 0.75rem;"></i></button>
                                         </form>
                                     </div>
                                 </td>                        
@@ -112,22 +112,22 @@ switch($boton){
                     </table>
                     <!-- Mostrar enlaces de paginación -->
                     <div class="clearfix">
-                        <div class="hint-text">Mostrando <b><?= $registros_mostrados ?></b> de <b><?= $total_registros ?></b> sentidos</div>
+                        <div class="hint-text">Mostrando <b><?= $registros_mostrados ?></b> de <b><?= $total_registros ?></b> frecuencias</div>
                         <ul class="pagination">
                             <?php 
                             // Botón "Anterior"
-                            echo "<li class='page-item " . ($pagina_actual == 1 ? 'disabled' : '') . "' style='" . ($pagina_actual == 1 ? 'display: none;' : '') . "'><a href='vistaSentido.php?pagina=" . ($pagina_actual - 1) . "' class='page-link'>Anterior</a></li>";
+                            echo "<li class='page-item " . ($pagina_actual == 1 ? 'disabled' : '') . "' style='" . ($pagina_actual == 1 ? 'display: none;' : '') . "'><a href='vistaFrecuencia.php?pagina=" . ($pagina_actual - 1) . "' class='page-link'>Anterior</a></li>";
 
                             // Números de página
                             for ($i=1; $i <= $total_paginas; $i++) { 
                                 if($pagina_actual == $i){
-                                    echo "<li class='page-item active'><a href='vistaSentido.php?pagina=$i' class='page-link'>$i</a></li>";
+                                    echo "<li class='page-item active'><a href='vistaFrecuencia.php?pagina=$i' class='page-link'>$i</a></li>";
                                 }else{
-                                    echo "<li class='page-item'><a href='vistaSentido.php?pagina=$i' class='page-link'>$i</a></li>";
+                                    echo "<li class='page-item'><a href='vistaFrecuencia.php?pagina=$i' class='page-link'>$i</a></li>";
                                 }
                             }
                             // Botón "Siguiente"
-                            echo "<li class='page-item " . ($pagina_actual == $total_paginas ? 'disabled' : '') . "' style='" . ($pagina_actual == $total_paginas ? 'display: none;' : '') . "'><a href='vistaSentido.php?pagina=" . ($pagina_actual + 1) . "' class='page-link'>Siguiente</a></li>";
+                            echo "<li class='page-item " . ($pagina_actual == $total_paginas ? 'disabled' : '') . "' style='" . ($pagina_actual == $total_paginas ? 'display: none;' : '') . "'><a href='vistaFrecuencia.php?pagina=" . ($pagina_actual + 1) . "' class='page-link'>Siguiente</a></li>";
                             ?>
                         </ul>
                     </div>
@@ -139,12 +139,12 @@ switch($boton){
 
 <main id="main">
   <!-- Add Modal HTML -->
-  <div class="modal fade" id="addSentido" tabindex="-1" aria-labelledby="addSentido" aria-hidden="true">
+  <div class="modal fade" id="addFrecuencia" tabindex="-1" aria-labelledby="addFrecuencia" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" action="VistaSentido.php" enctype="multipart/form-data">
+            <form method="post" action="vistaFrecuencia.php" enctype="multipart/form-data">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Sentido</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Frecuencia</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -166,23 +166,23 @@ switch($boton){
     </div>
     </div>
     <!-- Edit Modal HTML -->
-    <div class="modal fade" id="editSentido" tabindex="-1" aria-labelledby="editSentido" aria-hidden="true">
+    <div class="modal fade" id="editFrecuencia" tabindex="-1" aria-labelledby="editFrecuencia" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" action="VistaSentido.php" enctype="multipart/form-data">
+            <form method="post" action="vistaFrecuencia.php" enctype="multipart/form-data">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modificar Sentido</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modificar frecuencia</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                 <div class="input-group mb-3" hidden>
-                            <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtId' id="txtId" value="" class="form-control" placeholder="Id" aria-label="id" aria-describedby="basic-addon1" id="id" readonly>
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtNombre' id="txtNombre" class="form-control" placeholder="Nombre" aria-label="nombre" aria-describedby="basic-addon1">
-                        </div>
+                    <span class="input-group-text" id="basic-addon1">A</span>
+                    <input type="text" name='txtId' id="txtId" value="" class="form-control" placeholder="Id" aria-label="id" aria-describedby="basic-addon1" id="id" readonly>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">A</span>
+                    <input type="text" name='txtNombre' id="txtNombre" class="form-control" placeholder="Nombre" aria-label="nombre" aria-describedby="basic-addon1">
+                </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -193,16 +193,16 @@ switch($boton){
     </div>
     </div>
     <!-- Delete Modal HTML -->
-    <div class="modal fade" id="deleteSentido" tabindex="-1" aria-labelledby="deleteSentido" aria-hidden="true">
+    <div class="modal fade" id="deleteFrecuencia" tabindex="-1" aria-labelledby="deleteFrecuencia" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form id="deleteForm" method="post" action="VistaSentido.php" enctype="multipart/form-data">
+            <form id="deleteForm" method="post" action="vistaFrecuencia.php" enctype="multipart/form-data">
                 <div class="modal-header">						
-                    <h4 class="modal-title">Borrar Sentido</h4>
+                    <h4 class="modal-title">Borrar frecuencia</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">					
-                    <p>Esta seguro que desea eliminar este Sentido?</p>
+                    <p>Esta seguro que desea eliminar esta frecuencia?</p>
                     <p class="text-warning"><small>Esta accion no se puede deshacer.</small></p>
                 </div>
                 <div class="modal-footer">
@@ -217,33 +217,33 @@ switch($boton){
 </main><!-- End #main -->
 
 <script>
-const editSentido = document.getElementById('editSentido')
-if (editSentido) {
-    editSentido.addEventListener('show.bs.modal', event => {
+const editFrecuencia = document.getElementById('editFrecuencia')
+if (editFrecuencia) {
+    editFrecuencia.addEventListener('show.bs.modal', event => {
         // Button that triggered the modal
         const button = event.relatedTarget
         // Extract info from data-bs-* attributes
-        const Sentido = button.getAttribute('data-bs-whatever')
+        const Frecuencia = button.getAttribute('data-bs-whatever')
         const Nombre = button.getAttribute('data-bs-name')
         // If necessary, you could initiate an Ajax request here
         // and then do the updating in a callback.
-        console.log(Sentido)
+        console.log(Frecuencia)
         console.log(Nombre)
 
         // Update the modal's content.
-        const modalTitle = editSentido.querySelector('.modal-title')
-        const idInput = editSentido.querySelector('#txtId')
-        const nombreInput = editSentido.querySelector('#txtNombre')
+        const modalTitle = editFrecuencia.querySelector('.modal-title')
+        const idInput = editFrecuencia.querySelector('#txtId')
+        const nombreInput = editFrecuencia.querySelector('#txtNombre')
         
-        modalTitle.textContent = `Modificar Sentido ${Sentido}`
-        idInput.value = Sentido
+        modalTitle.textContent = `Modificar Frecuencia ${Frecuencia}`
+        idInput.value = Frecuencia
         nombreInput.value = Nombre
     })
 }
 
-const deleteSentido = document.getElementById('deleteSentido')
-if (deleteSentido) {
-    deleteSentido.addEventListener('show.bs.modal', event => {
+const deleteFrecuencia = document.getElementById('deleteFrecuencia')
+if (deleteFrecuencia) {
+    deleteFrecuencia.addEventListener('show.bs.modal', event => {
         // Button that triggered the modal
         const button = event.relatedTarget
         // Extract info from data-bs-* attributes
@@ -253,10 +253,10 @@ if (deleteSentido) {
         // and then do the updating in a callback.
 
         // Update the modal's content.
-        const modalTitle = deleteSentido.querySelector('.modal-title')
-        const idInput = deleteSentido.querySelector('#txtId')
+        const modalTitle = deleteFrecuencia.querySelector('.modal-title')
+        const idInput = deleteFrecuencia.querySelector('#txtId')
         
-        modalTitle.textContent = `Eliminar Sentido ${id}`
+        modalTitle.textContent = `Eliminar Frecuencia ${id}`
         idInput.value = id
     })
 }
