@@ -9,15 +9,18 @@ include_once '../modelo/Entidad.php';
 include_once 'notificacion.html';
 
 session_start();
-if($_SESSION['email']==null)header('Location: index.php');
-$permisoParaEntrar=false;
-$listaRolesDelUsuario=$_SESSION['listaRolesDelUsuario'];
-for($i=0;$i<count($listaRolesDelUsuario);$i++){
-    if($listaRolesDelUsuario[$i]->__get('nombre')=="Admin")$permisoParaEntrar=true;
+if ($_SESSION['email'] == null)
+    header('Location: index.php');
+$permisoParaEntrar = false;
+$listaRolesDelUsuario = $_SESSION['listaRolesDelUsuario'];
+for ($i = 0; $i < count($listaRolesDelUsuario); $i++) {
+    if ($listaRolesDelUsuario[$i]->__get('nombre') == "Admin")
+        $permisoParaEntrar = true;
 }
-if(!$permisoParaEntrar)header('Location: index.php');
+if (!$permisoParaEntrar)
+    header('Location: index.php');
 
-$arregloRolesConsulta=[];
+$arregloRolesConsulta = [];
 
 $objControlUsuario = new ControlEntidad('usuario');
 $arregloUsuarios = $objControlUsuario->listar();
@@ -47,7 +50,7 @@ switch ($boton) {
                     $objRolUsuario = new Entidad($datosRolUsuario);
                     // Crear un objeto ControlEntidad para la tabla de roles de usuario
                     $objControlRolUsuario = new ControlEntidad('rol_usuario');
-                    
+
                     // Llamar al método guardar con el objeto Entidad
                     $objControlRolUsuario->guardar($objRolUsuario);
                 }
@@ -58,11 +61,11 @@ switch ($boton) {
         }
         break;
     case 'Consultar':
-        $datosUsuario=['email' => $consultarEmail];
-        $objUsuario=new Entidad($datosUsuario);
+        $datosUsuario = ['email' => $consultarEmail];
+        $objUsuario = new Entidad($datosUsuario);
         $objControlUsuario = new ControlEntidad('usuario');
         $objUsuario = $objControlUsuario->buscarPorId('email', $consultarEmail);
-        
+
         if ($objUsuario !== null) {
             $contrasena = $objUsuario->__get('contrasena');
             $objControlRolUsuario = new ControlEntidad('rol_usuario');
@@ -80,20 +83,20 @@ switch ($boton) {
             $rolesParam = json_encode($ids);
             header('Location: VistaUsuario.php?email=' . $consultarEmail . '&contrasena=' . $contrasena . '&roles=' . urlencode($rolesParam));
         } else {
-            // header('Location: VistaUsuario.php?spawnNote=0');
+            header('Location: VistaUsuario.php?spawnNote=0');
         }
-    break;
+        break;
     case 'Modificar':
         try {
             //1. modifica en tabla principal    
-            $datosUsuario=['email' => $email, 'contrasena' => $contrasena];
-            $objUsuario=new Entidad($datosUsuario);
+            $datosUsuario = ['email' => $email, 'contrasena' => $contrasena];
+            $objUsuario = new Entidad($datosUsuario);
             $objControlUsuario = new ControlEntidad('usuario');
             $objControlUsuario->modificar('email', $email, $objUsuario);
 
             //2. borrar todos los registros asociados de la tabla principal en la tabla intermedia
             $objControlRolUsuario = new ControlEntidad('rol_usuario');
-            $objControlRolUsuario->borrar('fkemail',$email);
+            $objControlRolUsuario->borrar('fkemail', $email);
 
             //3. tomar del arreglo de roles los id y guardar los datos en la tabla intermedia
             if (!empty($roles_modal)) {
@@ -102,7 +105,7 @@ switch ($boton) {
                     $objRolUsuario = new Entidad($datosRolUsuario);
                     // Crear un objeto ControlEntidad para la tabla de roles de usuario
                     $objControlRolUsuario = new ControlEntidad('rol_usuario');
-                    
+
                     // Llamar al método guardar con el objeto Entidad
                     $objControlRolUsuario->guardar($objRolUsuario);
                 }
@@ -114,7 +117,7 @@ switch ($boton) {
         break;
     case 'Eliminar':
         try {
-            $objControlUsuario= new ControlEntidad('usuario');
+            $objControlUsuario = new ControlEntidad('usuario');
             $objControlUsuario->borrar('email', $email);
             header('Location: VistaUsuario.php?spawnNote=1');
         } catch (Exception $e) {
@@ -122,8 +125,8 @@ switch ($boton) {
         }
         break;
     default:
-    // Lógica por defecto, si es necesaria
-    break;
+        // Lógica por defecto, si es necesaria
+        break;
 }
 ?>
 <?php include 'header.html'; ?>
@@ -136,21 +139,25 @@ switch ($boton) {
             <div class="table-responsive">
                 <div class="table-wrapper">
                     <div class="table-title">
-                        <div class="row d-flex align-items-center">
+                        <div class="row d-flex align-items-center justify-content-center">
                             <div class="col-sm">
                                 <h2><b>Administrar</b> Usuarios</h2>
                             </div>
                             <div class="col-sm">
                                 <form class="d-flex" method="post" action="VistaUsuario.php">
-                                    <input class="form-control mr-2 mb-1" type="search" placeholder="Buscar email" aria-label="Search" id="txtConsultarEmail" name="txtConsultarEmail">
-                                    <button class="btn btn-outline-success" type="submit" formmethod="post" name="bt" value="Consultar"><i class="bi bi-search"></i></button>
+                                    <input class="form-control mr-2 mb-1" type="search" placeholder="Buscar email"
+                                        aria-label="Search" id="txtConsultarEmail" name="txtConsultarEmail">
+                                    <button class="btn btn-outline-success" type="submit" formmethod="post" name="bt"
+                                        value="Consultar"><i class="bi bi-search"></i></button>
                                 </form>
                             </div>
                             <div class="col-sm">
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUser"><i class="bi bi-person-plus"></i><span>Nuevo Usuario</span></button>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#addUser"><i class="bi bi-person-plus"></i><span>Nuevo
+                                        Usuario</span></button>
                             </div>
-                            
-                            
+
+
                         </div>
                     </div>
                     <table class="table table-striped table-hover table-responsive-sm">
@@ -158,95 +165,103 @@ switch ($boton) {
                             <tr>
                                 <th>#</th>
                                 <th>Email</th>
-                                <th>Contraseña</th>						
+                                <th>Contraseña</th>
                                 <th>Rol</th>
                                 <th>Acción</th>
                             </tr>
                         </thead>
                         <tbody>
-                        <?php
-                        $registros_por_pagina = 5;
-                        $total_registros = count($arregloUsuarios);
-                        $total_paginas = ceil($total_registros / $registros_por_pagina);
-                        $pagina_actual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
-                        $inicio = ($pagina_actual - 1) * $registros_por_pagina;
-                        $fin = $inicio + $registros_por_pagina;
+                            <?php
+                            $registros_por_pagina = 5;
+                            $total_registros = count($arregloUsuarios);
+                            $total_paginas = ceil($total_registros / $registros_por_pagina);
+                            $pagina_actual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
+                            $inicio = ($pagina_actual - 1) * $registros_por_pagina;
+                            $fin = $inicio + $registros_por_pagina;
 
-                        for($i = $inicio; $i < $fin && $i < $total_registros; $i++){
-                            $num_registro = $i + 1;
-                            $getemail = $arregloUsuarios[$i]->__get('email');
-                            $getcontrasena = $arregloUsuarios[$i]->__get('contrasena');
-                            $objControlRolUsuario = new ControlEntidad('rol_usuario');
-                            $sql = "SELECT fkidrol FROM rol_usuario WHERE fkemail = ?";
-                            $parametros = [$getemail];
-                            $arregloRolesConsulta = $objControlRolUsuario->consultar($sql, $parametros);
-                            $idRolesString = '';
-                            foreach ($arregloRolesConsulta as $objeto) {
-                                $propiedades = $objeto->obtenerPropiedades(); // Suponiendo que tienes un método obtenerPropiedades en la clase Entidad
-                                
-                                if (isset($propiedades['fkidrol'])) {
-                                    $fkidrol = $propiedades['fkidrol'];
-                                    $idRolesString .= $fkidrol . ', '; // Agregar el id al string con una coma y un espacio
+                            for ($i = $inicio; $i < $fin && $i < $total_registros; $i++) {
+                                $num_registro = $i + 1;
+                                $getemail = $arregloUsuarios[$i]->__get('email');
+                                $getcontrasena = $arregloUsuarios[$i]->__get('contrasena');
+                                $objControlRolUsuario = new ControlEntidad('rol_usuario');
+                                $sql = "SELECT fkidrol FROM rol_usuario WHERE fkemail = ?";
+                                $parametros = [$getemail];
+                                $arregloRolesConsulta = $objControlRolUsuario->consultar($sql, $parametros);
+                                $idRolesString = '';
+                                foreach ($arregloRolesConsulta as $objeto) {
+                                    $propiedades = $objeto->obtenerPropiedades(); // Suponiendo que tienes un método obtenerPropiedades en la clase Entidad
+                            
+                                    if (isset($propiedades['fkidrol'])) {
+                                        $fkidrol = $propiedades['fkidrol'];
+                                        $idRolesString .= $fkidrol . ', '; // Agregar el id al string con una coma y un espacio
+                                    }
                                 }
-                            }
-                            // Eliminar la última coma y espacio del string
-                            $idRolesString = rtrim($idRolesString, ', ');
-                            $nombreRolesString = '';
-                            foreach ($arregloRolesConsulta as $objetoConsulta) {
-                                $propiedadesConsulta = $objetoConsulta->obtenerPropiedades(); // Suponiendo que tienes un método obtenerPropiedades en la clase Entidad
-                                
-                                if (isset($propiedadesConsulta['fkidrol'])) {
-                                    $fkidrolConsulta = $propiedadesConsulta['fkidrol'];
-                                    
-                                    foreach ($arregloRoles as $objetoRol) {
-                                        $propiedadesRol = $objetoRol->obtenerPropiedades(); // Suponiendo que tienes un método obtenerPropiedades en la clase Entidad
-                                        
-                                        if (isset($propiedadesRol['id']) && $propiedadesRol['id'] == $fkidrolConsulta) {
-                                            $nombreRolesString .= $propiedadesRol['nombre'] . ', ';
-                                            break; // Salir del bucle interno una vez encontrado el rol
+                                // Eliminar la última coma y espacio del string
+                                $idRolesString = rtrim($idRolesString, ', ');
+                                $nombreRolesString = '';
+                                foreach ($arregloRolesConsulta as $objetoConsulta) {
+                                    $propiedadesConsulta = $objetoConsulta->obtenerPropiedades(); // Suponiendo que tienes un método obtenerPropiedades en la clase Entidad
+                            
+                                    if (isset($propiedadesConsulta['fkidrol'])) {
+                                        $fkidrolConsulta = $propiedadesConsulta['fkidrol'];
+
+                                        foreach ($arregloRoles as $objetoRol) {
+                                            $propiedadesRol = $objetoRol->obtenerPropiedades(); // Suponiendo que tienes un método obtenerPropiedades en la clase Entidad
+                            
+                                            if (isset($propiedadesRol['id']) && $propiedadesRol['id'] == $fkidrolConsulta) {
+                                                $nombreRolesString .= $propiedadesRol['nombre'] . ', ';
+                                                break; // Salir del bucle interno una vez encontrado el rol
+                                            }
                                         }
                                     }
                                 }
-                            }
 
-                            // Eliminar la última coma y espacio del string
-                            $nombreRolesString = rtrim($nombreRolesString, ', ');
-                        ?>
-                            <tr>
-                                <td><?= $num_registro ?></td>
-                                <td><?= $getemail;?></td>
-                                <td><?= $getcontrasena;?></td>
-                                <td><?= $nombreRolesString  ?></td>
-                                <td>
-                                    <div class="btn-group" role="group">
-                                        <form method="post" action="VistaUsuario.php" enctype="multipart/form-data">
-                                            <button type="button" class="btn btn-warning btn-sm btn-edit" name="modificar" data-bs-toggle="modal" data-bs-target="#editUser" data-bs-roles='<?= $idRolesString ?>' data-bs-email="<?= $getemail ?>" data-bs-pass="<?= $getcontrasena ?>"><i class="bi bi-pencil-square" style="font-size: 0.75rem;"></i></button>
-                                        </form>
-                                        <form method="post" action="VistaUsuario.php" enctype="multipart/form-data">
-                                            <button type="button" class="btn btn-danger btn-sm" name="delete" data-bs-toggle="modal" data-bs-target="#deleteUser" data-bs-email="<?= $getemail ?>"><i class="bi bi-trash-fill" style="font-size: 0.75rem;"></i></button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        <?php
-                        }
-                        $registros_mostrados = min($registros_por_pagina, $total_registros - $inicio);
-                        ?>
-                        </tbody>                         
+                                // Eliminar la última coma y espacio del string
+                                $nombreRolesString = rtrim($nombreRolesString, ', ');
+                                ?>
+                                <tr>
+                                    <td><?= $num_registro ?></td>
+                                    <td><?= $getemail; ?></td>
+                                    <td><?= $getcontrasena; ?></td>
+                                    <td><?= $nombreRolesString ?></td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <form method="post" action="VistaUsuario.php" enctype="multipart/form-data">
+                                                <button type="button" class="btn btn-warning btn-sm btn-edit botonModificar"
+                                                    name="modificar" data-bs-toggle="modal" data-bs-target="#editUser"
+                                                    data-bs-roles='<?= $idRolesString ?>' data-bs-email="<?= $getemail ?>"
+                                                    data-bs-pass="<?= $getcontrasena ?>"><i class="bi bi-pencil-square"
+                                                        style="font-size: 0.75rem;"></i></button>
+                                            </form>
+                                            <form method="post" action="VistaUsuario.php" enctype="multipart/form-data">
+                                                <button type="button" class="btn btn-danger btn-sm" name="delete"
+                                                    data-bs-toggle="modal" data-bs-target="#deleteUser"
+                                                    data-bs-email="<?= $getemail ?>"><i class="bi bi-trash-fill"
+                                                        style="font-size: 0.75rem;"></i></button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <?php
+                            }
+                            $registros_mostrados = min($registros_por_pagina, $total_registros - $inicio);
+                            ?>
+                        </tbody>
                     </table>
                     <!-- Mostrar enlaces de paginación -->
                     <div class="clearfix">
-                        <div class="hint-text">Mostrando <b><?= $registros_mostrados ?></b> de <b><?= $total_registros ?></b> usuarios</div>
+                        <div class="hint-text">Mostrando <b><?= $registros_mostrados ?></b> de
+                            <b><?= $total_registros ?></b> usuarios</div>
                         <ul class="pagination">
-                            <?php 
+                            <?php
                             // Botón "Anterior"
                             echo "<li class='page-item " . ($pagina_actual == 1 ? 'disabled' : '') . "' style='" . ($pagina_actual == 1 ? 'display: none;' : '') . "'><a href='vistaUsuario.php?pagina=" . ($pagina_actual - 1) . "' class='page-link'>Anterior</a></li>";
 
                             // Números de página
-                            for ($i=1; $i <= $total_paginas; $i++) { 
-                                if($pagina_actual == $i){
+                            for ($i = 1; $i <= $total_paginas; $i++) {
+                                if ($pagina_actual == $i) {
                                     echo "<li class='page-item active'><a href='vistaUsuario.php?pagina=$i' class='page-link'>$i</a></li>";
-                                }else{
+                                } else {
                                     echo "<li class='page-item'><a href='vistaUsuario.php?pagina=$i' class='page-link'>$i</a></li>";
                                 }
                             }
@@ -274,30 +289,35 @@ switch ($boton) {
                     <div class="modal-body">
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">@</span>
-                            <input type="email" id="txtEmail" name="txtEmail" value="" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1" required>
+                            <input type="email" id="txtEmail" name="txtEmail" value="" class="form-control"
+                                placeholder="Email" aria-label="Email" aria-describedby="basic-addon1" required>
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">**</span>
-                            <input type="password" id="txtContrasena" name="txtContrasena" class="form-control" placeholder="Contraseña" aria-label="Contrasena" aria-describedby="basic-addon1" required>
+                            <input type="password" id="txtContrasena" name="txtContrasena" class="form-control"
+                                placeholder="Contraseña" aria-label="Contrasena" aria-describedby="basic-addon1"
+                                required>
                         </div>
                         <h5>Selecciona el rol:</h5>
                         <div class="container mt-3">
-                            <?php for($i = 0; $i < count($arregloRoles); $i++){ 
+                            <?php for ($i = 0; $i < count($arregloRoles); $i++) {
                                 $id = $arregloRoles[$i]->__get('id');
-                                $nombre = $arregloRoles[$i]->__get('nombre');?>
+                                $nombre = $arregloRoles[$i]->__get('nombre'); ?>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="roles_modal[<?= $id ?>]" value="<?= $id ?>" id="opcion<?= $id ?>_modal1">
+                                    <input class="form-check-input" type="checkbox" name="roles_modal[<?= $id ?>]"
+                                        value="<?= $id ?>" id="opcion<?= $id ?>_modal1">
                                     <label class="form-check-label" for="opcion<?= $id ?>_modal">
                                         <?= $nombre ?>
                                     </label>
                                 </div>
-                            <?php }?>
+                            <?php } ?>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <input type="hidden" name="action" value="guardar">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary" formmethod="post" name="bt" value="Guardar">Guardar</button>
+                        <button type="submit" class="btn btn-primary" formmethod="post" name="bt"
+                            value="Guardar">Guardar</button>
                     </div>
                 </form>
             </div>
@@ -310,36 +330,42 @@ switch ($boton) {
                 <form method="post" action="VistaUsuario.php" enctype="multipart/form-data">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Modificar Usuario</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                    <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon1">@</span>
-                                <input type="email" id="txtEmail" name='txtEmail' value="" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1" id="email" readonly>
-                            </div>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon1">**</span>
-                                <input type="password" id="txtContrasena" name='txtContrasena' class="form-control" placeholder="Contraseña" aria-label="Contrasena" aria-describedby="basic-addon1" id="contrasena">
-                            </div>
-                            <h5>Selecciona el rol:</h5>
-                            <div class="container mt-3">
-                            <?php for($i = 0; $i < count($arregloRoles); $i++){ 
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">@</span>
+                            <input type="email" id="txtEmail" name='txtEmail' value="" class="form-control"
+                                placeholder="Email" aria-label="Email" aria-describedby="basic-addon1" id="email"
+                                readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">**</span>
+                            <input type="password" id="txtContrasena" name='txtContrasena' class="form-control"
+                                placeholder="Contraseña" aria-label="Contrasena" aria-describedby="basic-addon1"
+                                id="contrasena">
+                        </div>
+                        <h5>Selecciona el rol:</h5>
+                        <div class="container mt-3">
+                            <?php for ($i = 0; $i < count($arregloRoles); $i++) {
                                 $id = $arregloRoles[$i]->__get('id');
-                                $nombre = $arregloRoles[$i]->__get('nombre');?>
+                                $nombre = $arregloRoles[$i]->__get('nombre'); ?>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="roles_modal[<?= $id ?>]" value="<?= $id ?>" id="opcion<?= $id ?>_modal">
+                                    <input class="form-check-input" type="checkbox" name="roles_modal[<?= $id ?>]"
+                                        value="<?= $id ?>" id="opcion<?= $id ?>_modal">
                                     <label class="form-check-label" for="opcion<?= $id ?>_modal">
                                         <?= $nombre ?>
                                     </label>
                                 </div>
-                            <?php }?>                      
-                            </div>
+                            <?php } ?>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <input type="hidden" name="action" value="modificar">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt" value="Modificar">Guardar</button>
-                        <button type="submit" class="btn btn-danger" formmethod="post" name="bt" id="confirmDelete" value="Eliminar" hidden>Eliminar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="botonCancelar2">Cancelar</button>
+                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt"
+                            value="Modificar">Guardar</button>
+                        <button type="submit" class="btn btn-danger" formmethod="post" name="bt" id="confirmDelete"
+                            value="Eliminar" hidden>Eliminar</button>
                     </div>
                 </form>
             </div>
@@ -350,72 +376,90 @@ switch ($boton) {
         <div class="modal-dialog">
             <div class="modal-content">
                 <form id="deleteForm" method="post" action="VistaUsuario.php" enctype="multipart/form-data">
-                    <div class="modal-header">						
+                    <div class="modal-header">
                         <h4 class="modal-title">Borrar Usuario</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">					
+                    <div class="modal-body">
                         <p>Está seguro que desea eliminar este usuario?</p>
                         <p class="text-warning"><small>Ésta acción no se puede deshacer.</small></p>
                     </div>
                     <div class="modal-footer">
                         <input type="hidden" name="txtEmail" value="" id="txtEmail">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt" id="confirmDelete" value="Eliminar" >Eliminar</button>
+                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt" id="confirmDelete"
+                            value="Eliminar">Eliminar</button>
                     </div>
                 </form>
             </div>
         </div>
-    </div> 
+    </div>
 </main><!-- End #main -->
 <script>
-    window.addEventListener("DOMContentLoaded",() => {
-    const nc = new NotificationCenter();
+    window.addEventListener("DOMContentLoaded", () => {
+        const nc = new NotificationCenter();
 
-    // Crear un objeto URLSearchParams con la parte de búsqueda de la URL
-    const params = new URLSearchParams(window.location.search);
+        // Crear un objeto URLSearchParams con la parte de búsqueda de la URL
+        const params = new URLSearchParams(window.location.search);
 
-    // Verificar si el parámetro spawnNote está en la URL
-    if (params.has('spawnNote')) {
-        // Obtener el valor del parámetro spawnNote
-        const spawnNoteValue = parseInt(params.get('spawnNote'));
+        // Verificar si el parámetro spawnNote está en la URL
+        if (params.has('spawnNote')) {
+            // Obtener el valor del parámetro spawnNote
+            const spawnNoteValue = parseInt(params.get('spawnNote'));
 
-        // Llamar al método spawnNote con el valor obtenido
-        nc.spawnNote(spawnNoteValue);
-    }
-    if (params.has('email') && params.has('contrasena') && params.has('roles')) {
-        const rolescodi = params.get('roles');
-        const rolesdecodi = decodeURIComponent(rolescodi);
-        // Obtener los valores de los parámetros
-        const email = params.get('email');
-        const pass = params.get('contrasena');
-        const roles = JSON.parse(rolesdecodi);
-        
+            // Llamar al método spawnNote con el valor obtenido
+            nc.spawnNote(spawnNoteValue);
+        }
+        if (params.has('email') && params.has('contrasena') && params.has('roles')) {
+            const rolescodi = params.get('roles');
+            const rolesdecodi = decodeURIComponent(rolescodi);
+            // Obtener los valores de los parámetros
+            const email = params.get('email');
+            const pass = params.get('contrasena');
+            const roles = JSON.parse(rolesdecodi);
 
+
+            // Abrir el modal editUser
+            const editUserModal = new bootstrap.Modal(document.getElementById('editUser'));
+            // Hacer visible el botón confirmDelete
+            document.getElementById('confirmDelete').removeAttribute('hidden');
+            editUserModal.show();
+
+            // Cargar datos en el modal
+            cargarDatos(email, pass, roles);
+        }
+    });
+
+    const openEditModalButtons = document.getElementsByClassName('botonModificar');
+
+for (let i = 0; i < openEditModalButtons.length; i++) {
+    openEditModalButtons[i].addEventListener('click', function() {
+        const email = this.getAttribute('data-bs-email');
+        const pass = this.getAttribute('data-bs-pass');
+        const roles = this.getAttribute('data-bs-roles').split(',').map(Number); // Convertir a array de números
         // Abrir el modal editUser
         const editUserModal = new bootstrap.Modal(document.getElementById('editUser'));
         // Hacer visible el botón confirmDelete
-        document.getElementById('confirmDelete').removeAttribute('hidden');
+        document.getElementById('confirmDelete').setAttribute('hidden', 'true');
         editUserModal.show();
 
         // Cargar datos en el modal
         cargarDatos(email, pass, roles);
-    }
     });
+}
 
-    // Listener para el botón "Modificar"
-    const editUser = document.getElementById('editUser');
-    if (editUser) {
-        editUser.addEventListener('show.bs.modal', event => {
-            const button = event.relatedTarget;
-            const email = button.getAttribute('data-bs-email');
-            const pass = button.getAttribute('data-bs-pass');
-            const roles = button.getAttribute('data-bs-roles').split(',').map(Number); // Convertir a array de números
+    const CancelarEditButton = document.getElementById('botonCancelar2');
 
-            console.log(roles);
+    if (CancelarEditButton) {
+        CancelarEditButton.addEventListener('click', () => {
+            const editUserModal = new bootstrap.Modal(document.getElementById('editUser'));
+            editUserModal.hide();
 
-            // Cargar datos en el modal
-            cargarDatos(email, pass, roles);
+            // Eliminar la clase .modal-backdrop
+            const modalBackdrop = document.querySelector('.modal-backdrop');
+            if (modalBackdrop) {
+                modalBackdrop.remove();
+            }
         });
     }
 
@@ -443,7 +487,7 @@ switch ($boton) {
         });
 
         // Validar checkboxes
-        validarCheckboxes();
+        validarCheckboxesAdd();
     }
     // const editUser = document.getElementById('editUser')
     // if (editUser) {
@@ -456,7 +500,7 @@ switch ($boton) {
     //         const emailInput = editUser.querySelector('#txtEmail')
     //         const passInput = editUser.querySelector('#txtContrasena')
     //         const checkboxesContainer = editUser.querySelector('#checkboxes-container')
-            
+
     //         modalTitle.textContent = `Modificar usuario ${email}`
     //         emailInput.value = email
     //         passInput.value = pass;
@@ -497,7 +541,7 @@ switch ($boton) {
     //         });
 
     //         validarCheckboxesEdit(); // Para validar en el inicio, cuando el modal se abre por primera vez
-        
+
     //     })
     // }
 
@@ -514,7 +558,7 @@ switch ($boton) {
             // Update the modal's content.
             const modalTitle = deleteUser.querySelector('.modal-title')
             const emailInput = deleteUser.querySelector('#txtEmail')
-            
+
             modalTitle.textContent = `Eliminar usuario ${email}`
             emailInput.value = email
         })
@@ -548,9 +592,9 @@ switch ($boton) {
 
     // Función para ajustar el height del hero
     function ajustarAlturaHero() {
-    var hero = document.getElementById('hero');
-    var contenidoAltura = hero.scrollHeight; // Altura total del contenido del hero
-    hero.style.height = contenidoAltura + 'px'; // Establecer la altura del hero
+        var hero = document.getElementById('hero');
+        var contenidoAltura = hero.scrollHeight; // Altura total del contenido del hero
+        hero.style.height = contenidoAltura + 'px'; // Establecer la altura del hero
     }
 
     // Llamar a la función cuando se cargue la página y también cuando cambie el tamaño de la ventana
@@ -562,5 +606,5 @@ switch ($boton) {
 
 <?php include 'footer.html'; ?>
 <?php
-  ob_end_flush();
+ob_end_flush();
 ?>
