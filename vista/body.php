@@ -22,6 +22,7 @@
                         echo '</li>';
                         echo '<li class="dropdown"><a href="#"><span>Indicadores</span> <i class="bi bi-chevron-down"></i></a>';
                         echo '<ul>';
+                        echo '<li><a href="vistaActor.php">Actor</a></li>';
                         echo '<li><a href="vistaFrecuencia.php">Frecuencia</a></li>';
                         echo '<li><a href="vistaFuente.php">Fuente</a></li>';
                         echo '<li><a href="vistaRepresenVisual.php">Represen Visual</a></li>';
@@ -30,6 +31,7 @@
                         echo '<li><a href="vistaTipoActor.php">Tipo Actor</a></li>';
                         echo '<li><a href="vistaTipoIndicador.php">Tipo Indicador</a></li>';
                         echo '<li><a href="vistaUnidadMedicion.php">Unidad Medición</a></li>';
+                        echo '<li><a href="vistaVariable.php">Variable</a></li>';
                         echo '</ul>';
                         echo '</li>';
                     }
