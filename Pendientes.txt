@@ -1,7 +1,1 @@
-Agregar consultar en las vistas.
-
-
-
-
-Agregar notificaciones de guardado, modificacion o eliminacion. https://codepen.io/juliepark/pen/vjMOKQ
-Poner un mensaje que indique si no se puede eliminar porque es una fk de otra tabla
+CRUD Tabla Indicadores
