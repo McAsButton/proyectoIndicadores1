@@ -1,26 +1,29 @@
 <?php
 
-class ControlEntidad {
+class ControlEntidad
+{
     private $tabla;  // El nombre de la tabla con la que trabajará la instancia.
 
     // Constructor que recibe el nombre de la tabla.
-    function __construct($nombreTabla) {
+    function __construct($nombreTabla)
+    {
         $this->tabla = $nombreTabla;
     }
 
-    public function guardar(Entidad $entidad) {
+    public function guardar(Entidad $entidad)
+    {
         $controlConexion = new ControlConexionPdo();
-        $controlConexion->abrirBd($GLOBALS['serv'], $GLOBALS['usua'], $GLOBALS['pass'], $GLOBALS['bdat'], $GLOBALS['port']); 
+        $controlConexion->abrirBd($GLOBALS['serv'], $GLOBALS['usua'], $GLOBALS['pass'], $GLOBALS['bdat'], $GLOBALS['port']);
         try {
             $propiedades = $entidad->obtenerPropiedades();
             $campos = array_keys($propiedades);
             $valores = array_values($propiedades);
-    
+
             // Crear placeholders para la sentencia preparada
             $placeholders = implode(", ", array_fill(0, count($campos), '?'));
-    
+
             $sql = "INSERT INTO {$this->tabla} (" . implode(", ", $campos) . ") VALUES ({$placeholders})";
-    
+
             // Ejecutar la consulta con la sentencia preparada
             $controlConexion->ejecutarComandoSql($sql, $valores);
         } catch (PDOException $e) {
@@ -31,14 +34,15 @@ class ControlEntidad {
             $controlConexion->cerrarBd();
         }
     }
-    
-    public function modificar($clavePrimaria, $valor, Entidad $entidad) {
+
+    public function modificar($clavePrimaria, $valor, Entidad $entidad)
+    {
         $controlConexion = new ControlConexionPdo();
-        $controlConexion->abrirBd($GLOBALS['serv'], $GLOBALS['usua'], $GLOBALS['pass'], $GLOBALS['bdat'], $GLOBALS['port']); 
+        $controlConexion->abrirBd($GLOBALS['serv'], $GLOBALS['usua'], $GLOBALS['pass'], $GLOBALS['bdat'], $GLOBALS['port']);
         try {
             // Obtener las propiedades a través del método correcto
             $propiedades = $entidad->obtenerPropiedades();
-            
+
             $actualizaciones = [];
             $valores = [];
             foreach ($propiedades as $campo => $valorCampo) {
@@ -60,56 +64,59 @@ class ControlEntidad {
         }
     }
 
-public function borrar($clavePrimaria, $valor) {
-    $controlConexion = new ControlConexionPdo();
-    $controlConexion->abrirBd($GLOBALS['serv'], $GLOBALS['usua'], $GLOBALS['pass'], $GLOBALS['bdat'], $GLOBALS['port']); 
-
-    try {
-        $sql = "DELETE FROM {$this->tabla} WHERE {$clavePrimaria} = ?";
-        $controlConexion->ejecutarComandoSql($sql, [$valor]);
-    } catch (PDOException $e) {
-        echo "Error al eliminar en {$this->tabla}: " . $e->getMessage();
-    } finally {
-        $controlConexion->cerrarBd();
-    }
-}
-
-// Método para buscar una entidad por su clave primaria.
-public function buscarPorId($clavePrimaria, $valor) {
-    $controlConexion = new ControlConexionPdo();
-    $controlConexion->abrirBd($GLOBALS['serv'], $GLOBALS['usua'], $GLOBALS['pass'], $GLOBALS['bdat'], $GLOBALS['port']); 
-
-    try {
-        $sql = "SELECT * FROM {$this->tabla} WHERE {$clavePrimaria} = ?";
-        $resultado = $controlConexion->ejecutarSelect($sql, [$valor]);
-
-        if ($resultado) {
-            return new Entidad($resultado[0]); // Devuelve un objeto Entidad si hay resultados.
-        } else {
-            return null; // Devuelve null si no hay resultados.
-        }
-    } catch (PDOException $e) {
-        echo "Error al buscar en {$this->tabla}: " . $e->getMessage();
-        return null; // Devuelve null en caso de error.
-    } finally {
-        $controlConexion->cerrarBd();
-    }
-}
-
-    public function listar() {
+    public function borrar($clavePrimaria, $valor)
+    {
         $controlConexion = new ControlConexionPdo();
-        $controlConexion->abrirBd($GLOBALS['serv'], $GLOBALS['usua'], $GLOBALS['pass'], $GLOBALS['bdat'], $GLOBALS['port']); 
-    
+        $controlConexion->abrirBd($GLOBALS['serv'], $GLOBALS['usua'], $GLOBALS['pass'], $GLOBALS['bdat'], $GLOBALS['port']);
+
+        try {
+            $sql = "DELETE FROM {$this->tabla} WHERE {$clavePrimaria} = ?";
+            $controlConexion->ejecutarComandoSql($sql, [$valor]);
+        } catch (PDOException $e) {
+            echo "Error al eliminar en {$this->tabla}: " . $e->getMessage();
+        } finally {
+            $controlConexion->cerrarBd();
+        }
+    }
+
+    // Método para buscar una entidad por su clave primaria.
+    public function buscarPorId($clavePrimaria, $valor)
+    {
+        $controlConexion = new ControlConexionPdo();
+        $controlConexion->abrirBd($GLOBALS['serv'], $GLOBALS['usua'], $GLOBALS['pass'], $GLOBALS['bdat'], $GLOBALS['port']);
+
+        try {
+            $sql = "SELECT * FROM {$this->tabla} WHERE {$clavePrimaria} = ?";
+            $resultado = $controlConexion->ejecutarSelect($sql, [$valor]);
+
+            if ($resultado) {
+                return new Entidad($resultado[0]); // Devuelve un objeto Entidad si hay resultados.
+            } else {
+                return null; // Devuelve null si no hay resultados.
+            }
+        } catch (PDOException $e) {
+            echo "Error al buscar en {$this->tabla}: " . $e->getMessage();
+            return null; // Devuelve null en caso de error.
+        } finally {
+            $controlConexion->cerrarBd();
+        }
+    }
+
+    public function listar()
+    {
+        $controlConexion = new ControlConexionPdo();
+        $controlConexion->abrirBd($GLOBALS['serv'], $GLOBALS['usua'], $GLOBALS['pass'], $GLOBALS['bdat'], $GLOBALS['port']);
+
         try {
             $sql = "SELECT * FROM {$this->tabla}";
             $resultado = $controlConexion->ejecutarSelect($sql);
-    
-            $entidades = []; 
+
+            $entidades = [];
             foreach ($resultado as $fila) {
-                $entidad = new Entidad($fila); 
+                $entidad = new Entidad($fila);
                 $entidades[] = $entidad;
             }
-    
+
             return $entidades;
         } catch (PDOException $e) {
             echo "Error al obtener datos de {$this->tabla}: " . $e->getMessage();
@@ -118,7 +125,8 @@ public function buscarPorId($clavePrimaria, $valor) {
             $controlConexion->cerrarBd();
         }
     }
-    public function consultar($sql, $parametros = []) {
+    public function consultar($sql, $parametros = [])
+    {
         /*
             Atención
             Este método se puede usar así:
@@ -147,7 +155,7 @@ public function buscarPorId($clavePrimaria, $valor) {
             // instancia de ControlConexionPdo
             $controlConexion = new ControlConexionPdo();
             //  credenciales en ControlConexionPdo
-            $controlConexion->abrirBd($GLOBALS['serv'], $GLOBALS['usua'], $GLOBALS['pass'], $GLOBALS['bdat'], $GLOBALS['port']); 
+            $controlConexion->abrirBd($GLOBALS['serv'], $GLOBALS['usua'], $GLOBALS['pass'], $GLOBALS['bdat'], $GLOBALS['port']);
             // Ejecuta la consulta SQL con los parámetros proporcionados
             $resultados = $controlConexion->ejecutarSelect($sql, $parametros);
             // Cierra la conexión a la base de datos
@@ -163,7 +171,7 @@ public function buscarPorId($clavePrimaria, $valor) {
             echo "Error al consultar: " . $e->getMessage();
             return [];
         }
-    }  
+    }
 
 }
 ?>

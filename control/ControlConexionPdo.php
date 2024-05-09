@@ -1,15 +1,18 @@
 <?php
-class ControlConexionPdo {
+class ControlConexionPdo
+{
     // Propiedad para almacenar la conexión a la base de datos.
     private $conn;
-    
+
     // En el constructor, inicializamos la conexión como null.
-    function __construct() {
+    function __construct()
+    {
         $this->conn = null;
     }
 
     // Método para abrir una conexión a la base de datos utilizando PDO.
-    function abrirBd($servidor, $usuario, $password, $db, $port) {
+    function abrirBd($servidor, $usuario, $password, $db, $port)
+    {
         try {
             // Construyendo el Data Source Name (DSN) para PDO, especificando el tipo de BD (mysql),
             // el host, el nombre de la base de datos, y el puerto.
@@ -27,37 +30,40 @@ class ControlConexionPdo {
     }
 
     // Método para cerrar la conexión a la base de datos.
-    function cerrarBd() {
+    function cerrarBd()
+    {
         // Anulando la propiedad de conexión, que cierra la conexión a la base de datos.
         $this->conn = null;
     }
 
-// Método para ejecutar comandos SQL que no sean consultas (por ejemplo, INSERT, UPDATE, DELETE).
-function ejecutarComandoSql($sql, $parametros = []) {
-    try {
-        // Prepara la instrucción SQL con los placeholders.
-        $stmt = $this->conn->prepare($sql);
+    // Método para ejecutar comandos SQL que no sean consultas (por ejemplo, INSERT, UPDATE, DELETE).
+    function ejecutarComandoSql($sql, $parametros = [])
+    {
+        try {
+            // Prepara la instrucción SQL con los placeholders.
+            $stmt = $this->conn->prepare($sql);
 
-        // Ejecuta la instrucción SQL con los parámetros proporcionados.
-        $resultado = $stmt->execute($parametros);
+            // Ejecuta la instrucción SQL con los parámetros proporcionados.
+            $resultado = $stmt->execute($parametros);
 
-        // Verifica si la ejecución tuvo éxito y retorna verdadero (true).
-        if ($resultado !== false) {
-            return true;
-        } else {
-            // Lanza una excepción si hubo un problema en la ejecución.
-            throw new Exception("Error en la ejecución del comando SQL.");
+            // Verifica si la ejecución tuvo éxito y retorna verdadero (true).
+            if ($resultado !== false) {
+                return true;
+            } else {
+                // Lanza una excepción si hubo un problema en la ejecución.
+                throw new Exception("Error en la ejecución del comando SQL.");
+            }
+        } catch (PDOException $e) {
+            // Captura y muestra cualquier error que pueda ocurrir durante la ejecución del comando SQL.
+            echo "Error al ejecutar el comando SQL: " . $e->getMessage() . "\n";
+            // Retorna falso (false) en caso de error.
+            return false;
         }
-    } catch (PDOException $e) {
-        // Captura y muestra cualquier error que pueda ocurrir durante la ejecución del comando SQL.
-        echo "Error al ejecutar el comando SQL: " . $e->getMessage() . "\n";
-        // Retorna falso (false) en caso de error.
-        return false;
     }
-}
 
     // Método para ejecutar comandos SQL que son consultas (por ejemplo, SELECT).
-    function ejecutarSelect($sql, $params = []) {
+    function ejecutarSelect($sql, $params = [])
+    {
         try {
             // Preparando la consulta SQL.
             $stmt = $this->conn->prepare($sql);

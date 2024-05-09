@@ -251,7 +251,8 @@ switch ($boton) {
                     <!-- Mostrar enlaces de paginación -->
                     <div class="clearfix">
                         <div class="hint-text">Mostrando <b><?= $registros_mostrados ?></b> de
-                            <b><?= $total_registros ?></b> usuarios</div>
+                            <b><?= $total_registros ?></b> usuarios
+                        </div>
                         <ul class="pagination">
                             <?php
                             // Botón "Anterior"
@@ -361,7 +362,8 @@ switch ($boton) {
                     </div>
                     <div class="modal-footer">
                         <input type="hidden" name="action" value="modificar">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="botonCancelar2">Cancelar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            id="botonCancelar2">Cancelar</button>
                         <button type="submit" class="btn btn-warning" formmethod="post" name="bt"
                             value="Modificar">Guardar</button>
                         <button type="submit" class="btn btn-danger" formmethod="post" name="bt" id="confirmDelete"
@@ -432,21 +434,21 @@ switch ($boton) {
 
     const openEditModalButtons = document.getElementsByClassName('botonModificar');
 
-for (let i = 0; i < openEditModalButtons.length; i++) {
-    openEditModalButtons[i].addEventListener('click', function() {
-        const email = this.getAttribute('data-bs-email');
-        const pass = this.getAttribute('data-bs-pass');
-        const roles = this.getAttribute('data-bs-roles').split(',').map(Number); // Convertir a array de números
-        // Abrir el modal editUser
-        const editUserModal = new bootstrap.Modal(document.getElementById('editUser'));
-        // Hacer visible el botón confirmDelete
-        document.getElementById('confirmDelete').setAttribute('hidden', 'true');
-        editUserModal.show();
+    for (let i = 0; i < openEditModalButtons.length; i++) {
+        openEditModalButtons[i].addEventListener('click', function () {
+            const email = this.getAttribute('data-bs-email');
+            const pass = this.getAttribute('data-bs-pass');
+            const roles = this.getAttribute('data-bs-roles').split(',').map(Number); // Convertir a array de números
+            // Abrir el modal editUser
+            const editUserModal = new bootstrap.Modal(document.getElementById('editUser'));
+            // Hacer visible el botón confirmDelete
+            document.getElementById('confirmDelete').setAttribute('hidden', 'true');
+            editUserModal.show();
 
-        // Cargar datos en el modal
-        cargarDatos(email, pass, roles);
-    });
-}
+            // Cargar datos en el modal
+            cargarDatos(email, pass, roles);
+        });
+    }
 
     const CancelarEditButton = document.getElementById('botonCancelar2');
 

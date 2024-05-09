@@ -1,9 +1,11 @@
 <?php
-class ControlEntidad {
+class ControlEntidad
+{
     // ... [El código previo  se mantiene igual]
 
     // Método para actualizar una entidad existente considerando una clave compuesta.
-    public function actualizar($clavesPrimarias, Entidad $entidad) {
+    public function actualizar($clavesPrimarias, Entidad $entidad)
+    {
         try {
             $campos = [];
             $valores = [];
@@ -36,7 +38,8 @@ class ControlEntidad {
     }
 
     // Método para eliminar una entidad por su clave primaria compuesta.
-    public function eliminar($clavesPrimarias) {
+    public function eliminar($clavesPrimarias)
+    {
         try {
             $condiciones = [];
             $valores = [];
@@ -59,7 +62,8 @@ class ControlEntidad {
     }
 
     // Método para buscar una entidad por su clave primaria compuesta.
-    public function buscarPorClavesPrimarias($clavesPrimarias) {
+    public function buscarPorClavesPrimarias($clavesPrimarias)
+    {
         try {
             $condiciones = [];
             $valores = [];

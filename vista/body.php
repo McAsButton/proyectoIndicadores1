@@ -7,11 +7,16 @@
             <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li><a class="nav-link scrollto" href="index.php#about">Acerca de</a></li> <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
-                    <li><a class="nav-link scrollto" href="index.php#services">Servicios</a></li> <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
-                    <li><a class="nav-link scrollto " href="index.php#portfolio">Portafolio</a></li> <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
-                    <li><a class="nav-link scrollto" href="index.php#team">Equipo</a></li> <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
-                    <li><a class="nav-link scrollto" href="index.php#contact">Contacto</a></li> <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
+                    <li><a class="nav-link scrollto" href="index.php#about">Acerca de</a></li>
+                    <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
+                    <li><a class="nav-link scrollto" href="index.php#services">Servicios</a></li>
+                    <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
+                    <li><a class="nav-link scrollto " href="index.php#portfolio">Portafolio</a></li>
+                    <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
+                    <li><a class="nav-link scrollto" href="index.php#team">Equipo</a></li>
+                    <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
+                    <li><a class="nav-link scrollto" href="index.php#contact">Contacto</a></li>
+                    <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
                     <?php
                     if (isset($_SESSION['email'])) {
                         echo '<li class="dropdown"><a href="#"><span>Usuario</span> <i class="bi bi-chevron-down"></i></a>';
@@ -25,6 +30,7 @@
                         echo '<li><a href="vistaActor.php">Actor</a></li>';
                         echo '<li><a href="vistaFrecuencia.php">Frecuencia</a></li>';
                         echo '<li><a href="vistaFuente.php">Fuente</a></li>';
+                        echo '<li><a href="vistaIndicador.php">Indicador</a></li>';
                         echo '<li><a href="vistaRepresenVisual.php">Represen Visual</a></li>';
                         echo '<li><a href="vistaResultadoIndicador.php">Resultado Indicador</a></li>';
                         echo '<li><a href="vistaSentido.php">Sentido</a></li>';
@@ -37,16 +43,14 @@
                     }
                     ?>
                     <li>
-                    <?php
-                    if (isset($_SESSION['email'])) {
-                        echo '<a class="nav-link scrollto" href="cerrarSesion.php">Cerrar Sesión</a>';
-                    }
-                    else
-                    {
-                        echo '<a class="nav-link scrollto" data-bs-toggle="modal" data-bs-target="#ModalLogin" role="button">Login</a>';
-                    }
-                    ?> 
-                    </li>  
+                        <?php
+                        if (isset($_SESSION['email'])) {
+                            echo '<a class="nav-link scrollto" href="cerrarSesion.php">Cerrar Sesión</a>';
+                        } else {
+                            echo '<a class="nav-link scrollto" data-bs-toggle="modal" data-bs-target="#ModalLogin" role="button">Login</a>';
+                        }
+                        ?>
+                    </li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->

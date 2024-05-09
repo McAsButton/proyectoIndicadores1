@@ -1,16 +1,20 @@
 <?php
-class Entidad {
+class Entidad
+{
     private $propiedades = [];
 
-    function __construct($params = []) {
+    function __construct($params = [])
+    {
         $this->propiedades = $params;
     }
 
-    public function __set($nombre, $valor) {
+    public function __set($nombre, $valor)
+    {
         $this->propiedades[$nombre] = $valor;
     }
 
-    public function __get($nombre) {
+    public function __get($nombre)
+    {
         if (array_key_exists($nombre, $this->propiedades)) {
             return $this->propiedades[$nombre];
         }
@@ -19,7 +23,8 @@ class Entidad {
     }
 
     // Método para obtener todas las propiedades
-    public function obtenerPropiedades() {
+    public function obtenerPropiedades()
+    {
         return $this->propiedades;
     }
 }

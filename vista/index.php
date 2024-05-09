@@ -1,5 +1,5 @@
 <?php
-  ob_start();
+ob_start();
 ?>
 <?php
 include_once '../control/configBd.php';
@@ -7,32 +7,35 @@ include_once '../control/ControlEntidad.php';
 include_once '../control/ControlConexionPdo.php';
 include_once '../modelo/Entidad.php';
 session_start();
-$loginEmail="";
-$loginContrasena="";
-$loginBoton="";
-if(isset($_POST['txtLoginEmail']))$loginEmail=$_POST['txtLoginEmail'];
-if(isset($_POST['txtLoginContrasena']))$loginContrasena=$_POST['txtLoginContrasena'];
-if(isset($_POST['btnLogin']))$loginBoton=$_POST['btnLogin'];
-if($loginBoton=="Login"){
-  $validar=false;
-  $sql="SELECT * FROM usuario WHERE email=? AND contrasena=?";
-  $objControlEntidad=new ControlEntidad('usuario');
-  $objUsuario=$objControlEntidad->consultar($sql,[$loginEmail,$loginContrasena]);
-  if($objUsuario){
-    $_SESSION['email']=$loginEmail;
+$loginEmail = "";
+$loginContrasena = "";
+$loginBoton = "";
+if (isset($_POST['txtLoginEmail']))
+  $loginEmail = $_POST['txtLoginEmail'];
+if (isset($_POST['txtLoginContrasena']))
+  $loginContrasena = $_POST['txtLoginContrasena'];
+if (isset($_POST['btnLogin']))
+  $loginBoton = $_POST['btnLogin'];
+if ($loginBoton == "Login") {
+  $validar = false;
+  $sql = "SELECT * FROM usuario WHERE email=? AND contrasena=?";
+  $objControlEntidad = new ControlEntidad('usuario');
+  $objUsuario = $objControlEntidad->consultar($sql, [$loginEmail, $loginContrasena]);
+  if ($objUsuario) {
+    $_SESSION['email'] = $loginEmail;
     //$datosUsuario = ['email' => $email, 'contrasena' => $contrasena];
-		//$objUsuario = new Entidad($datosUsuario);
+    //$objUsuario = new Entidad($datosUsuario);
     $objControlRolUsuario = new ControlEntidad('rol_usuario');
     $sql = "SELECT rol.id as id, rol.nombre as nombre
         FROM rol_usuario INNER JOIN rol ON rol_usuario.fkidrol = rol.id
         WHERE fkemail = ?";
     $parametros = [$loginEmail];
     $listaRolesDelUsuario = $objControlRolUsuario->consultar($sql, $parametros);
-    $_SESSION['listaRolesDelUsuario']=$listaRolesDelUsuario;
+    $_SESSION['listaRolesDelUsuario'] = $listaRolesDelUsuario;
     var_dump($listaRolesDelUsuario);
     header('Location: index.php');
-  }
-  else header('Location: index.php');
+  } else
+    header('Location: index.php');
 }
 ?>
 
@@ -43,10 +46,11 @@ if($loginBoton=="Login"){
 <!-- ======= Hero Section ======= -->
 <section id="hero">
   <div class="hero-container" data-aos="fade-up" data-aos-delay="150">
-    <h1>Innovar. Desarrollar. Optimizar</h1>    
+    <h1>Innovar. Desarrollar. Optimizar</h1>
     <h2>Somos un equipo de diseñadores talentosos haciendo sitios web con Bootstrap</h2>
     <div class="d-flex">
-      <a href="#about" class="btn-get-started scrollto">Comenzar</a> <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
+      <a href="#about" class="btn-get-started scrollto">Comenzar</a>
+      <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
     </div>
   </div>
 </section><!-- End Hero -->
@@ -64,7 +68,9 @@ if($loginBoton=="Login"){
             <div class="col-lg-3 col-md-5 col-6 d-md-flex align-items-md-stretch">
               <div class="count-box">
                 <i class="bi bi-emoji-smile"></i>
-                <span data-purecounter-start="0" data-purecounter-end="125" data-purecounter-duration="1" class="purecounter"></span> <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
+                <span data-purecounter-start="0" data-purecounter-end="125" data-purecounter-duration="1"
+                  class="purecounter"></span>
+                <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
                 <p>Clientes Felices</p>
               </div>
             </div>
@@ -72,7 +78,9 @@ if($loginBoton=="Login"){
             <div class="col-lg-3 col-md-5 col-6 d-md-flex align-items-md-stretch">
               <div class="count-box">
                 <i class="bi bi-journal-richtext"></i>
-                <span data-purecounter-start="0" data-purecounter-end="85" data-purecounter-duration="1" class="purecounter"></span> <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
+                <span data-purecounter-start="0" data-purecounter-end="85" data-purecounter-duration="1"
+                  class="purecounter"></span>
+                <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
                 <p>Proyectos</p>
               </div>
             </div>
@@ -80,7 +88,9 @@ if($loginBoton=="Login"){
             <div class="col-lg-3 col-md-5 col-6 d-md-flex align-items-md-stretch">
               <div class="count-box">
                 <i class="bi bi-clock"></i>
-                <span data-purecounter-start="0" data-purecounter-end="35" data-purecounter-duration="1" class="purecounter"></span> <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
+                <span data-purecounter-start="0" data-purecounter-end="35" data-purecounter-duration="1"
+                  class="purecounter"></span>
+                <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
                 <p>Años de experiencia</p>
               </div>
             </div>
@@ -88,7 +98,9 @@ if($loginBoton=="Login"){
             <div class="col-lg-3 col-md-5 col-6 d-md-flex align-items-md-stretch">
               <div class="count-box">
                 <i class="bi bi-award"></i>
-                <span data-purecounter-start="0" data-purecounter-end="48" data-purecounter-duration="1" class="purecounter"></span> <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
+                <span data-purecounter-start="0" data-purecounter-end="48" data-purecounter-duration="1"
+                  class="purecounter"></span>
+                <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
                 <p>Premios</p>
               </div>
             </div>
@@ -101,13 +113,16 @@ if($loginBoton=="Login"){
 
         <div class="col-lg-6 video-box align-self-baseline" data-aos="zoom-in" data-aos-delay="100">
           <img src="assets/img/about.jpg" class="img-fluid" alt="">
-          <a href="https://youtu.be/ZHv4MBWj5wM" class="glightbox play-btn mb-4"></a> <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
+          <a href="https://youtu.be/ZHv4MBWj5wM" class="glightbox play-btn mb-4"></a>
+          <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
         </div>
 
         <div class="col-lg-6 pt-3 pt-lg-0 content">
           <h3>Nuestra Historia</h3>
           <p class="fst-italic">
-            Desde nuestra fundación, en 2012, en Medellin, hemos estado comprometidos con la excelencia en el desarrollo de software. En devCrypt, nos esforzamos por ofrecer soluciones innovadoras y de alta calidad que impulsen el crecimiento y el éxito de nuestros clientes.
+            Desde nuestra fundación, en 2012, en Medellin, hemos estado comprometidos con la excelencia en el desarrollo
+            de software. En devCrypt, nos esforzamos por ofrecer soluciones innovadoras y de alta calidad que impulsen
+            el crecimiento y el éxito de nuestros clientes.
           </p>
           <ul>
             <li><i class="bx bx-check-double"></i> Innovación constante en cada proyecto.</li>
@@ -116,7 +131,9 @@ if($loginBoton=="Login"){
             <li><i class="bx bx-check-double"></i> Pasión por la tecnología y el desarrollo de software.</li>
           </ul>
           <p>
-            Con un equipo de expertos apasionados por la tecnología, estamos aquí para ayudarte a alcanzar tus objetivos y superar tus expectativas en cada proyecto. En devCrypt, creemos que cada desafío es una oportunidad para crecer y aprender, y estamos emocionados de embarcarnos en este viaje contigo.
+            Con un equipo de expertos apasionados por la tecnología, estamos aquí para ayudarte a alcanzar tus objetivos
+            y superar tus expectativas en cada proyecto. En devCrypt, creemos que cada desafío es una oportunidad para
+            crecer y aprender, y estamos emocionados de embarcarnos en este viaje contigo.
           </p>
         </div>
 
@@ -138,7 +155,9 @@ if($loginBoton=="Login"){
             </div>
             <div class="card-body">
               <h5 class="card-title"><a href="">Nuestra Misión</a></h5>
-              <p class="card-text">Ofrecer soluciones de software innovadoras y de alta calidad que impulsen el éxito de nuestros clientes. Trabajaremos en colaboración con ellos, comprendiendo sus necesidades y superando sus expectativas en cada proyecto.</p>
+              <p class="card-text">Ofrecer soluciones de software innovadoras y de alta calidad que impulsen el éxito de
+                nuestros clientes. Trabajaremos en colaboración con ellos, comprendiendo sus necesidades y superando sus
+                expectativas en cada proyecto.</p>
             </div>
           </div>
         </div>
@@ -150,7 +169,10 @@ if($loginBoton=="Login"){
             </div>
             <div class="card-body">
               <h5 class="card-title"><a href="">Nuestro Plan</a></h5>
-              <p class="card-text">Nos comprometemos a ofrecer soluciones innovadoras y de alta calidad, trabajando estrechamente con nuestros clientes para entender y satisfacer sus necesidades. Buscamos un crecimiento constante y sostenible como líderes en el desarrollo de software, atrayendo y desarrollando talento excepcional.</p>
+              <p class="card-text">Nos comprometemos a ofrecer soluciones innovadoras y de alta calidad, trabajando
+                estrechamente con nuestros clientes para entender y satisfacer sus necesidades. Buscamos un crecimiento
+                constante y sostenible como líderes en el desarrollo de software, atrayendo y desarrollando talento
+                excepcional.</p>
             </div>
           </div>
         </div>
@@ -162,7 +184,10 @@ if($loginBoton=="Login"){
             </div>
             <div class="card-body">
               <h5 class="card-title"><a href="">Nuestra Visión</a></h5>
-              <p class="card-text">Nos vemos como líderes en el desarrollo de software, reconocidos por nuestra excelencia en la innovación tecnológica y el compromiso con la calidad. Buscamos ser el socio preferido de empresas que buscan soluciones digitales de vanguardia para potenciar su crecimiento y éxito en un mundo cada vez más digitalizado.</p>
+              <p class="card-text">Nos vemos como líderes en el desarrollo de software, reconocidos por nuestra
+                excelencia en la innovación tecnológica y el compromiso con la calidad. Buscamos ser el socio preferido
+                de empresas que buscan soluciones digitales de vanguardia para potenciar su crecimiento y éxito en un
+                mundo cada vez más digitalizado.</p>
             </div>
           </div>
         </div>
@@ -243,13 +268,17 @@ if($loginBoton=="Login"){
             <div class="col-lg-6 order-2 order-lg-1 mt-3 mt-lg-0">
               <h3>Soluciones personalizadas adaptadas a las necesidades específicas de tu negocio.</h3>
               <p class="fst-italic">
-                Nuestro equipo de expertos en desarrollo de software se especializa en crear soluciones personalizadas que se ajustan a las necesidades específicas de tu empresa. Nos comprometemos a:
+                Nuestro equipo de expertos en desarrollo de software se especializa en crear soluciones personalizadas
+                que se ajustan a las necesidades específicas de tu empresa. Nos comprometemos a:
               </p>
               <ul>
                 <li><i class="ri-check-double-line"></i> Comprender a fondo tus requerimientos y objetivos.</li>
-                <li><i class="ri-check-double-line"></i> Diseñar y desarrollar aplicaciones que se integren perfectamente con tus sistemas existentes.</li>
-                <li><i class="ri-check-double-line"></i> Probar exhaustivamente cada producto para garantizar su calidad y funcionamiento óptimo.</li>
-                <li><i class="ri-check-double-line"></i> Brindar soporte y mantenimiento continuo para asegurar la satisfacción a largo plazo.</li>
+                <li><i class="ri-check-double-line"></i> Diseñar y desarrollar aplicaciones que se integren
+                  perfectamente con tus sistemas existentes.</li>
+                <li><i class="ri-check-double-line"></i> Probar exhaustivamente cada producto para garantizar su calidad
+                  y funcionamiento óptimo.</li>
+                <li><i class="ri-check-double-line"></i> Brindar soporte y mantenimiento continuo para asegurar la
+                  satisfacción a largo plazo.</li>
               </ul>
             </div>
             <div class="col-lg-6 order-1 order-lg-2 text-center">
@@ -265,10 +294,14 @@ if($loginBoton=="Login"){
                 En devCrypt, nos tomamos la seguridad muy en serio. Nuestras soluciones incluyen:
               </p>
               <ul>
-                <li><i class="ri-check-double-line"></i> Implementación de prácticas de desarrollo seguro desde el inicio del proyecto.</li>
-                <li><i class="ri-check-double-line"></i> Uso de las últimas tecnologías y herramientas de seguridad.</li>
-                <li><i class="ri-check-double-line"></i> Auditorías regulares y pruebas de penetración para identificar y mitigar vulnerabilidades.</li>
-                <li><i class="ri-check-double-line"></i> Capacitación para tu equipo en buenas prácticas de seguridad.</li>
+                <li><i class="ri-check-double-line"></i> Implementación de prácticas de desarrollo seguro desde el
+                  inicio del proyecto.</li>
+                <li><i class="ri-check-double-line"></i> Uso de las últimas tecnologías y herramientas de seguridad.
+                </li>
+                <li><i class="ri-check-double-line"></i> Auditorías regulares y pruebas de penetración para identificar
+                  y mitigar vulnerabilidades.</li>
+                <li><i class="ri-check-double-line"></i> Capacitación para tu equipo en buenas prácticas de seguridad.
+                </li>
               </ul>
             </div>
             <div class="col-lg-6 order-1 order-lg-2 text-center">
@@ -284,10 +317,14 @@ if($loginBoton=="Login"){
                 Buscamos mejorar la eficiencia y productividad de tu empresa a través de:
               </p>
               <ul>
-                <li><i class="ri-check-double-line"></i> Análisis detallado de tus procesos actuales para identificar áreas de mejora.</li>
-                <li><i class="ri-check-double-line"></i> Desarrollo e implementación de soluciones automatizadas para tareas repetitivas.</li>
-                <li><i class="ri-check-double-line"></i> Integración de sistemas para una gestión de datos más eficaz.</li>
-                <li><i class="ri-check-double-line"></i> Monitoreo y análisis continuo para ajustar y mejorar las soluciones implementadas.</li>
+                <li><i class="ri-check-double-line"></i> Análisis detallado de tus procesos actuales para identificar
+                  áreas de mejora.</li>
+                <li><i class="ri-check-double-line"></i> Desarrollo e implementación de soluciones automatizadas para
+                  tareas repetitivas.</li>
+                <li><i class="ri-check-double-line"></i> Integración de sistemas para una gestión de datos más eficaz.
+                </li>
+                <li><i class="ri-check-double-line"></i> Monitoreo y análisis continuo para ajustar y mejorar las
+                  soluciones implementadas.</li>
               </ul>
             </div>
             <div class="col-lg-6 order-1 order-lg-2 text-center">
@@ -298,16 +335,22 @@ if($loginBoton=="Login"){
         <div class="tab-pane" id="tab-4">
           <div class="row">
             <div class="col-lg-6 order-2 order-lg-1 mt-3 mt-lg-0">
-              <h3>Asistencia técnica y actualizaciones regulares para garantizar el funcionamiento óptimo de tus aplicaciones.</h3>
+              <h3>Asistencia técnica y actualizaciones regulares para garantizar el funcionamiento óptimo de tus
+                aplicaciones.</h3>
               <p>
                 Nuestro compromiso va más allá de la implementación inicial. Ofrecemos:
               </p>
               <ul>
-                <li><i class="ri-check-double-line"></i> Asistencia técnica rápida y eficiente para resolver cualquier problema que puedas enfrentar.</li>
-                <li><i class="ri-check-double-line"></i> Actualizaciones periódicas para mantener tus aplicaciones seguras y al día.</li>
-                <li><i class="ri-check-double-line"></i> Capacitación para tu equipo en el uso y mantenimiento de las soluciones implementadas.</li>
-                <li><i class="ri-check-double-line"></i> Monitoreo continuo para identificar y solucionar problemas antes de que afecten tu operación.</li>
-                <li><i class="ri-check-double-line"></i> Evaluaciones regulares de tus sistemas para identificar oportunidades de mejora.</li>
+                <li><i class="ri-check-double-line"></i> Asistencia técnica rápida y eficiente para resolver cualquier
+                  problema que puedas enfrentar.</li>
+                <li><i class="ri-check-double-line"></i> Actualizaciones periódicas para mantener tus aplicaciones
+                  seguras y al día.</li>
+                <li><i class="ri-check-double-line"></i> Capacitación para tu equipo en el uso y mantenimiento de las
+                  soluciones implementadas.</li>
+                <li><i class="ri-check-double-line"></i> Monitoreo continuo para identificar y solucionar problemas
+                  antes de que afecten tu operación.</li>
+                <li><i class="ri-check-double-line"></i> Evaluaciones regulares de tus sistemas para identificar
+                  oportunidades de mejora.</li>
               </ul>
             </div>
             <div class="col-lg-6 order-1 order-lg-2 text-center">
@@ -355,28 +398,32 @@ if($loginBoton=="Login"){
           <div class="icon-box">
             <i class="bi bi-briefcase"></i>
             <h4><a href="#">Soporte Continuo</a></h4>
-            <p>Asistencia técnica y actualizaciones regulares para garantizar el funcionamiento óptimo de tus aplicaciones.</p>
+            <p>Asistencia técnica y actualizaciones regulares para garantizar el funcionamiento óptimo de tus
+              aplicaciones.</p>
           </div>
         </div>
         <div class="col-md-6 mt-4 mt-md-0">
           <div class="icon-box">
             <i class="bi bi-cloud-check"></i>
             <h4><a href="#">Computación en la Nube</a></h4>
-            <p>Implementación y gestión de soluciones basadas en la nube para mejorar la flexibilidad y escalabilidad de tu infraestructura tecnológica.</p>
+            <p>Implementación y gestión de soluciones basadas en la nube para mejorar la flexibilidad y escalabilidad de
+              tu infraestructura tecnológica.</p>
           </div>
         </div>
         <div class="col-md-6 mt-4 mt-md-0">
           <div class="icon-box">
             <i class="bi bi-code-slash"></i>
             <h4><a href="#">Desarrollo Web</a></h4>
-            <p>Diseño y desarrollo de sitios web y aplicaciones web a medida, utilizando las últimas tecnologías y mejores prácticas.</p>
+            <p>Diseño y desarrollo de sitios web y aplicaciones web a medida, utilizando las últimas tecnologías y
+              mejores prácticas.</p>
           </div>
         </div>
         <div class="col-md-6 mt-4 mt-md-0">
           <div class="icon-box">
             <i class="bi bi-cpu"></i>
             <h4><a href="#">Consultoría Tecnológica</a></h4>
-            <p>Asesoramiento especializado en tecnología de la información para ayudarte a tomar decisiones informadas y estratégicas para tu empresa.</p>
+            <p>Asesoramiento especializado en tecnología de la información para ayudarte a tomar decisiones informadas y
+              estratégicas para tu empresa.</p>
           </div>
         </div>
       </div>
@@ -399,7 +446,8 @@ if($loginBoton=="Login"){
               <h4>CEO</h4>
               <p>
                 <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                DevCrypt ha sido un socio invaluable para nuestro negocio. Su equipo ha demostrado un alto nivel de profesionalismo y expertise en el desarrollo de software.
+                DevCrypt ha sido un socio invaluable para nuestro negocio. Su equipo ha demostrado un alto nivel de
+                profesionalismo y expertise en el desarrollo de software.
                 <i class="bx bxs-quote-alt-right quote-icon-right"></i>
               </p>
             </div>
@@ -412,7 +460,8 @@ if($loginBoton=="Login"){
               <h4>CTO</h4>
               <p>
                 <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                Estamos muy satisfechos con los resultados que hemos obtenido trabajando con devCrypt. Su enfoque en la calidad y la innovación ha sido clave para el éxito de nuestros proyectos.
+                Estamos muy satisfechos con los resultados que hemos obtenido trabajando con devCrypt. Su enfoque en la
+                calidad y la innovación ha sido clave para el éxito de nuestros proyectos.
                 <i class="bx bxs-quote-alt-right quote-icon-right"></i>
               </p>
             </div>
@@ -425,7 +474,8 @@ if($loginBoton=="Login"){
               <h4>Director de Proyectos</h4>
               <p>
                 <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                La colaboración con devCrypt ha sido excepcional. Su capacidad para entender nuestras necesidades y traducirlas en soluciones efectivas ha sido fundamental para el logro de nuestros objetivos.
+                La colaboración con devCrypt ha sido excepcional. Su capacidad para entender nuestras necesidades y
+                traducirlas en soluciones efectivas ha sido fundamental para el logro de nuestros objetivos.
                 <i class="bx bxs-quote-alt-right quote-icon-right"></i>
               </p>
             </div>
@@ -438,7 +488,9 @@ if($loginBoton=="Login"){
               <h4>Gerente de IT</h4>
               <p>
                 <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                devCrypt ha demostrado ser un aliado estratégico para nuestro departamento de IT. Su compromiso con la excelencia y la innovación nos ha permitido alcanzar nuevos niveles de eficiencia y calidad en nuestros sistemas.
+                devCrypt ha demostrado ser un aliado estratégico para nuestro departamento de IT. Su compromiso con la
+                excelencia y la innovación nos ha permitido alcanzar nuevos niveles de eficiencia y calidad en nuestros
+                sistemas.
                 <i class="bx bxs-quote-alt-right quote-icon-right"></i>
               </p>
             </div>
@@ -451,12 +503,13 @@ if($loginBoton=="Login"){
               <h4>Director de Marketing</h4>
               <p>
                 <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                Trabajar con devCrypt ha sido una experiencia excepcional. Su equipo ha sido muy receptivo a nuestras necesidades y ha entregado soluciones de software de alta calidad de manera oportuna.
+                Trabajar con devCrypt ha sido una experiencia excepcional. Su equipo ha sido muy receptivo a nuestras
+                necesidades y ha entregado soluciones de software de alta calidad de manera oportuna.
                 <i class="bx bxs-quote-alt-right quote-icon-right"></i>
               </p>
             </div>
           </div>
-          
+
         </div>
         <div class="swiper-pagination"></div>
       </div>
@@ -488,8 +541,10 @@ if($loginBoton=="Login"){
           <img src="assets/img/portfolio/portfolio-1.jpeg" class="img-fluid" alt="">
           <div class="portfolio-info">
             <h4>FitTracker</h4>
-            <p>Una aplicación que realiza un seguimiento de tus actividades físicas diarias, como correr, caminar y hacer ejercicio, y te ayuda a mantenerte en forma.</p>
-            <a href="assets/img/portfolio/portfolio-1.jpeg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="FitTracker"><i class="bx bx-plus"></i></a>
+            <p>Una aplicación que realiza un seguimiento de tus actividades físicas diarias, como correr, caminar y
+              hacer ejercicio, y te ayuda a mantenerte en forma.</p>
+            <a href="assets/img/portfolio/portfolio-1.jpeg" data-gallery="portfolioGallery"
+              class="portfolio-lightbox preview-link" title="FitTracker"><i class="bx bx-plus"></i></a>
           </div>
         </div>
 
@@ -497,8 +552,10 @@ if($loginBoton=="Login"){
           <img src="assets/img/portfolio/portfolio-2.jpeg" class="img-fluid" alt="">
           <div class="portfolio-info">
             <h4>AdventureSeekers.net</h4>
-            <p>Un sitio web para amantes de la aventura que ofrece guías de viaje, consejos de aventura y reseñas de destinos.</p>
-            <a href="assets/img/portfolio/portfolio-2.jpeg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="AdventureSeekers.net"><i class="bx bx-plus"></i></a>
+            <p>Un sitio web para amantes de la aventura que ofrece guías de viaje, consejos de aventura y reseñas de
+              destinos.</p>
+            <a href="assets/img/portfolio/portfolio-2.jpeg" data-gallery="portfolioGallery"
+              class="portfolio-lightbox preview-link" title="AdventureSeekers.net"><i class="bx bx-plus"></i></a>
           </div>
         </div>
 
@@ -506,8 +563,10 @@ if($loginBoton=="Login"){
           <img src="assets/img/portfolio/portfolio-3.jpeg" class="img-fluid" alt="">
           <div class="portfolio-info">
             <h4>CookEasy</h4>
-            <p>Una aplicación de cocina que ofrece recetas fáciles de seguir, listas de compras y consejos útiles para cocinar en casa.</p>
-            <a href="assets/img/portfolio/portfolio-3.jpeg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="CookEasy"><i class="bx bx-plus"></i></a>
+            <p>Una aplicación de cocina que ofrece recetas fáciles de seguir, listas de compras y consejos útiles para
+              cocinar en casa.</p>
+            <a href="assets/img/portfolio/portfolio-3.jpeg" data-gallery="portfolioGallery"
+              class="portfolio-lightbox preview-link" title="CookEasy"><i class="bx bx-plus"></i></a>
           </div>
         </div>
 
@@ -515,8 +574,10 @@ if($loginBoton=="Login"){
           <img src="assets/img/portfolio/portfolio-4.jpeg" class="img-fluid" alt="">
           <div class="portfolio-info">
             <h4>BizConnect</h4>
-            <p>Una tarjeta digital diseñada para profesionales que facilita la conexión y el intercambio de información de contacto de forma rápida y sencilla.</p>
-            <a href="assets/img/portfolio/portfolio-4.jpeg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="BizConnect"><i class="bx bx-plus"></i></a>
+            <p>Una tarjeta digital diseñada para profesionales que facilita la conexión y el intercambio de información
+              de contacto de forma rápida y sencilla.</p>
+            <a href="assets/img/portfolio/portfolio-4.jpeg" data-gallery="portfolioGallery"
+              class="portfolio-lightbox preview-link" title="BizConnect"><i class="bx bx-plus"></i></a>
           </div>
         </div>
 
@@ -524,8 +585,10 @@ if($loginBoton=="Login"){
           <img src="assets/img/portfolio/portfolio-5.jpeg" class="img-fluid" alt="">
           <div class="portfolio-info">
             <h4>EcoGreenLiving.com</h4>
-            <p>Un sitio web dedicado a proporcionar información sobre prácticas sostenibles y consejos para un estilo de vida ecológico.</p>
-            <a href="assets/img/portfolio/portfolio-5.jpeg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="EcoGreenLiving.com"><i class="bx bx-plus"></i></a>
+            <p>Un sitio web dedicado a proporcionar información sobre prácticas sostenibles y consejos para un estilo de
+              vida ecológico.</p>
+            <a href="assets/img/portfolio/portfolio-5.jpeg" data-gallery="portfolioGallery"
+              class="portfolio-lightbox preview-link" title="EcoGreenLiving.com"><i class="bx bx-plus"></i></a>
           </div>
         </div>
 
@@ -533,8 +596,10 @@ if($loginBoton=="Login"){
           <img src="assets/img/portfolio/portfolio-6.jpeg" class="img-fluid" alt="">
           <div class="portfolio-info">
             <h4>MindfulMoments</h4>
-            <p>Una aplicación de meditación que te ayuda a encontrar momentos de calma y tranquilidad en tu día a día.</p>
-            <a href="assets/img/portfolio/portfolio-6.jpeg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="MindfulMoments"><i class="bx bx-plus"></i></a>
+            <p>Una aplicación de meditación que te ayuda a encontrar momentos de calma y tranquilidad en tu día a día.
+            </p>
+            <a href="assets/img/portfolio/portfolio-6.jpeg" data-gallery="portfolioGallery"
+              class="portfolio-lightbox preview-link" title="MindfulMoments"><i class="bx bx-plus"></i></a>
           </div>
         </div>
 
@@ -542,8 +607,10 @@ if($loginBoton=="Login"){
           <img src="assets/img/portfolio/portfolio-7.jpeg" class="img-fluid" alt="">
           <div class="portfolio-info">
             <h4>CreativeCard</h4>
-            <p>Una tarjeta digital para creativos que muestra su trabajo, experiencia y contacto de manera interactiva y atractiva.</p>
-            <a href="assets/img/portfolio/portfolio-7.jpeg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="CreativeCard"><i class="bx bx-plus"></i></a>
+            <p>Una tarjeta digital para creativos que muestra su trabajo, experiencia y contacto de manera interactiva y
+              atractiva.</p>
+            <a href="assets/img/portfolio/portfolio-7.jpeg" data-gallery="portfolioGallery"
+              class="portfolio-lightbox preview-link" title="CreativeCard"><i class="bx bx-plus"></i></a>
           </div>
         </div>
 
@@ -551,8 +618,10 @@ if($loginBoton=="Login"){
           <img src="assets/img/portfolio/portfolio-8.jpeg" class="img-fluid" alt="">
           <div class="portfolio-info">
             <h4>HealthCard</h4>
-            <p>Una tarjeta digital que contiene información de salud personal, como alergias y medicamentos recetados, para emergencias médicas.</p>
-            <a href="assets/img/portfolio/portfolio-8.jpeg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="HealthCard"><i class="bx bx-plus"></i></a>
+            <p>Una tarjeta digital que contiene información de salud personal, como alergias y medicamentos recetados,
+              para emergencias médicas.</p>
+            <a href="assets/img/portfolio/portfolio-8.jpeg" data-gallery="portfolioGallery"
+              class="portfolio-lightbox preview-link" title="HealthCard"><i class="bx bx-plus"></i></a>
           </div>
         </div>
 
@@ -560,8 +629,10 @@ if($loginBoton=="Login"){
           <img src="assets/img/portfolio/portfolio-9.jpeg" class="img-fluid" alt="">
           <div class="portfolio-info">
             <h4>TechHub.com</h4>
-            <p>Un sitio web que ofrece noticias de tecnología, reseñas de productos y tutoriales para entusiastas de la tecnología.</p>
-            <a href="assets/img/portfolio/portfolio-9.jpeg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="TechHub.com"><i class="bx bx-plus"></i></a>
+            <p>Un sitio web que ofrece noticias de tecnología, reseñas de productos y tutoriales para entusiastas de la
+              tecnología.</p>
+            <a href="assets/img/portfolio/portfolio-9.jpeg" data-gallery="portfolioGallery"
+              class="portfolio-lightbox preview-link" title="TechHub.com"><i class="bx bx-plus"></i></a>
           </div>
         </div>
 
@@ -591,7 +662,8 @@ if($loginBoton=="Login"){
                 <a href=""><i class="bi bi-twitter"></i></a>
                 <a href=""><i class="bi bi-facebook"></i></a>
                 <a href=""><i class="bi bi-instagram"></i></a>
-                <a href=""><i class="bi bi-linkedin"></i></a> <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
+                <a href=""><i class="bi bi-linkedin"></i></a>
+                <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
               </div>
             </div>
           </div>
@@ -607,7 +679,8 @@ if($loginBoton=="Login"){
                 <a href=""><i class="bi bi-twitter"></i></a>
                 <a href=""><i class="bi bi-facebook"></i></a>
                 <a href=""><i class="bi bi-instagram"></i></a>
-                <a href=""><i class="bi bi-linkedin"></i></a> <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
+                <a href=""><i class="bi bi-linkedin"></i></a>
+                <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
               </div>
             </div>
           </div>
@@ -623,7 +696,8 @@ if($loginBoton=="Login"){
                 <a href=""><i class="bi bi-twitter"></i></a>
                 <a href=""><i class="bi bi-facebook"></i></a>
                 <a href=""><i class="bi bi-instagram"></i></a>
-                <a href=""><i class="bi bi-linkedin"></i></a> <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
+                <a href=""><i class="bi bi-linkedin"></i></a>
+                <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
               </div>
             </div>
           </div>
@@ -711,5 +785,5 @@ if($loginBoton=="Login"){
 <?php include 'footer.html'; ?>
 
 <?php
-  ob_end_flush();
+ob_end_flush();
 ?>
