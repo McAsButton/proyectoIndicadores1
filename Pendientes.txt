@@ -1,1 +1,3 @@
-CRUD Tabla Indicadores
+Control de acceso en botones
+
+Listbox para los responsables.
