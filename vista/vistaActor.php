@@ -28,6 +28,8 @@ $id = $_POST['txtId'] ?? ''; // Captura el valor del id
 $nombre = $_POST['txtNombre'] ?? ''; // Captura el valor del nombre
 $fkidtipoactor = $_POST['txtFkidTipoActor'] ?? '';
 $consultarId = $_POST['txtConsultarId'] ?? '';
+$objControlTipoActor = new ControlEntidad('tipoactor');
+$arregloTipoActor = $objControlTipoActor->listar();
 
 switch ($boton) {
     case 'Guardar':
@@ -227,15 +229,22 @@ switch ($boton) {
                                 aria-label="Nombre" aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtFkidTipoActor' id="txtFkidTipoActor" class="form-control"
-                                placeholder="FkidActor" aria-label="fkidtipoactor" aria-describedby="basic-addon1">
+                        <select class="form-select" id="txtFkidTipoActor" name="txtFkidTipoActor" required>
+                                <option selected disabled value="">Tipo Actor</option>
+                                <?php
+                                for ($i = 0; $i < count($arregloTipoActor); $i++) {
+                                    $id = $arregloTipoActor[$i]->__get('id');
+                                    $nombre = $arregloTipoActor[$i]->__get('nombre');
+                                    $fkidtipoactor = $arregloTipoActor[$i]->__get('fkidtipoactor');
+                                    echo "<option value='$id'>$nombre</option>";
+                                }
+                                ?>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary" formmethod="post" name="bt"
-                            value="Guardar">Guardar</button>
+                        <button type="submit" class="btn btn-primary" formmethod="post" name="bt" value="Guardar">Guardar</button>
                     </div>
                 </form>
             </div>
@@ -248,10 +257,9 @@ switch ($boton) {
                 <form method="post" action="VistaActor.php" enctype="multipart/form-data">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Modificar Actor</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="input-group mb-3" hidden>
+                        <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
                             <input type="text" name='txtId' id="txtId" value="" class="form-control" placeholder="Id"
                                 aria-label="id" aria-describedby="basic-addon1" id="id" readonly>
@@ -262,9 +270,17 @@ switch ($boton) {
                                 aria-label="nombre" aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtFkidTipoActor' id="txtFkidTipoActor" class="form-control"
-                                placeholder="Fkidactor" aria-label="fkidtipoactor" aria-describedby="basic-addon1">
+                        <select class="form-select" id="txtFkidTipoActor" name="txtFkidTipoActor" required>
+                                <option selected disabled value="">Tipo Actor</option>
+                                <?php
+                                for ($i = 0; $i < count($arregloTipoActor); $i++) {
+                                    $id = $arregloTipoActor[$i]->__get('id');
+                                    $nombre = $arregloTipoActor[$i]->__get('nombre');
+                                    $fkidtipoactor = $arregloTipoActor[$i]->__get('fkidtipoactor');
+                                    echo "<option value='$id'>$nombre</option>";
+                                }
+                                ?>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -272,6 +288,8 @@ switch ($boton) {
                             id="Cancelar2">Cancelar</button>
                         <button type="submit" class="btn btn-warning" formmethod="post" name="bt"
                             Value="Modificar">Guardar</button>
+                        <button type="submit" class="btn btn-danger" formmethod="post" name="bt" value="Eliminar"
+                        id="confirmDelete" hidden>Eliminar</button>
                     </div>
                 </form>
             </div>
@@ -323,6 +341,7 @@ switch ($boton) {
             const fkidtipoactor = params.get('fkidtipoactor');
 
             const editActorModal = new bootstrap.Modal(document.getElementById('editActor'));
+            document.getElementById('confirmDelete').removeAttribute('hidden');
             editActorModal.show();
 
             cargarDatos(id, nombre, fkidtipoactor);
@@ -338,6 +357,7 @@ switch ($boton) {
             const fkidtipoactor = this.getAttribute('data-bs-fkidtipoactor');
 
             const editActorModal = new bootstrap.Modal(document.getElementById('editActor'));
+            document.getElementById('confirmDelete').setAttribute('hidden','true');
             editActorModal.show();
 
             cargarDatos(id, nombre, fkidtipoactor);

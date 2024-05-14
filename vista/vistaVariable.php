@@ -20,25 +20,46 @@ for ($i = 0; $i < count($listaRolesDelUsuario); $i++) {
 if (!$permisoParaEntrar)
     header('Location: index.php');
 
+date_default_timezone_set('America/Bogota');
+
 $objControlVariable = new ControlEntidad('variable');
 $arregloVariable = $objControlVariable->listar();
 
 $boton = $_POST['bt'] ?? ''; // Captura el valor del botón
 $id = $_POST['txtId'] ?? ''; // Captura el valor del id
 $nombre = $_POST['txtNombre'] ?? ''; // Captura el valor del nombre
-$fechacreacion = $_POST['txtFechaCreacion'] ?? '';
-$fkemailusuario = $_POST['txtFkEmailUsuario'] ?? '';
+$fecha_y_hora = date("Y-m-d H:i:s");
+$consultarId = $_POST['txtConsultarId'] ?? '';
 
 switch ($boton) {
     case 'Guardar':
-        $datosVariable = ['id' => $id, 'nombre' => $nombre, 'fechacreacion' => $fechacreacion, 'fkemailusuario' => $fkemailusuario];
+        $datosVariable = ['id' => $id, 'nombre' => $nombre, 'fechacreacion' => $fecha_y_hora , 'fkemailusuario' => $_SESSION['email']];
         $objVariable = new Entidad($datosVariable);
         $objControlVariable = new ControlEntidad('variable');
         $objControlVariable->guardar($objVariable);
         header('Location: vistaVariable.php');
         break;
+    case 'Consultar':
+        try {
+            $datosVariable = ['id' => $consultarId];
+            $objVariable = new Entidad($datosVariable);
+            $objControlVariable = new ControlEntidad('variable');
+            $objVariable = $objControlVariable->buscarPorId('id', $consultarId);
+
+            if ($objVariable !== null) {
+                $nombre = $objVariable->__get('nombre');
+                $fechacreacion = $objVariable->__get('fechacreacion');
+                $fkemailusuario = $objVariable->__get('fkemailusuario');
+                header('Location: vistaVariable.php?id=' . $consultarId . '&nombre=' . $nombre . '&fechacreacion=' . $fechacreacion .  '&fkemailusuario=' . $fkemailusuario);
+            } else {
+                header('Location: vistaVariable.php?spawnNote=0');
+            }
+        } catch (Exception $e) {
+            header('Location: vistaVariable.php?spawnNote=0');
+        }
+        break;
     case 'Modificar':
-        $datosVariable = ['id' => $id, 'nombre' => $nombre, 'fechacreacion' => $fechacreacion, 'fkemailusuario' => $fkemailusuario];
+        $datosVariable = ['id' => $id, 'nombre' => $nombre, 'fechacreacion' => $fecha_y_hora , 'fkemailusuario' => $$_SESSION['email']];
         $objVariable = new Entidad($datosVariable);
         $objControlVariable = new ControlEntidad('variable');
         $objControlVariable->modificar('id', $id, $objVariable);
@@ -68,10 +89,18 @@ switch ($boton) {
                 <div class="table-wrapper">
                     <div class="table-title">
                         <div class="row">
-                            <div class="col-sm-5">
+                            <div class="col-sm">
                                 <h2><b>Administrar</b> Variable </h2>
                             </div>
-                            <div class="col-sm-7">
+                            <div class="col-sm">
+                                <form class="d-flex" method="post" action="VistaVariable.php">
+                                    <input class="form-control mr-2 mb-1" type="search" placeholder="Buscar id"
+                                        aria-label="Search" id="txtConsultarId" name="txtConsultarId">
+                                    <button class="btn btn-outline-success" type="submit" formmethod="post" name="bt"
+                                        value="Consultar"><i class="bi bi-search"></i></button>
+                                </form>
+                            </div>
+                            <div class="col-sm">
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                     data-bs-target="#addVariable"><i class="bi bi-person-plus"></i><span>Nueva
                                         Variable</span></button>
@@ -125,7 +154,7 @@ switch ($boton) {
                                     <td>
                                         <div class="btn-group" role="group">
                                             <form method="post" action="VistaVariable.php" enctype="multipart/form-data">
-                                                <button type="button" class="btn btn-warning btn-sm" name="modificar"
+                                                <button type="button" class="btn btn-warning btn-sm botonModificar" name="modificar"
                                                     data-bs-toggle="modal" data-bs-target="#editVariable"
                                                     data-bs-whatever="<?= $getid ?>" data-bs-nombre="<?= $getnombre ?>"
                                                     data-bs-fechacreacion="<?= $getfechacreacion ?>"
@@ -187,25 +216,10 @@ switch ($boton) {
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <!-- <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">A</span>
-                    <input type="text" name='txtId' id="txtId" value="" class="form-control" placeholder="Id" aria-label="id" aria-describedby="basic-addon1">
-                </div> -->
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
                             <input type="text" name='txtNombre' id="txtNombre" class="form-control" placeholder="Nombre"
                                 aria-label="nombre" aria-describedby="basic-addon1">
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtFechaCreacion' id="txtFechaCreacion" class="form-control"
-                                placeholder="FechaCreacion" aria-label="fechacreacion" aria-describedby="basic-addon1">
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtFkEmailUsuario' id="txtFkEmailUsuario" class="form-control"
-                                placeholder="FkEmailUsuario" aria-label="fkemailusuario"
-                                aria-describedby="basic-addon1">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -224,35 +238,25 @@ switch ($boton) {
                 <form method="post" action="VistaVariable.php" enctype="multipart/form-data">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Modificar Variable</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="input-group mb-3" hidden>
+                    <div class="input-group mb-3"hidden>
                             <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtId' id="txtId" value="" class="form-control" placeholder="Id"
-                                aria-label="id" aria-describedby="basic-addon1" id="id" readonly>
+                            <input type="text" name='txtId' id="txtId" class="form-control" placeholder="Id"
+                                aria-label="Id" aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
                             <input type="text" name='txtNombre' id="txtNombre" class="form-control" placeholder="Nombre"
                                 aria-label="Nombre" aria-describedby="basic-addon1">
                         </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtFechaCreacion' id="txtFechaCreacion" class="form-control"
-                                placeholder="Fecha Creacion" aria-label="fechacreacion" aria-describedby="basic-addon1">
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtFkEmailUsuario' id="txtFkEmailUsuario" class="form-control"
-                                placeholder="FkEmailUsuario" aria-label="fkemailusuario"
-                                aria-describedby="basic-addon1">
-                        </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="Cancelar2">Cancelar</button>
                         <button type="submit" class="btn btn-warning" formmethod="post" name="bt"
                             Value="Modificar">Guardar</button>
+                        <button type="submit" class="btn btn-danger" formmethod="post" name="bt" value="Eliminar"
+                        id="confirmDelete">Eliminar</button>
                     </div>
                 </form>
             </div>
@@ -298,35 +302,63 @@ switch ($boton) {
             // Llamar al método spawnNote con el valor obtenido
             nc.spawnNote(spawnNoteValue);
         }
+        if (params.has('id') && params.has('nombre') && params.has('fechacreacion') && params.has('fkemailusuario')) {
+            const id = params.get('id');
+            const nombre = params.get('nombre');
+            const fechacreacion = params.get('fechacreacion');
+            const fkemailusuario = params.get('fkemailusuario');
+
+            const editVariableModal = new bootstrap.Modal(document.getElementById('editVariable'));
+            document.getElementById('confirmDelete').removeAttribute('hidden');
+            editVariableModal.show();
+
+            cargarDatos(id, nombre, fechacreacion, fkemailusuario);
+        }
     });
 
-    const editVariable = document.getElementById('editVariable')
-    if (editVariable) {
-        editVariable.addEventListener('show.bs.modal', event => {
-            // Button that triggered the modal
-            const button = event.relatedTarget
-            // Extract info from data-bs-* attributes
-            const id = button.getAttribute('data-bs-whatever')
-            const Nombre = button.getAttribute('data-bs-nombre')
-            const FechaCreacion = button.getAttribute('data-bs-fechacreacion')
-            const FkEmailUsuario = button.getAttribute('data-bs-fkemailusuario')
-            // If necessary, you could initiate an Ajax request here
-            // and then do the updating in a callback.
+    const openEditModalButton = document.getElementsByClassName('botonModificar');
 
+for (let i = 0; i < openEditModalButton.length; i++) {
+    openEditModalButton[i].addEventListener('click', function () {
+        const id = this.getAttribute('data-bs-whatever')
+        const nombre = this.getAttribute('data-bs-nombre')
+        console.log(id);
+        console.log(nombre);
 
-            // Update the modal's content.
-            const modalTitle = editVariable.querySelector('.modal-title')
-            const nombreInput = editVariable.querySelector('#txtNombre')
-            const fechacreacionInput = editVariable.querySelector('#txtFechaCreacion')
-            const fkemailusuarioInput = editVariable.querySelector('#txtFkEmailUsuario')
+        const editVariableModal = new bootstrap.Modal(document.getElementById('editVariable'));
+        document.getElementById('confirmDelete').setAttribute('hidden','true');
+        editVariableModal.show();
 
-            modalTitle.textContent = `Modificar Variable ${id}`
+        cargarDatos(id, nombre) ;
+    });
+}
 
-            nombreInput.value = Nombre
-            fechacreacionInput.value = FechaCreacion
-            fkemailusuarioInput.value = FkEmailUsuario
-        })
-    }
+const CancelarEditButton = document.getElementById('Cancelar2');
+
+if (CancelarEditButton) {
+    CancelarEditButton.addEventListener('click', () => {
+        const editRolModal = new bootstrap.Modal(document.getElementById('editVariable'));
+        editRolModal.hide();
+
+        //Eliminar la clase .modal-backdrop
+        const mocalBackdrop = document.querySelector('.modal-backdrop');
+        if (mocalBackdrop) {
+            mocalBackdrop.remove();
+        }
+    });
+}
+
+function cargarDatos(id, nombre) {
+        const modalTitle = editVariable.querySelector('.modal-title')
+        const idInput = editVariable.querySelector('#txtId')
+        const nombreInput = editVariable.querySelector('#txtNombre')
+        
+        modalTitle.textContent = `Modificar Variable ${id}`
+
+        idInput.value = id
+        nombreInput.value = nombre
+        
+}
 
     const deleteVariable = document.getElementById('deleteVariable')
     if (deleteVariable) {
