@@ -1,6 +1,3 @@
-Probar todas las vistas que hizo y no probo.
-
-
 Control de acceso en botones
 
 Perfiles de Usuario:

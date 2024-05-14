@@ -19,27 +19,44 @@
                     <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
                     <?php
                     if (isset($_SESSION['email'])) {
-                        echo '<li class="dropdown"><a href="#"><span>Usuario</span> <i class="bi bi-chevron-down"></i></a>';
-                        echo '<ul>';
-                        echo '<li><a href="vistaRol.php">Rol</a></li>';
-                        echo '<li><a href="vistaUsuario.php">Usuario</a></li>';
-                        echo '</ul>';
-                        echo '</li>';
-                        echo '<li class="dropdown"><a href="#"><span>Indicadores</span> <i class="bi bi-chevron-down"></i></a>';
-                        echo '<ul>';
-                        echo '<li><a href="vistaActor.php">Actor</a></li>';
-                        echo '<li><a href="vistaFrecuencia.php">Frecuencia</a></li>';
-                        echo '<li><a href="vistaFuente.php">Fuente</a></li>';
-                        echo '<li><a href="vistaIndicador.php">Indicador</a></li>';
-                        echo '<li><a href="vistaRepresenVisual.php">Represen Visual</a></li>';
-                        echo '<li><a href="vistaResultadoIndicador.php">Resultado Indicador</a></li>';
-                        echo '<li><a href="vistaSentido.php">Sentido</a></li>';
-                        echo '<li><a href="vistaTipoActor.php">Tipo Actor</a></li>';
-                        echo '<li><a href="vistaTipoIndicador.php">Tipo Indicador</a></li>';
-                        echo '<li><a href="vistaUnidadMedicion.php">Unidad Medición</a></li>';
-                        echo '<li><a href="vistaVariable.php">Variable</a></li>';
-                        echo '</ul>';
-                        echo '</li>';
+                        $listaRolesDelUsuario = $_SESSION['listaRolesDelUsuario'];
+                        $admin = false;
+                        
+                        // Verificar si el usuario es Admin
+                        for ($i = 0; $i < count($listaRolesDelUsuario); $i++) {
+                            if ($listaRolesDelUsuario[$i]->__get('nombre') == "Admin") {
+                                $admin = true;
+                                break;
+                            }
+                        }
+                        // Mostrar menú de usuario
+                        if ($admin) {
+                            echo '<li class="dropdown"><a href="#"><span>Usuario</span> <i class="bi bi-chevron-down"></i></a>';
+                            echo '<ul>';
+                            echo '<li><a href="vistaRol.php">Rol</a></li>';
+                            echo '<li><a href="vistaUsuario.php">Usuario</a></li>';
+                            echo '</ul>';
+                            echo '</li>';
+                        }
+
+                        // Mostrar menú de indicadores
+                        if ($admin or in_array("Verificador", $listaRolesDelUsuario) or in_array("Validador", $listaRolesDelUsuario) or in_array("Administrativo", $listaRolesDelUsuario) or in_array("Invitado", $listaRolesDelUsuario)) {
+                            echo '<li class="dropdown"><a href="#"><span>Indicadores</span> <i class="bi bi-chevron-down"></i></a>';
+                            echo '<ul>';
+                            echo '<li><a href="vistaActor.php">Actor</a></li>';
+                            echo '<li><a href="vistaFrecuencia.php">Frecuencia</a></li>';
+                            echo '<li><a href="vistaFuente.php">Fuente</a></li>';
+                            echo '<li><a href="vistaIndicador.php">Indicador</a></li>';
+                            echo '<li><a href="vistaRepresenVisual.php">Represen Visual</a></li>';
+                            echo '<li><a href="vistaResultadoIndicador.php">Resultado Indicador</a></li>';
+                            echo '<li><a href="vistaSentido.php">Sentido</a></li>';
+                            echo '<li><a href="vistaTipoActor.php">Tipo Actor</a></li>';
+                            echo '<li><a href="vistaTipoIndicador.php">Tipo Indicador</a></li>';
+                            echo '<li><a href="vistaUnidadMedicion.php">Unidad Medición</a></li>';
+                            echo '<li><a href="vistaVariable.php">Variable</a></li>';
+                            echo '</ul>';
+                            echo '</li>';
+                        }
                     }
                     ?>
                     <li>
