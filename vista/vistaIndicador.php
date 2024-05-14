@@ -4,9 +4,9 @@ ob_start();
 <?php
 include_once '../control/configBd.php';
 include_once '../control/ControlEntidad.php';
-include_once '../control/ControlConexionPdo.php';
+include_once '../control/ControlConexionPdo.php'; //cspell:disable-line
 include_once '../modelo/Entidad.php';
-include_once 'notificacion.html';
+include_once 'notificacion.html'; //cspell:disable-line
 
 session_start();
 if ($_SESSION['email'] == null)
@@ -14,8 +14,9 @@ if ($_SESSION['email'] == null)
 $permisoParaEntrar = false;
 $listaRolesDelUsuario = $_SESSION['listaRolesDelUsuario'];
 for ($i = 0; $i < count($listaRolesDelUsuario); $i++) {
-    if ($listaRolesDelUsuario[$i]->__get('nombre') == "Admin")
+    if ($listaRolesDelUsuario[$i]->__get('nombre') == "Admin" or $listaRolesDelUsuario[$i]->__get('nombre') == "Verificador" or $listaRolesDelUsuario[$i]->__get('nombre') == "Validador" or $listaRolesDelUsuario[$i]->__get('nombre') == "Administrativo" or $listaRolesDelUsuario[$i]->__get('nombre') == "Invitado") {
         $permisoParaEntrar = true;
+    }
 }
 if (!$permisoParaEntrar)
     header('Location: index.php');
@@ -25,9 +26,9 @@ date_default_timezone_set('America/Bogota');
 
 $objControlIndicador = new ControlEntidad('indicador');
 $arregloIndicadores = $objControlIndicador->listar();
-$objControlTipoIndicador = new ControlEntidad('tipoindicador');
+$objControlTipoIndicador = new ControlEntidad('tipoindicador'); //cspell:disable-line
 $arregloTipoIndicador = $objControlTipoIndicador->listar();
-$objControlUnidadMedicion = new ControlEntidad('unidadmedicion');
+$objControlUnidadMedicion = new ControlEntidad('unidadmedicion'); //cspell:disable-line
 $arregloUnidadMedicion = $objControlUnidadMedicion->listar();
 $objControlSentido = new ControlEntidad('sentido');
 $arregloSentido = $objControlSentido->listar();
@@ -39,9 +40,9 @@ $objControlLiteral = new ControlEntidad('literal');
 $arregloLiteral = $objControlLiteral->listar();
 $objControlNumeral = new ControlEntidad('numeral');
 $arregloNumeral = $objControlNumeral->listar();
-$objControlParagrafo = new ControlEntidad('paragrafo');
+$objControlParagrafo = new ControlEntidad('paragrafo'); //cspell:disable-line
 $arregloParagrafo = $objControlParagrafo->listar();
-$objControlRepresenVisual = new ControlEntidad('represenvisual');
+$objControlRepresenVisual = new ControlEntidad('represenvisual'); //cspell:disable-line
 $arregloRepresenVisual = $objControlRepresenVisual->listar();
 $objControlActor = new ControlEntidad('actor');
 $arregloActor = $objControlActor->listar();
@@ -52,22 +53,22 @@ $arregloVariable = $objControlVariable->listar();
 
 $boton = $_POST['bt'] ?? ''; // Captura el valor del botón
 $id = $_POST['txtId'] ?? ''; // Captura el valor del campo Id
-$codigo = $_POST['txtCodigo'] ?? ''; // Captura el valor del campo Codigo
+$codigo = $_POST['txtCodigo'] ?? ''; // Captura el valor del campo Codigo //cspell:disable-line
 $nombre = $_POST['txtNombre'] ?? ''; // Captura el valor del campo Nombre
 $objetivo = $_POST['txtObjetivo'] ?? ''; // Captura el valor del campo Objetivo
 $alcance = $_POST['txtAlcance'] ?? ''; // Captura el valor del campo Alcance
 $formula = $_POST['txtFormula'] ?? ''; // Captura el valor del campo Formula
 $tipoIndicador = $_POST['txtTipoIndicador'] ?? ''; // Captura el valor del campo Tipo de Indicador
-$unidadMedicion = $_POST['txtUnidadMedicion'] ?? ''; // Captura el valor del campo Unidad de Medición
+$unidadMedicion = $_POST['txtUnidadMedicion'] ?? ''; // Captura el valor del campo Unidad de Medición //cspell:disable-line
 $meta = $_POST['txtMeta'] ?? ''; // Captura el valor del campo Meta
 $sentido = $_POST['txtSentido'] ?? ''; // Captura el valor del campo Sentido
 $frecuencia = $_POST['txtFrecuencia'] ?? ''; // Captura el valor del campo Frecuencia
 $articulo = $_POST['txtArticulo'] ?? ''; // Captura el valor del campo Articulo
 $literal = $_POST['txtLiteral'] ?? ''; // Captura el valor del campo Literal
 $numeral = $_POST['txtNumeral'] ?? ''; // Captura el valor del campo Numeral
-$paragrafo = $_POST['txtParagrafo'] ?? ''; // Captura el valor del campo Paragrafo
+$paragrafo = $_POST['txtParagrafo'] ?? ''; // Captura el valor del campo Paragrafo //cspell:disable-line
 $represenVisual = $_POST['represen_modal'] ?? []; // Captura el valor del campo Representacion Visual
-$actor = $_POST['actores_modal'] ?? []; // Captura el valor del campo Actor
+$actor = $_POST['txtActor'] ?? []; // Captura el valor del campo Actor
 $fuente = $_POST['fuentes_modal'] ?? []; // Captura el valor del campo Fuente
 $variable = $_POST['variables_modal'] ?? []; // Captura el valor del campo Variable
 $fecha_y_hora = date("Y-m-d H:i:s");
@@ -76,47 +77,47 @@ $consultarId = $_POST['txtConsultarId'] ?? ''; // Captura el valor del campo Con
 switch ($boton) {
     case 'Guardar':
         try {
-            $datosIndicador = ['codigo' => $codigo, 'nombre' => $nombre, 'objetivo' => $objetivo, 'alcance' => $alcance, 'formula' => $formula, 'fkidtipoindicador' => $tipoIndicador, 'fkidunidadmedicion' => $unidadMedicion, 'meta' => $meta, 'fkidsentido' => $sentido, 'fkidfrecuencia' => $frecuencia, 'fkidarticulo' => $articulo, 'fkidliteral' => $literal, 'fkidnumeral' => $numeral, 'fkidparagrafo' => $paragrafo];
+            $datosIndicador = ['codigo' => $codigo, 'nombre' => $nombre, 'objetivo' => $objetivo, 'alcance' => $alcance, 'formula' => $formula, 'fkidtipoindicador' => $tipoIndicador, 'fkidunidadmedicion' => $unidadMedicion, 'meta' => $meta, 'fkidsentido' => $sentido, 'fkidfrecuencia' => $frecuencia, 'fkidarticulo' => $articulo, 'fkidliteral' => $literal, 'fkidnumeral' => $numeral, 'fkidparagrafo' => $paragrafo]; //cspell:disable-line
             $objIndicador = new Entidad($datosIndicador);
             $objControlIndicador = new ControlEntidad('indicador');
             $objControlIndicador->guardar($objIndicador);
-            $sql = 'SELECT id FROM indicador WHERE codigo = ? AND nombre = ? AND objetivo = ? AND alcance = ? AND formula = ? AND fkidtipoindicador = ? AND fkidunidadmedicion = ? AND meta = ? AND fkidsentido = ? AND fkidfrecuencia = ? AND fkidarticulo = ? AND fkidliteral = ? AND fkidnumeral = ? AND fkidparagrafo = ?';
+            $sql = 'SELECT id FROM indicador WHERE codigo = ? AND nombre = ? AND objetivo = ? AND alcance = ? AND formula = ? AND fkidtipoindicador = ? AND fkidunidadmedicion = ? AND meta = ? AND fkidsentido = ? AND fkidfrecuencia = ? AND fkidarticulo = ? AND fkidliteral = ? AND fkidnumeral = ? AND fkidparagrafo = ?'; //cspell:disable-line
             $parametros = [$codigo, $nombre, $objetivo, $alcance, $formula, intval($tipoIndicador), intval($unidadMedicion), $meta, intval($sentido), intval($frecuencia), $articulo, $literal, $numeral, $paragrafo];
             $arregloIdIndicador = $objControlIndicador->consultar($sql, $parametros);
             $idIndicador = $arregloIdIndicador[0]->__get('id');
 
             if (!empty($represenVisual)) {
                 foreach ($represenVisual as $key => $value) {
-                    $datosRepresenVisualPorIndicador = ['fkidindicador' => $idIndicador, 'fkidrepresenvisual' => $value];
+                    $datosRepresenVisualPorIndicador = ['fkidindicador' => $idIndicador, 'fkidrepresenvisual' => $value]; //cspell:disable-line
                     $objRepresenVisualPorIndicador = new Entidad($datosRepresenVisualPorIndicador);
-                    $objControlRepresenVisualPorIndicador = new ControlEntidad('represenvisualporindicador');
+                    $objControlRepresenVisualPorIndicador = new ControlEntidad('represenvisualporindicador'); //cspell:disable-line
                     $objControlRepresenVisualPorIndicador->guardar($objRepresenVisualPorIndicador);
                 }
             }
 
             if (!empty($actor)) {
                 foreach ($actor as $key => $value) {
-                    $datosActorPorIndicador = ['fkidresponsable' => $value, 'fkidindicador' => $idIndicador, 'fechaasignacion' => $fecha_y_hora];
+                    $datosActorPorIndicador = ['fkidresponsable' => $value, 'fkidindicador' => $idIndicador, 'fechaasignacion' => $fecha_y_hora]; //cspell:disable-line
                     $objActorPorIndicador = new Entidad($datosActorPorIndicador);
-                    $objControlActorPorIndicador = new ControlEntidad('responsablesporindicador');
+                    $objControlActorPorIndicador = new ControlEntidad('responsablesporindicador'); //cspell:disable-line
                     $objControlActorPorIndicador->guardar($objActorPorIndicador);
                 }
             }
 
             if (!empty($fuente)) {
                 foreach ($fuente as $key => $value) {
-                    $datosFuentePorIndicador = ['fkidfuente' => $value, 'fkidindicador' => $idIndicador];
+                    $datosFuentePorIndicador = ['fkidfuente' => $value, 'fkidindicador' => $idIndicador]; //cspell:disable-line
                     $objFuentePorIndicador = new Entidad($datosFuentePorIndicador);
-                    $objControlFuentePorIndicador = new ControlEntidad('fuentesporindicador');
+                    $objControlFuentePorIndicador = new ControlEntidad('fuentesporindicador'); //cspell:disable-line
                     $objControlFuentePorIndicador->guardar($objFuentePorIndicador);
                 }
             }
 
             if (!empty($variable)) {
                 foreach ($variable as $key => $value) {
-                    $datosVariablePorIndicador = ['fkidvariable' => $value, 'fkidindicador' => $idIndicador, 'dato' => '0', 'fkemailusuario' => $_SESSION['email'], 'fechadato' => $fecha_y_hora];
+                    $datosVariablePorIndicador = ['fkidvariable' => $value, 'fkidindicador' => $idIndicador, 'dato' => '0', 'fkemailusuario' => $_SESSION['email'], 'fechadato' => $fecha_y_hora]; //cspell:disable-line
                     $objVariablePorIndicador = new Entidad($datosVariablePorIndicador);
-                    $objControlVariablePorIndicador = new ControlEntidad('variablesporindicador');
+                    $objControlVariablePorIndicador = new ControlEntidad('variablesporindicador'); //cspell:disable-line
                     $objControlVariablePorIndicador->guardar($objVariablePorIndicador);
                 }
             }
@@ -135,77 +136,77 @@ switch ($boton) {
 
             if ($objIndicador !== null) {
                 $id = $objIndicador->__get('id');
-                $codigo = $objIndicador->__get('codigo');
+                $codigo = $objIndicador->__get('codigo'); //cspell:disable-line
                 $nombre = $objIndicador->__get('nombre');
                 $objetivo = $objIndicador->__get('objetivo');
                 $alcance = $objIndicador->__get('alcance');
                 $formula = $objIndicador->__get('formula');
-                $tipoIndicador = $objIndicador->__get('fkidtipoindicador');
-                $unidadMedicion = $objIndicador->__get('fkidunidadmedicion');
+                $tipoIndicador = $objIndicador->__get('fkidtipoindicador'); //cspell:disable-line
+                $unidadMedicion = $objIndicador->__get('fkidunidadmedicion'); //cspell:disable-line
                 $meta = $objIndicador->__get('meta');
-                $sentido = $objIndicador->__get('fkidsentido');
-                $frecuencia = $objIndicador->__get('fkidfrecuencia');
-                $articulo = $objIndicador->__get('fkidarticulo');
-                $literal = $objIndicador->__get('fkidliteral');
-                $numeral = $objIndicador->__get('fkidnumeral');
-                $paragrafo = $objIndicador->__get('fkidparagrafo');
+                $sentido = $objIndicador->__get('fkidsentido'); //cspell:disable-line
+                $frecuencia = $objIndicador->__get('fkidfrecuencia'); //cspell:disable-line
+                $articulo = $objIndicador->__get('fkidarticulo'); //cspell:disable-line
+                $literal = $objIndicador->__get('fkidliteral'); //cspell:disable-line
+                $numeral = $objIndicador->__get('fkidnumeral'); //cspell:disable-line
+                $paragrafo = $objIndicador->__get('fkidparagrafo'); //cspell:disable-line
 
-                $objControlRepresenVisualPorIndicador = new ControlEntidad('represenvisualporindicador');
-                $sql = "SELECT fkidrepresenvisual FROM represenvisualporindicador WHERE fkidindicador = ?";
+                $objControlRepresenVisualPorIndicador = new ControlEntidad('represenvisualporindicador'); //cspell:disable-line
+                $sql = "SELECT fkidrepresenvisual FROM represenvisualporindicador WHERE fkidindicador = ?"; //cspell:disable-line
                 $parametros = [$id];
                 $arregloRepresenVisualPorIndicador = $objControlRepresenVisualPorIndicador->consultar($sql, $parametros);
                 $idRepresenVisual = [];
                 foreach ($arregloRepresenVisualPorIndicador as $objeto) {
                     $propiedades = $objeto->obtenerPropiedades();
-                    if (isset($propiedades['fkidrepresenvisual'])) {
-                        $idRepresenVisual[] = $propiedades['fkidrepresenvisual'];
+                    if (isset($propiedades['fkidrepresenvisual'])) { //cspell:disable-line
+                        $idRepresenVisual[] = $propiedades['fkidrepresenvisual']; //cspell:disable-line
                     }
                 }
                 $idRepresenVisualString = implode(',', $idRepresenVisual);
                 $represenVisualParam = json_encode($idRepresenVisual);
 
-                $objControlActorPorIndicador = new ControlEntidad('responsablesporindicador');
-                $sql = "SELECT fkidresponsable FROM responsablesporindicador WHERE fkidindicador = ?";
+                $objControlActorPorIndicador = new ControlEntidad('responsablesporindicador'); //cspell:disable-line
+                $sql = "SELECT fkidresponsable FROM responsablesporindicador WHERE fkidindicador = ?"; //cspell:disable-line
                 $parametros = [$id];
                 $arregloActorPorIndicador = $objControlActorPorIndicador->consultar($sql, $parametros);
                 $idActor = [];
                 foreach ($arregloActorPorIndicador as $objeto) {
                     $propiedades = $objeto->obtenerPropiedades();
-                    if (isset($propiedades['fkidresponsable'])) {
-                        $idActor[] = $propiedades['fkidresponsable'];
+                    if (isset($propiedades['fkidresponsable'])) { //cspell:disable-line
+                        $idActor[] = $propiedades['fkidresponsable']; //cspell:disable-line
                     }
                 }
                 $idActorString = implode(',', $idActor);
                 $actorParam = json_encode($idActor);
 
-                $objControlFuentePorIndicador = new ControlEntidad('fuentesporindicador');
-                $sql = "SELECT fkidfuente FROM fuentesporindicador WHERE fkidindicador = ?";
+                $objControlFuentePorIndicador = new ControlEntidad('fuentesporindicador'); //cspell:disable-line
+                $sql = "SELECT fkidfuente FROM fuentesporindicador WHERE fkidindicador = ?"; //cspell:disable-line
                 $parametros = [$id];
                 $arregloFuentePorIndicador = $objControlFuentePorIndicador->consultar($sql, $parametros);
                 $idFuente = [];
                 foreach ($arregloFuentePorIndicador as $objeto) {
                     $propiedades = $objeto->obtenerPropiedades();
-                    if (isset($propiedades['fkidfuente'])) {
-                        $idFuente[] = $propiedades['fkidfuente'];
+                    if (isset($propiedades['fkidfuente'])) { //cspell:disable-line
+                        $idFuente[] = $propiedades['fkidfuente']; //cspell:disable-line
                     }
                 }
                 $idFuenteString = implode(',', $idFuente);
                 $fuenteParam = json_encode($idFuente);
 
-                $objControlVariablePorIndicador = new ControlEntidad('variablesporindicador');
-                $sql = "SELECT fkidvariable FROM variablesporindicador WHERE fkidindicador = ?";
+                $objControlVariablePorIndicador = new ControlEntidad('variablesporindicador'); //cspell:disable-line
+                $sql = "SELECT fkidvariable FROM variablesporindicador WHERE fkidindicador = ?"; //cspell:disable-line
                 $parametros = [$id];
                 $arregloVariablePorIndicador = $objControlVariablePorIndicador->consultar($sql, $parametros);
                 $idVariable = [];
                 foreach ($arregloVariablePorIndicador as $objeto) {
                     $propiedades = $objeto->obtenerPropiedades();
-                    if (isset($propiedades['fkidvariable'])) {
-                        $idVariable[] = $propiedades['fkidvariable'];
+                    if (isset($propiedades['fkidvariable'])) { //cspell:disable-line
+                        $idVariable[] = $propiedades['fkidvariable']; //cspell:disable-line
                     }
                 }
                 $idVariableString = implode(',', $idVariable);
                 $variableParam = json_encode($idVariable);
-                header('Location: VistaIndicador.php?id=' . $id . '&codigo=' . $codigo . '&nombre=' . $nombre . '&objetivo=' . $objetivo . '&alcance=' . $alcance . '&formula=' . $formula . '&tipoIndicador=' . $tipoIndicador . '&unidadMedicion=' . $unidadMedicion . '&meta=' . $meta . '&sentido=' . $sentido . '&frecuencia=' . $frecuencia . '&articulo=' . $articulo . '&literal=' . $literal . '&numeral=' . $numeral . '&paragrafo=' . $paragrafo . '&represenVisual=' . urlencode($represenVisualParam) . '&actor=' . urlencode($actorParam) . '&fuente=' . urlencode($fuenteParam) . '&variable=' . urlencode($variableParam));
+                header('Location: VistaIndicador.php?id=' . $id . '&codigo=' . $codigo . '&nombre=' . $nombre . '&objetivo=' . $objetivo . '&alcance=' . $alcance . '&formula=' . $formula . '&tipoIndicador=' . $tipoIndicador . '&unidadMedicion=' . $unidadMedicion . '&meta=' . $meta . '&sentido=' . $sentido . '&frecuencia=' . $frecuencia . '&articulo=' . $articulo . '&literal=' . $literal . '&numeral=' . $numeral . '&paragrafo=' . $paragrafo . '&represenVisual=' . urlencode($represenVisualParam) . '&actor=' . urlencode($actorParam) . '&fuente=' . urlencode($fuenteParam) . '&variable=' . urlencode($variableParam)); //cspell:disable-line
             } else {
                 header('Location: VistaIndicador.php?spawnNote=0');
             }
@@ -216,54 +217,54 @@ switch ($boton) {
     case 'Modificar':
         try {
             //1. modifica en tabla principal
-            $datosIndicador = ['codigo' => $codigo, 'nombre' => $nombre, 'objetivo' => $objetivo, 'alcance' => $alcance, 'formula' => $formula, 'fkidtipoindicador' => $tipoIndicador, 'fkidunidadmedicion' => $unidadMedicion, 'meta' => $meta, 'fkidsentido' => $sentido, 'fkidfrecuencia' => $frecuencia, 'fkidarticulo' => $articulo, 'fkidliteral' => $literal, 'fkidnumeral' => $numeral, 'fkidparagrafo' => $paragrafo];
+            $datosIndicador = ['codigo' => $codigo, 'nombre' => $nombre, 'objetivo' => $objetivo, 'alcance' => $alcance, 'formula' => $formula, 'fkidtipoindicador' => $tipoIndicador, 'fkidunidadmedicion' => $unidadMedicion, 'meta' => $meta, 'fkidsentido' => $sentido, 'fkidfrecuencia' => $frecuencia, 'fkidarticulo' => $articulo, 'fkidliteral' => $literal, 'fkidnumeral' => $numeral, 'fkidparagrafo' => $paragrafo]; //cspell:disable-line
             $objIndicador = new Entidad($datosIndicador);
             $objControlIndicador = new ControlEntidad('indicador');
             $objControlIndicador->modificar('id', $id, $objIndicador);
 
             //2. borrar todos los registros asociados de la tabla principal en las tablas intermedias
-            $objControlRepresenVisualPorIndicador = new ControlEntidad('represenvisualporindicador');
-            $objControlRepresenVisualPorIndicador->borrar('fkidindicador', $id);
-            $objControlActorPorIndicador = new ControlEntidad('responsablesporindicador');
-            $objControlActorPorIndicador->borrar('fkidindicador', $id);
-            $objControlFuentePorIndicador = new ControlEntidad('fuentesporindicador');
-            $objControlFuentePorIndicador->borrar('fkidindicador', $id);
-            $objControlVariablePorIndicador = new ControlEntidad('variablesporindicador');
-            $objControlVariablePorIndicador->borrar('fkidindicador', $id);
+            $objControlRepresenVisualPorIndicador = new ControlEntidad('represenvisualporindicador'); //cspell:disable-line
+            $objControlRepresenVisualPorIndicador->borrar('fkidindicador', $id); //cspell:disable-line
+            $objControlActorPorIndicador = new ControlEntidad('responsablesporindicador'); //cspell:disable-line
+            $objControlActorPorIndicador->borrar('fkidindicador', $id); //cspell:disable-line
+            $objControlFuentePorIndicador = new ControlEntidad('fuentesporindicador'); //cspell:disable-line
+            $objControlFuentePorIndicador->borrar('fkidindicador', $id); //cspell:disable-line
+            $objControlVariablePorIndicador = new ControlEntidad('variablesporindicador'); //cspell:disable-line
+            $objControlVariablePorIndicador->borrar('fkidindicador', $id); //cspell:disable-line
 
             //3. insertar los nuevos registros asociados de la tabla principal en las tablas intermedias
             if (!empty($represenVisual)) {
                 foreach ($represenVisual as $key => $value) {
-                    $datosRepresenVisualPorIndicador = ['fkidindicador' => $id, 'fkidrepresenvisual' => $value];
+                    $datosRepresenVisualPorIndicador = ['fkidindicador' => $id, 'fkidrepresenvisual' => $value]; //cspell:disable-line
                     $objRepresenVisualPorIndicador = new Entidad($datosRepresenVisualPorIndicador);
-                    $objControlRepresenVisualPorIndicador = new ControlEntidad('represenvisualporindicador');
+                    $objControlRepresenVisualPorIndicador = new ControlEntidad('represenvisualporindicador'); //cspell:disable-line
                     $objControlRepresenVisualPorIndicador->guardar($objRepresenVisualPorIndicador);
                 }
             }
 
             if (!empty($actor)) {
                 foreach ($actor as $key => $value) {
-                    $datosActorPorIndicador = ['fkidresponsable' => $value, 'fkidindicador' => $id, 'fechaasignacion' => $fecha_y_hora];
+                    $datosActorPorIndicador = ['fkidresponsable' => $value, 'fkidindicador' => $id, 'fechaasignacion' => $fecha_y_hora]; //cspell:disable-line
                     $objActorPorIndicador = new Entidad($datosActorPorIndicador);
-                    $objControlActorPorIndicador = new ControlEntidad('responsablesporindicador');
+                    $objControlActorPorIndicador = new ControlEntidad('responsablesporindicador'); //cspell:disable-line
                     $objControlActorPorIndicador->guardar($objActorPorIndicador);
                 }
             }
 
             if (!empty($fuente)) {
                 foreach ($fuente as $key => $value) {
-                    $datosFuentePorIndicador = ['fkidfuente' => $value, 'fkidindicador' => $id];
+                    $datosFuentePorIndicador = ['fkidfuente' => $value, 'fkidindicador' => $id]; //cspell:disable-line
                     $objFuentePorIndicador = new Entidad($datosFuentePorIndicador);
-                    $objControlFuentePorIndicador = new ControlEntidad('fuentesporindicador');
+                    $objControlFuentePorIndicador = new ControlEntidad('fuentesporindicador'); //cspell:disable-line
                     $objControlFuentePorIndicador->guardar($objFuentePorIndicador);
                 }
             }
 
             if (!empty($variable)) {
                 foreach ($variable as $key => $value) {
-                    $datosVariablePorIndicador = ['fkidvariable' => $value, 'fkidindicador' => $id, 'dato' => '0', 'fkemailusuario' => $_SESSION['email'], 'fechadato' => $fecha_y_hora];
+                    $datosVariablePorIndicador = ['fkidvariable' => $value, 'fkidindicador' => $id, 'dato' => '0', 'fkemailusuario' => $_SESSION['email'], 'fechadato' => $fecha_y_hora]; //cspell:disable-line
                     $objVariablePorIndicador = new Entidad($datosVariablePorIndicador);
-                    $objControlVariablePorIndicador = new ControlEntidad('variablesporindicador');
+                    $objControlVariablePorIndicador = new ControlEntidad('variablesporindicador'); //cspell:disable-line
                     $objControlVariablePorIndicador->guardar($objVariablePorIndicador);
                 }
             }
@@ -346,31 +347,31 @@ switch ($boton) {
                             for ($i = $inicio; $i < $fin && $i < $total_registros; $i++) {
                                 $num_registro = $i + 1;
                                 $getid = $arregloIndicadores[$i]->__get('id');
-                                $getcodigo = $arregloIndicadores[$i]->__get('codigo');
+                                $getcodigo = $arregloIndicadores[$i]->__get('codigo'); //cspell:disable-line
                                 $getnombre = $arregloIndicadores[$i]->__get('nombre');
                                 $getobjetivo = $arregloIndicadores[$i]->__get('objetivo');
                                 $getalcance = $arregloIndicadores[$i]->__get('alcance');
                                 $getformula = $arregloIndicadores[$i]->__get('formula');
 
-                                $tipoIndicador = $arregloIndicadores[$i]->__get('fkidtipoindicador');
-                                $objControlTipoIndicador = new ControlEntidad('tipoindicador');
-                                $sql = "SELECT * FROM tipoindicador WHERE id = ?";
+                                $tipoIndicador = $arregloIndicadores[$i]->__get('fkidtipoindicador'); //cspell:disable-line
+                                $objControlTipoIndicador = new ControlEntidad('tipoindicador'); //cspell:disable-line
+                                $sql = "SELECT * FROM tipoindicador WHERE id = ?"; //cspell:disable-line
                                 $parametros = [$tipoIndicador];
                                 $arreglotipoIndicadorConsulta = $objControlTipoIndicador->consultar($sql, $parametros);
                                 $gettipoIndicador = $arreglotipoIndicadorConsulta[0]->__get('nombre');
                                 $getIdTipoIndicador = $arreglotipoIndicadorConsulta[0]->__get('id');
 
-                                $unidadMedicion = $arregloIndicadores[$i]->__get('fkidunidadmedicion');
-                                $objControlUnidadMedicion = new ControlEntidad('unidadmedicion');
-                                $sql = "SELECT * FROM unidadmedicion WHERE id = ?";
+                                $unidadMedicion = $arregloIndicadores[$i]->__get('fkidunidadmedicion'); //cspell:disable-line
+                                $objControlUnidadMedicion = new ControlEntidad('unidadmedicion'); //cspell:disable-line
+                                $sql = "SELECT * FROM unidadmedicion WHERE id = ?"; //cspell:disable-line
                                 $parametros = [$unidadMedicion];
                                 $arregloUnidadMedicionConsulta = $objControlUnidadMedicion->consultar($sql, $parametros);
-                                $getunidadMedicion = $arregloUnidadMedicionConsulta[0]->__get('descripcion');
+                                $getunidadMedicion = $arregloUnidadMedicionConsulta[0]->__get('descripcion'); //cspell:disable-line
                                 $getIdUnidadMedicion = $arregloUnidadMedicionConsulta[0]->__get('id');
 
                                 $getmeta = $arregloIndicadores[$i]->__get('meta');
 
-                                $sentido = $arregloIndicadores[$i]->__get('fkidsentido');
+                                $sentido = $arregloIndicadores[$i]->__get('fkidsentido'); //cspell:disable-line
                                 $objControlSentido = new ControlEntidad('sentido');
                                 $sql = "SELECT * FROM sentido WHERE id = ?";
                                 $parametros = [$sentido];
@@ -378,7 +379,7 @@ switch ($boton) {
                                 $getsentido = $arregloSentidoConsulta[0]->__get('nombre');
                                 $getIdSentido = $arregloSentidoConsulta[0]->__get('id');
 
-                                $frecuencia = $arregloIndicadores[$i]->__get('fkidfrecuencia');
+                                $frecuencia = $arregloIndicadores[$i]->__get('fkidfrecuencia'); //cspell:disable-line
                                 $objControlFrecuencia = new ControlEntidad('frecuencia');
                                 $sql = "SELECT * FROM frecuencia WHERE id = ?";
                                 $parametros = [$frecuencia];
@@ -386,82 +387,82 @@ switch ($boton) {
                                 $getfrecuencia = $arregloFrecuenciaConsulta[0]->__get('nombre');
                                 $getIdFrecuencia = $arregloFrecuenciaConsulta[0]->__get('id');
 
-                                $articulo = $arregloIndicadores[$i]->__get('fkidarticulo');
+                                $articulo = $arregloIndicadores[$i]->__get('fkidarticulo'); //cspell:disable-line
                                 $objControlArticulo = new ControlEntidad('articulo');
                                 $sql = "SELECT nombre FROM articulo WHERE id = ?";
                                 $parametros = [$articulo];
                                 $arregloArticuloConsulta = $objControlArticulo->consultar($sql, $parametros);
                                 $getarticulo = $arregloArticuloConsulta[0]->__get('nombre');
 
-                                $literal = $arregloIndicadores[$i]->__get('fkidliteral');
+                                $literal = $arregloIndicadores[$i]->__get('fkidliteral'); //cspell:disable-line
                                 $objControlLiteral = new ControlEntidad('literal');
-                                $sql = "SELECT descripcion FROM literal WHERE id = ?";
+                                $sql = "SELECT descripcion FROM literal WHERE id = ?"; //cspell:disable-line
                                 $parametros = [$literal];
                                 $arregloLiteralConsulta = $objControlLiteral->consultar($sql, $parametros);
-                                $getliteral = $arregloLiteralConsulta[0]->__get('descripcion');
+                                $getliteral = $arregloLiteralConsulta[0]->__get('descripcion'); //cspell:disable-line
 
-                                $numeral = $arregloIndicadores[$i]->__get('fkidnumeral');
+                                $numeral = $arregloIndicadores[$i]->__get('fkidnumeral'); //cspell:disable-line
                                 $objControlNumeral = new ControlEntidad('numeral');
-                                $sql = "SELECT descripcion FROM numeral WHERE id = ?";
+                                $sql = "SELECT descripcion FROM numeral WHERE id = ?"; //cspell:disable-line
                                 $parametros = [$numeral];
                                 $arregloNumeralConsulta = $objControlNumeral->consultar($sql, $parametros);
-                                $getnumeral = $arregloNumeralConsulta[0]->__get('descripcion');
+                                $getnumeral = $arregloNumeralConsulta[0]->__get('descripcion'); //cspell:disable-line
 
-                                $paragrafo = $arregloIndicadores[$i]->__get('fkidparagrafo');
-                                $objControlParagrafo = new ControlEntidad('paragrafo');
-                                $sql = "SELECT descripcion FROM paragrafo WHERE id = ?";
+                                $paragrafo = $arregloIndicadores[$i]->__get('fkidparagrafo'); //cspell:disable-line
+                                $objControlParagrafo = new ControlEntidad('paragrafo'); //cspell:disable-line
+                                $sql = "SELECT descripcion FROM paragrafo WHERE id = ?"; //cspell:disable-line
                                 $parametros = [$paragrafo];
                                 $arregloParagrafoConsulta = $objControlParagrafo->consultar($sql, $parametros);
-                                $getparagrafo = $arregloParagrafoConsulta[0]->__get('descripcion');
+                                $getparagrafo = $arregloParagrafoConsulta[0]->__get('descripcion'); //cspell:disable-line
 
-                                $objControlRepresenVisualPorIndicador = new ControlEntidad('represenvisualporindicador');
-                                $sql = "SELECT fkidrepresenvisual FROM represenvisualporindicador WHERE fkidindicador = ?";
+                                $objControlRepresenVisualPorIndicador = new ControlEntidad('represenvisualporindicador'); //cspell:disable-line
+                                $sql = "SELECT fkidrepresenvisual FROM represenvisualporindicador WHERE fkidindicador = ?"; //cspell:disable-line
                                 $parametros = [$getid];
                                 $arregloRepresenVisualPorIndicador = $objControlRepresenVisualPorIndicador->consultar($sql, $parametros);
                                 $idRepresenVisualString = '';
                                 foreach ($arregloRepresenVisualPorIndicador as $objeto) {
                                     $propiedades = $objeto->obtenerPropiedades();
-                                    if (isset($propiedades['fkidrepresenvisual'])) {
-                                        $idRepresenVisual = $propiedades['fkidrepresenvisual'];
+                                    if (isset($propiedades['fkidrepresenvisual'])) { //cspell:disable-line
+                                        $idRepresenVisual = $propiedades['fkidrepresenvisual']; //cspell:disable-line
                                         $idRepresenVisualString .= $idRepresenVisual . ', ';
                                     }
                                 }
 
-                                $objControlActorPorIndicador = new ControlEntidad('responsablesporindicador');
-                                $sql = "SELECT fkidresponsable FROM responsablesporindicador WHERE fkidindicador = ?";
+                                $objControlActorPorIndicador = new ControlEntidad('responsablesporindicador'); //cspell:disable-line
+                                $sql = "SELECT fkidresponsable FROM responsablesporindicador WHERE fkidindicador = ?"; //cspell:disable-line
                                 $parametros = [$getid];
                                 $arregloActorPorIndicador = $objControlActorPorIndicador->consultar($sql, $parametros);
                                 $idActorString = '';
                                 foreach ($arregloActorPorIndicador as $objeto) {
                                     $propiedades = $objeto->obtenerPropiedades();
-                                    if (isset($propiedades['fkidresponsable'])) {
-                                        $idActor = $propiedades['fkidresponsable'];
+                                    if (isset($propiedades['fkidresponsable'])) { //cspell:disable-line
+                                        $idActor = $propiedades['fkidresponsable']; //cspell:disable-line
                                         $idActorString .= $idActor . ', ';
                                     }
                                 }
 
-                                $objControlFuentePorIndicador = new ControlEntidad('fuentesporindicador');
-                                $sql = "SELECT fkidfuente FROM fuentesporindicador WHERE fkidindicador = ?";
+                                $objControlFuentePorIndicador = new ControlEntidad('fuentesporindicador'); //cspell:disable-line
+                                $sql = "SELECT fkidfuente FROM fuentesporindicador WHERE fkidindicador = ?"; //cspell:disable-line
                                 $parametros = [$getid];
                                 $arregloFuentePorIndicador = $objControlFuentePorIndicador->consultar($sql, $parametros);
                                 $idFuenteString = '';
                                 foreach ($arregloFuentePorIndicador as $objeto) {
                                     $propiedades = $objeto->obtenerPropiedades();
-                                    if (isset($propiedades['fkidfuente'])) {
-                                        $idFuente = $propiedades['fkidfuente'];
+                                    if (isset($propiedades['fkidfuente'])) { //cspell:disable-line
+                                        $idFuente = $propiedades['fkidfuente']; //cspell:disable-line
                                         $idFuenteString .= $idFuente . ', ';
                                     }
                                 }
 
-                                $objControlVariablePorIndicador = new ControlEntidad('variablesporindicador');
-                                $sql = "SELECT fkidvariable FROM variablesporindicador WHERE fkidindicador = ?";
+                                $objControlVariablePorIndicador = new ControlEntidad('variablesporindicador'); //cspell:disable-line
+                                $sql = "SELECT fkidvariable FROM variablesporindicador WHERE fkidindicador = ?"; //cspell:disable-line
                                 $parametros = [$getid];
                                 $arregloVariablePorIndicador = $objControlVariablePorIndicador->consultar($sql, $parametros);
                                 $idVariableString = '';
                                 foreach ($arregloVariablePorIndicador as $objeto) {
                                     $propiedades = $objeto->obtenerPropiedades();
-                                    if (isset($propiedades['fkidvariable'])) {
-                                        $idVariable = $propiedades['fkidvariable'];
+                                    if (isset($propiedades['fkidvariable'])) { //cspell:disable-line
+                                        $idVariable = $propiedades['fkidvariable']; //cspell:disable-line
                                         $idVariableString .= $idVariable . ', ';
                                     }
                                 }
@@ -486,7 +487,8 @@ switch ($boton) {
                                     <td>
                                         <div class="btn-group" role="group">
                                             <form method="post" action="VistaIndicador.php" enctype="multipart/form-data">
-                                                <button type="button" class="btn btn-warning btn-sm btn-edit botonModificar"
+                                                <!-- cspell:disable -->
+                                                <button type="button" class="btn btn-warning btn-sm btn-edit botonModificar" 
                                                     name="modificar" data-bs-toggle="modal" data-bs-target="#editIndicador"
                                                     data-bs-id="<?= $getid ?>" data-bs-codigo="<?= $getcodigo ?>"
                                                     data-bs-nombre="<?= $getnombre ?>"
@@ -504,14 +506,14 @@ switch ($boton) {
                                                     data-bs-fuentes="<?= $idFuenteString ?>"
                                                     data-bs-variables="<?= $idVariableString ?>"><i
                                                         class="bi bi-pencil-square"
-                                                        style="font-size: 0.75rem;"></i></button>
+                                                        style="font-size: 0.75rem;"></i></button>   
                                             </form>
                                             <form method="post" action="VistaIndicador.php" enctype="multipart/form-data">
                                                 <button type="button" class="btn btn-danger btn-sm" name="delete"
                                                     data-bs-toggle="modal" data-bs-target="#deleteIndicador"
                                                     data-bs-id="<?= $getid ?>"><i class="bi bi-trash-fill"
                                                         style="font-size: 0.75rem;"></i></button>
-                                            </form>
+                                            </form><!-- cspell:enable -->  
 
                                         </div>
                                     </td>
@@ -564,8 +566,10 @@ switch ($boton) {
                     <div class="modal-body">
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
+                            <!-- cspell:disable -->
                             <input type="text" id="txtCodigo" name="txtCodigo" value="" class="form-control"
                                 placeholder="Codigo" aria-label="Codigo" aria-describedby="basic-addon1" required>
+                            <!-- cspell:enable -->  
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
@@ -602,13 +606,13 @@ switch ($boton) {
                             </select>
                         </div>
                         <div class="input-group mb-3">
-                            <select class="form-select" id="txtUnidadMedicion" name="txtUnidadMedicion" required>
+                            <select class="form-select" id="txtUnidadMedicion" name="txtUnidadMedicion" required><!-- cspell:disable-line -->
                                 <option selected disabled value="">Unidad de Medición</option>
                                 <?php
                                 for ($i = 0; $i < count($arregloUnidadMedicion); $i++) {
                                     $id = $arregloUnidadMedicion[$i]->__get('id');
-                                    $descripcion = $arregloUnidadMedicion[$i]->__get('descripcion');
-                                    echo "<option value='$id'>$descripcion</option>";
+                                    $descripcion = $arregloUnidadMedicion[$i]->__get('descripcion'); //cspell:disable-line
+                                    echo "<option value='$id'>$descripcion</option>"; //cspell:disable-line
                                 }
                                 ?>
                             </select>
@@ -655,37 +659,40 @@ switch ($boton) {
                             </select>
                         </div>
                         <div class="input-group mb-3">
-                            <select class="form-select" id="txtLiteral" name="txtLiteral" required>
+                            <select class="form-select" id="txtLiteral" name="txtLiteral">
                                 <option selected disabled value="">Literal</option>
                                 <?php
                                 for ($i = 0; $i < count($arregloLiteral); $i++) {
                                     $id = $arregloLiteral[$i]->__get('id');
-                                    $descripcion = $arregloLiteral[$i]->__get('descripcion');
-                                    echo "<option value='$id'>$descripcion</option>";
+                                    $descripcion = $arregloLiteral[$i]->__get('descripcion'); //cspell:disable-line
+                                    $fkidarticulo = $arregloLiteral[$i]->__get('fkidarticulo'); //cspell:disable-line
+                                    echo "<option value='$id' data-bs-articulo='$fkidarticulo' hidden>$descripcion</option>"; //cspell:disable-line
                                 }
                                 ?>
                             </select>
                         </div>
                         <div class="input-group mb-3">
-                            <select class="form-select" id="txtNumeral" name="txtNumeral" required>
+                            <select class="form-select" id="txtNumeral" name="txtNumeral">
                                 <option selected disabled value="">Numeral</option>
                                 <?php
                                 for ($i = 0; $i < count($arregloNumeral); $i++) {
                                     $id = $arregloNumeral[$i]->__get('id');
-                                    $descripcion = $arregloNumeral[$i]->__get('descripcion');
-                                    echo "<option value='$id'>$descripcion</option>";
+                                    $descripcion = $arregloNumeral[$i]->__get('descripcion'); //cspell:disable-line
+                                    $fkidliteral = $arregloNumeral[$i]->__get('fkidliteral'); //cspell:disable-line
+                                    echo "<option value='$id' data-bs-literal='$fkidliteral' hidden>$descripcion</option>"; //cspell:disable-line
                                 }
                                 ?>
                             </select>
                         </div>
                         <div class="input-group mb-3">
-                            <select class="form-select" id="txtParagrafo" name="txtParagrafo" required>
+                            <select class="form-select" id="txtParagrafo" name="txtParagrafo"> <!-- cspell:disable-line -->
                                 <option selected disabled value="">Paragrafo</option>
                                 <?php
                                 for ($i = 0; $i < count($arregloParagrafo); $i++) {
                                     $id = $arregloParagrafo[$i]->__get('id');
-                                    $descripcion = $arregloParagrafo[$i]->__get('descripcion');
-                                    echo "<option value='$id'>$descripcion</option>";
+                                    $descripcion = $arregloParagrafo[$i]->__get('descripcion'); //cspell:disable-line
+                                    $fkidarticulo = $arregloParagrafo[$i]->__get('fkidarticulo'); //cspell:disable-line
+                                    echo "<option value='$id' data-bs-articulo='$fkidarticulo' hidden>$descripcion</option>"; //cspell:disable-line
                                 }
                                 ?>
                             </select>
@@ -697,8 +704,8 @@ switch ($boton) {
                                 $nombre = $arregloRepresenVisual[$i]->__get('nombre'); ?>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="represen_modal[<?= $id ?>]"
-                                        value="<?= $id ?>" id="opcion<?= $id ?>_modal">
-                                    <label class="form-check-label" for="opcion<?= $id ?>_modal">
+                                        value="<?= $id ?>" id="opcion<?= $id ?>_modal"> <!-- cspell:disable-line -->
+                                    <label class="form-check-label" for="opcion<?= $id ?>_modal"> <!-- cspell:disable-line -->
                                         <?= $nombre ?>
                                     </label>
                                 </div>
@@ -706,17 +713,19 @@ switch ($boton) {
                         </div>
                         <h5>Selecciona los responsables:</h5>
                         <div class="container mt-3">
-                            <?php for ($i = 0; $i < count($arregloActor); $i++) {
-                                $id = $arregloActor[$i]->__get('id');
-                                $nombre = $arregloActor[$i]->__get('nombre'); ?>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="actores_modal[<?= $id ?>]"
-                                        value="<?= $id ?>" id="opcion<?= $id ?>_modal">
-                                    <label class="form-check-label" for="opcion<?= $id ?>_modal">
-                                        <?= $nombre ?>
-                                    </label>
-                                </div>
-                            <?php } ?>
+
+                            <select class="form-select" id="txtActor" name="txtActor[]" required multiple>
+                                <option selected disabled value="">Actor</option>
+                                <?php
+                                for ($i = 0; $i < count($arregloActor); $i++) {
+                                    $id = $arregloActor[$i]->__get('id');
+                                    $nombre = $arregloActor[$i]->__get('nombre');
+                                    echo "<option value='$id'>$nombre</option>";
+                                }
+                                ?>
+                            </select>
+                                    
+                            <p>Manten presionado el boton Ctrl (windows) o Command (Mac) para seleccionar multiples opciones.</p>
                         </div>
                         <h5>Selecciona las Fuentes:</h5>
                         <div class="container mt-3">
@@ -725,8 +734,8 @@ switch ($boton) {
                                 $nombre = $arregloFuente[$i]->__get('nombre'); ?>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="fuentes_modal[<?= $id ?>]"
-                                        value="<?= $id ?>" id="opcion<?= $id ?>_modal">
-                                    <label class="form-check-label" for="opcion<?= $id ?>_modal">
+                                        value="<?= $id ?>" id="opcion<?= $id ?>_modal"> <!-- cspell:disable-line -->
+                                    <label class="form-check-label" for="opcion<?= $id ?>_modal"> <!-- cspell:disable-line -->
                                         <?= $nombre ?>
                                     </label>
                                 </div>
@@ -739,8 +748,8 @@ switch ($boton) {
                                 $nombre = $arregloVariable[$i]->__get('nombre'); ?>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="variables_modal[<?= $id ?>]"
-                                        value="<?= $id ?>" id="opcion<?= $id ?>_modal">
-                                    <label class="form-check-label" for="opcion<?= $id ?>_modal">
+                                        value="<?= $id ?>" id="opcion<?= $id ?>_modal"> <!-- cspell:disable-line -->
+                                    <label class="form-check-label" for="opcion<?= $id ?>_modal"> <!-- cspell:disable-line -->
                                         <?= $nombre ?>
                                     </label>
                                 </div>
@@ -773,8 +782,10 @@ switch ($boton) {
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
+                            <!-- cspell:disable -->
                             <input type="text" id="txtCodigo" name="txtCodigo" value="" class="form-control"
                                 placeholder="Codigo" aria-label="Codigo" aria-describedby="basic-addon1" required>
+                            <!-- cspell:enable -->  
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
@@ -811,13 +822,13 @@ switch ($boton) {
                             </select>
                         </div>
                         <div class="input-group mb-3">
-                            <select class="form-select" id="txtUnidadMedicion" name="txtUnidadMedicion" required>
+                            <select class="form-select" id="txtUnidadMedicion" name="txtUnidadMedicion" required> <!-- cspell:disable-line -->
                                 <option selected disabled value="">Unidad de Medición</option>
                                 <?php
                                 for ($i = 0; $i < count($arregloUnidadMedicion); $i++) {
                                     $id = $arregloUnidadMedicion[$i]->__get('id');
-                                    $descripcion = $arregloUnidadMedicion[$i]->__get('descripcion');
-                                    echo "<option value='$id'>$descripcion</option>";
+                                    $descripcion = $arregloUnidadMedicion[$i]->__get('descripcion'); //cspell:disable-line
+                                    echo "<option value='$id'>$descripcion</option>"; //cspell:disable-line
                                 }
                                 ?>
                             </select>
@@ -852,7 +863,7 @@ switch ($boton) {
                             </select>
                         </div>
                         <div class="input-group mb-3">
-                            <select class="form-select" id="txtArticulo" name="txtArticulo" required>
+                            <select class="form-select" id="txtArticuloEdit" name="txtArticulo" required>
                                 <option selected disabled value="">Articulo</option>
                                 <?php
                                 for ($i = 0; $i < count($arregloArticulo); $i++) {
@@ -864,37 +875,40 @@ switch ($boton) {
                             </select>
                         </div>
                         <div class="input-group mb-3">
-                            <select class="form-select" id="txtLiteral" name="txtLiteral" required>
+                            <select class="form-select" id="txtLiteralEdit" name="txtLiteral">
                                 <option selected disabled value="">Literal</option>
                                 <?php
                                 for ($i = 0; $i < count($arregloLiteral); $i++) {
                                     $id = $arregloLiteral[$i]->__get('id');
-                                    $descripcion = $arregloLiteral[$i]->__get('descripcion');
-                                    echo "<option value='$id'>$descripcion</option>";
+                                    $descripcion = $arregloLiteral[$i]->__get('descripcion'); //cspell:disable-line
+                                    $fkidarticulo = $arregloLiteral[$i]->__get('fkidarticulo'); //cspell:disable-line
+                                    echo "<option value='$id' data-bs-articulo='$fkidarticulo' hidden>$descripcion</option>"; //cspell:disable-line
                                 }
                                 ?>
                             </select>
                         </div>
                         <div class="input-group mb-3">
-                            <select class="form-select" id="txtNumeral" name="txtNumeral" required>
+                            <select class="form-select" id="txtNumeralEdit" name="txtNumeral">
                                 <option selected disabled value="">Numeral</option>
                                 <?php
                                 for ($i = 0; $i < count($arregloNumeral); $i++) {
                                     $id = $arregloNumeral[$i]->__get('id');
-                                    $descripcion = $arregloNumeral[$i]->__get('descripcion');
-                                    echo "<option value='$id'>$descripcion</option>";
+                                    $descripcion = $arregloNumeral[$i]->__get('descripcion'); //cspell:disable-line
+                                    $fkidliteral = $arregloNumeral[$i]->__get('fkidliteral'); //cspell:disable-line
+                                    echo "<option value='$id' data-bs-literal='$fkidliteral'>$descripcion</option>"; //cspell:disable-line
                                 }
                                 ?>
                             </select>
                         </div>
                         <div class="input-group mb-3">
-                            <select class="form-select" id="txtParagrafo" name="txtParagrafo" required>
+                            <select class="form-select" id="txtParagrafoEdit" name="txtParagrafo"> <!-- cspell:disable-line -->
                                 <option selected disabled value="">Paragrafo</option>
                                 <?php
                                 for ($i = 0; $i < count($arregloParagrafo); $i++) {
                                     $id = $arregloParagrafo[$i]->__get('id');
-                                    $descripcion = $arregloParagrafo[$i]->__get('descripcion');
-                                    echo "<option value='$id'>$descripcion</option>";
+                                    $descripcion = $arregloParagrafo[$i]->__get('descripcion'); //cspell:disable-line
+                                    $fkidarticulo = $arregloParagrafo[$i]->__get('fkidarticulo'); //cspell:disable-line
+                                    echo "<option value='$id' data-bs-articulo='$fkidarticulo'>$descripcion</option>"; //cspell:disable-line
                                 }
                                 ?>
                             </select>
@@ -915,17 +929,17 @@ switch ($boton) {
                         </div>
                         <h5>Selecciona los responsables:</h5>
                         <div class="container mt-3">
-                            <?php for ($i = 0; $i < count($arregloActor); $i++) {
-                                $id = $arregloActor[$i]->__get('id');
-                                $nombre = $arregloActor[$i]->__get('nombre'); ?>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="actores_modal[<?= $id ?>]"
-                                        value="<?= $id ?>" id="actores_modal<?= $id ?>_modal">
-                                    <label class="form-check-label" for="actores_modal<?= $id ?>_modal">
-                                        <?= $nombre ?>
-                                    </label>
-                                </div>
-                            <?php } ?>
+                            <select class="form-select" id="txtActor" name="txtActor[]" required multiple>
+                                <option selected disabled value="">Actor</option>
+                                <?php
+                                for ($i = 0; $i < count($arregloActor); $i++) {
+                                    $id = $arregloActor[$i]->__get('id');
+                                    $nombre = $arregloActor[$i]->__get('nombre');
+                                    echo "<option id='opcion$id' value='$id'>$nombre</option>"; //cspell:disable-line
+                                }
+                                ?>
+                            </select>    
+                            <p>Manten presionado el boton Ctrl (windows) o Command (Mac) para seleccionar multiples opciones.</p>
                         </div>
                         <h5>Selecciona las Fuentes:</h5>
                         <div class="container mt-3">
@@ -959,7 +973,7 @@ switch ($boton) {
                     <div class="modal-footer">
                         <input type="hidden" name="action" value="modificar">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                            id="botonCancelar2">Cancelar</button>
+                            id="botonCancelar2">Cancelar</button> <!-- cspell:disable-line -->
                         <button type="submit" class="btn btn-warning" formmethod="post" name="bt"
                             value="Modificar">Modificar</button>
                         <button type="submit" class="btn btn-danger" formmethod="post" name="bt" id="confirmDelete"
@@ -1019,20 +1033,20 @@ switch ($boton) {
             const variablesdecodi = decodeURIComponent(variablescodi);
             // Obtener los valores de los parámetros
             const id = params.get('id');
-            const codigo = params.get('codigo');
+            const codigo = params.get('codigo'); //cspell:disable-line
             const nombre = params.get('nombre');
             const objetivo = params.get('objetivo');
             const alcance = params.get('alcance');
             const formula = params.get('formula');
             const tipoIndicador = params.get('tipoIndicador');
-            const unidadMedicion = params.get('unidadMedicion');
+            const unidadMedicion = params.get('unidadMedicion'); //cspell:disable-line
             const meta = params.get('meta');
             const sentido = params.get('sentido');
             const frecuencia = params.get('frecuencia');
             const articulo = params.get('articulo');
             const literal = params.get('literal');
             const numeral = params.get('numeral');
-            const paragrafo = params.get('paragrafo');
+            const paragrafo = params.get('paragrafo'); //cspell:disable-line
             const represenVisual = JSON.parse(represenvisualdecodi);
             const actores = JSON.parse(actoresdecodi);
             const fuentes = JSON.parse(fuentesdecodi);
@@ -1050,26 +1064,26 @@ switch ($boton) {
         }
     });
 
-    const openEditModalButtons = document.getElementsByClassName('botonModificar');
+    const openEditModalButtons = document.getElementsByClassName('botonModificar'); //cspell:disable-line
 
     for (let i = 0; i < openEditModalButtons.length; i++) {
         openEditModalButtons[i].addEventListener('click', function () {
             const id = this.getAttribute('data-bs-id');
-            const codigo = this.getAttribute('data-bs-codigo');
+            const codigo = this.getAttribute('data-bs-codigo'); //cspell:disable-line
             const nombre = this.getAttribute('data-bs-nombre');
             const objetivo = this.getAttribute('data-bs-objetivo');
             const alcance = this.getAttribute('data-bs-alcance');
             const formula = this.getAttribute('data-bs-formula');
             const tipoIndicador = this.getAttribute('data-bs-tipoIndicador');
-            const unidadMedicion = this.getAttribute('data-bs-unidadMedicion');
+            const unidadMedicion = this.getAttribute('data-bs-unidadMedicion'); //cspell:disable-line
             const meta = this.getAttribute('data-bs-meta');
             const sentido = this.getAttribute('data-bs-sentido');
             const frecuencia = this.getAttribute('data-bs-frecuencia');
             const articulo = this.getAttribute('data-bs-articulo');
             const literal = this.getAttribute('data-bs-literal');
             const numeral = this.getAttribute('data-bs-numeral');
-            const paragrafo = this.getAttribute('data-bs-paragrafo');
-            const represenVisual = this.getAttribute('data-bs-represenvisual').split(',').map(Number); // Convertir a array de números
+            const paragrafo = this.getAttribute('data-bs-paragrafo'); //cspell:disable-line
+            const represenVisual = this.getAttribute('data-bs-represenvisual').split(',').map(Number); // Convertir a array de números //cspell:disable-line
             const actores = this.getAttribute('data-bs-actores').split(',').map(Number); // Convertir a array de números
             const fuentes = this.getAttribute('data-bs-fuentes').split(',').map(Number); // Convertir a array de números
             const variables = this.getAttribute('data-bs-variables').split(',').map(Number); // Convertir a array de números
@@ -1085,7 +1099,7 @@ switch ($boton) {
         });
     }
 
-    const CancelarEditButton = document.getElementById('botonCancelar2');
+    const CancelarEditButton = document.getElementById('botonCancelar2'); //cspell:disable-line
 
     if (CancelarEditButton) {
         CancelarEditButton.addEventListener('click', () => {
@@ -1104,20 +1118,20 @@ switch ($boton) {
     function cargarDatos(id, codigo, nombre, objetivo, alcance, formula, tipoIndicador, unidadMedicion, meta, sentido, frecuencia, articulo, literal, numeral, paragrafo, represenVisual, actores, fuentes, variables) {
         const modalTitle = editIndicador.querySelector('.modal-title');
         const idInput = editIndicador.querySelector('#txtId');
-        const codigoInput = editIndicador.querySelector('#txtCodigo');
+        const codigoInput = editIndicador.querySelector('#txtCodigo'); //cspell:disable-line
         const nombreInput = editIndicador.querySelector('#txtNombre');
         const objetivoInput = editIndicador.querySelector('#txtObjetivo');
         const alcanceInput = editIndicador.querySelector('#txtAlcance');
         const formulaInput = editIndicador.querySelector('#txtFormula');
         const tipoIndicadorInput = editIndicador.querySelector('#txtTipoIndicador');
-        const unidadMedicionInput = editIndicador.querySelector('#txtUnidadMedicion');
+        const unidadMedicionInput = editIndicador.querySelector('#txtUnidadMedicion'); //cspell:disable-line
         const metaInput = editIndicador.querySelector('#txtMeta');
         const sentidoInput = editIndicador.querySelector('#txtSentido');
         const frecuenciaInput = editIndicador.querySelector('#txtFrecuencia');
-        const articuloInput = editIndicador.querySelector('#txtArticulo');
-        const literalInput = editIndicador.querySelector('#txtLiteral');
-        const numeralInput = editIndicador.querySelector('#txtNumeral');
-        const paragrafoInput = editIndicador.querySelector('#txtParagrafo');
+        const articuloInput = editIndicador.querySelector('#txtArticuloEdit');
+        const literalInput = editIndicador.querySelector('#txtLiteralEdit');
+        const numeralInput = editIndicador.querySelector('#txtNumeralEdit');
+        const paragrafoInput = editIndicador.querySelector('#txtParagrafoEdit'); //cspell:disable-line
 
         modalTitle.textContent = `Modificar Indicador ${id}`;
         idInput.value = id;
@@ -1150,9 +1164,9 @@ switch ($boton) {
         });
 
         actores.forEach(id => {
-            const checkbox = document.getElementById(`actores_modal${id}_modal`);
-            if (checkbox) {
-                checkbox.checked = true;
+            const option = document.getElementById(`opcion${id}`); //cspell:disable-line
+            if (option) {
+                option.selected = true;
             }
         });
 
@@ -1189,6 +1203,103 @@ switch ($boton) {
             idInput.value = id
         })
     }
+
+    // Obtener los selectores
+    const selectArticulo = document.getElementById('txtArticulo');
+    const selectLiteral = document.getElementById('txtLiteral');
+    const selectNumeral = document.getElementById('txtNumeral');
+    const selectParagrafo = document.getElementById('txtParagrafo'); //cspell:disable-line
+
+    // Filtrar literales según el artículo seleccionado
+    selectArticulo.addEventListener('change', function() {
+        const idArticulo = this.value;
+        // Mostrar las opciones correspondientes en selectLiteral
+        [...selectLiteral.options].forEach(option => {
+            if (option.getAttribute('data-bs-articulo') === idArticulo || option.value === '') {
+                option.hidden = false;
+            } else {
+                option.hidden = true;
+            }
+        });
+        selectLiteral.value = '';
+    });
+
+    // Filtrar numerales según el literal seleccionado
+    selectLiteral.addEventListener('change', function() {
+        const idLiteral = this.value;
+        // Mostrar las opciones correspondientes en selectNumeral
+        [...selectNumeral.options].forEach(option => {
+            if (option.getAttribute('data-bs-literal') === idLiteral || option.value === '') {
+                option.hidden = false;
+            } else {
+                option.hidden = true;
+            }
+        });
+        selectNumeral.value = '';
+    });
+
+    // Filtrar párrafos según el artículo seleccionado
+    selectArticulo.addEventListener('change', function() {
+        const idArticulo = this.value;
+        // Mostrar las opciones correspondientes en selectParagrafo
+        [...selectParagrafo.options].forEach(option => {
+            if (option.getAttribute('data-bs-articulo') === idArticulo || option.value === '') {
+                option.hidden = false;
+            } else {
+                option.hidden = true;
+            }
+        });
+        selectParagrafo.value = '';
+    });
+
+    // Obtener los selectores
+    const selectArticuloEdit = document.getElementById('txtArticuloEdit');
+    const selectLiteralEdit = document.getElementById('txtLiteralEdit');
+    const selectNumeralEdit = document.getElementById('txtNumeralEdit');
+    const selectParagrafoEdit = document.getElementById('txtParagrafoEdit'); //cspell:disable-line
+
+    // Filtrar literales según el artículo seleccionado
+    selectArticuloEdit.addEventListener('change', function() {
+        const idArticulo = this.value;
+        // Mostrar las opciones correspondientes en selectLiteral
+        [...selectLiteralEdit.options].forEach(option => {
+            if (option.getAttribute('data-bs-articulo') === idArticulo || option.value === '') {
+                option.hidden = false;
+            } else {
+                option.hidden = true;
+            }
+        });
+        selectLiteralEdit.value = '';
+        selectNumeralEdit.value = '';
+    });
+
+    // Filtrar numerales según el literal seleccionado
+    selectLiteralEdit.addEventListener('change', function() {
+        const idLiteral = this.value;
+        // Mostrar las opciones correspondientes en selectNumeral
+        [...selectNumeralEdit.options].forEach(option => {
+            if (option.getAttribute('data-bs-literal') === idLiteral || option.value === '') {
+                option.hidden = false;
+            } else {
+                option.hidden = true;
+            }
+        });
+        selectNumeralEdit.value = '';
+    });
+
+    // Filtrar párrafos según el artículo seleccionado
+    selectArticuloEdit.addEventListener('change', function() {
+        const idArticulo = this.value;
+        // Mostrar las opciones correspondientes en selectParagrafo
+        [...selectParagrafoEdit.options].forEach(option => {
+            if (option.getAttribute('data-bs-articulo') === idArticulo || option.value === '') {
+                option.hidden = false;
+            } else {
+                option.hidden = true;
+            }
+        });
+        selectParagrafoEdit.value = '';
+    });
 </script>
 
 <?php include 'footer.html'; ?>

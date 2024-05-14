@@ -64,4 +64,4 @@ class ControlFuente{
         $conexionBD->desconectar();
     }
 }
-?>
+?> //cspell:disable-line
