@@ -70,7 +70,7 @@
 
                             foreach ($roles as $key => $value) {
                                 if (isset($_SESSION[$key])) {
-                                    echo 'Rol: ' . $value;
+                                    echo 'Rol: ' . $value .'<br>';
                                 }
                             }
                             echo '<a class="nav-link scrollto" href="cerrarSesion.php">Cerrar Sesión</a>'; // cspell:disable-line <- desabilita el corrector ortografico para esta linea
