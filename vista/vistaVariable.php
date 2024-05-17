@@ -33,7 +33,7 @@ $consultarId = $_POST['txtConsultarId'] ?? '';
 
 switch ($boton) {
     case 'Guardar':
-        $datosVariable = ['id' => $id, 'nombre' => $nombre, 'fechacreacion' => $fecha_y_hora , 'fkemailusuario' => $_SESSION['email']];
+        $datosVariable = ['id' => $id, 'nombre' => $nombre, 'fechacreacion' => $fecha_y_hora, 'fkemailusuario' => $_SESSION['email']];
         $objVariable = new Entidad($datosVariable);
         $objControlVariable = new ControlEntidad('variable');
         $objControlVariable->guardar($objVariable);
@@ -59,7 +59,7 @@ switch ($boton) {
         }
         break;
     case 'Modificar':
-        $datosVariable = ['id' => $id, 'nombre' => $nombre, 'fechacreacion' => $fecha_y_hora , 'fkemailusuario' => $$_SESSION['email']];
+        $datosVariable = ['id' => $id, 'nombre' => $nombre, 'fechacreacion' => $fecha_y_hora, 'fkemailusuario' => $$_SESSION['email']];
         $objVariable = new Entidad($datosVariable);
         $objControlVariable = new ControlEntidad('variable');
         $objControlVariable->modificar('id', $id, $objVariable);
@@ -94,15 +94,12 @@ switch ($boton) {
                             </div>
                             <div class="col-sm">
                                 <form class="d-flex" method="post" action="VistaVariable.php">
-                                    <input class="form-control mr-2 mb-1" type="search" placeholder="Buscar id"
-                                        aria-label="Search" id="txtConsultarId" name="txtConsultarId">
-                                    <button class="btn btn-outline-success" type="submit" formmethod="post" name="bt"
-                                        value="Consultar"><i class="bi bi-search"></i></button>
+                                    <input class="form-control mr-2 mb-1" type="search" placeholder="Buscar id" aria-label="Search" id="txtConsultarId" name="txtConsultarId">
+                                    <button class="btn btn-outline-success" type="submit" formmethod="post" name="bt" value="Consultar"><i class="bi bi-search"></i></button>
                                 </form>
                             </div>
                             <div class="col-sm">
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#addVariable"><i class="bi bi-person-plus"></i><span>Nueva
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addVariable"><i class="bi bi-person-plus"></i><span>Nueva
                                         Variable</span></button>
                             </div>
                         </div>
@@ -144,7 +141,7 @@ switch ($boton) {
                                         break; // Salir del bucle una vez encontrado la variable
                                     }
                                 }
-                                ?>
+                            ?>
                                 <tr>
                                     <td><?= $num_registro ?></td>
                                     <td><?= $getid ?></td>
@@ -154,24 +151,15 @@ switch ($boton) {
                                     <td>
                                         <div class="btn-group" role="group">
                                             <form method="post" action="VistaVariable.php" enctype="multipart/form-data">
-                                                <button type="button" class="btn btn-warning btn-sm botonModificar" name="modificar"
-                                                    data-bs-toggle="modal" data-bs-target="#editVariable"
-                                                    data-bs-whatever="<?= $getid ?>" data-bs-nombre="<?= $getnombre ?>"
-                                                    data-bs-fechacreacion="<?= $getfechacreacion ?>"
-                                                    data-bs-fkemailusuario="<?= $getfkemailusuario ?>"><i
-                                                        class="bi bi-pencil-square"
-                                                        style="font-size: 0.75rem;"></i></button>
+                                                <button type="button" class="btn btn-warning btn-sm botonModificar" name="modificar" data-bs-toggle="modal" data-bs-target="#editVariable" data-bs-whatever="<?= $getid ?>" data-bs-nombre="<?= $getnombre ?>" data-bs-fechacreacion="<?= $getfechacreacion ?>" data-bs-fkemailusuario="<?= $getfkemailusuario ?>"><i class="bi bi-pencil-square" style="font-size: 0.75rem;"></i></button>
                                             </form>
                                             <form method="post" action="VistaVariable.php" enctype="multipart/form-data">
-                                                <button type="button" class="btn btn-danger btn-sm" name="delete"
-                                                    data-bs-toggle="modal" data-bs-target="#deleteVariable"
-                                                    data-bs-id="<?= $getid ?>"><i class="bi bi-trash-fill"
-                                                        style="font-size: 0.75rem;"></i></button>
+                                                <button type="button" class="btn btn-danger btn-sm" name="delete" data-bs-toggle="modal" data-bs-target="#deleteVariable" data-bs-id="<?= $getid ?>"><i class="bi bi-trash-fill" style="font-size: 0.75rem;"></i></button>
                                             </form>
                                         </div>
                                     </td>
                                 </tr>
-                                <?php
+                            <?php
                             }
                             $registros_mostrados = min($registros_por_pagina, $total_registros - $inicio);
                             ?>
@@ -180,7 +168,8 @@ switch ($boton) {
                     <!-- Mostrar enlaces de paginación -->
                     <div class="clearfix">
                         <div class="hint-text">Mostrando <b><?= $registros_mostrados ?></b> de
-                            <b><?= $total_registros ?></b>Variablees</div>
+                            <b><?= $total_registros ?></b>Variablees
+                        </div>
                         <ul class="pagination">
                             <?php
                             // Botón "Anterior"
@@ -218,14 +207,12 @@ switch ($boton) {
                     <div class="modal-body">
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtNombre' id="txtNombre" class="form-control" placeholder="Nombre"
-                                aria-label="nombre" aria-describedby="basic-addon1">
+                            <input type="text" name='txtNombre' id="txtNombre" class="form-control" placeholder="Nombre" aria-label="nombre" aria-describedby="basic-addon1">
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary" formmethod="post" name="bt"
-                            value="Guardar">Guardar</button>
+                        <button type="submit" class="btn btn-primary" formmethod="post" name="bt" value="Guardar">Guardar</button>
                     </div>
                 </form>
             </div>
@@ -240,23 +227,19 @@ switch ($boton) {
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Modificar Variable</h1>
                     </div>
                     <div class="modal-body">
-                    <div class="input-group mb-3"hidden>
+                        <div class="input-group mb-3" hidden>
                             <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtId' id="txtId" class="form-control" placeholder="Id"
-                                aria-label="Id" aria-describedby="basic-addon1">
+                            <input type="text" name='txtId' id="txtId" class="form-control" placeholder="Id" aria-label="Id" aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtNombre' id="txtNombre" class="form-control" placeholder="Nombre"
-                                aria-label="Nombre" aria-describedby="basic-addon1">
+                            <input type="text" name='txtNombre' id="txtNombre" class="form-control" placeholder="Nombre" aria-label="Nombre" aria-describedby="basic-addon1">
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="Cancelar2">Cancelar</button>
-                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt"
-                            Value="Modificar">Guardar</button>
-                        <button type="submit" class="btn btn-danger" formmethod="post" name="bt" value="Eliminar"
-                        id="confirmDelete">Eliminar</button>
+                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt" Value="Modificar">Guardar</button>
+                        <button type="submit" class="btn btn-danger" formmethod="post" name="bt" value="Eliminar" id="confirmDelete">Eliminar</button>
                     </div>
                 </form>
             </div>
@@ -278,8 +261,7 @@ switch ($boton) {
                     <div class="modal-footer">
                         <input type="hidden" name="txtId" value="" id="txtId">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt" value="Eliminar"
-                            id="confirmDelete">Eliminar</button>
+                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt" value="Eliminar" id="confirmDelete">Eliminar</button>
                     </div>
                 </form>
             </div>
@@ -318,47 +300,47 @@ switch ($boton) {
 
     const openEditModalButton = document.getElementsByClassName('botonModificar');
 
-for (let i = 0; i < openEditModalButton.length; i++) {
-    openEditModalButton[i].addEventListener('click', function () {
-        const id = this.getAttribute('data-bs-whatever')
-        const nombre = this.getAttribute('data-bs-nombre')
-        console.log(id);
-        console.log(nombre);
+    for (let i = 0; i < openEditModalButton.length; i++) {
+        openEditModalButton[i].addEventListener('click', function() {
+            const id = this.getAttribute('data-bs-whatever')
+            const nombre = this.getAttribute('data-bs-nombre')
+            console.log(id);
+            console.log(nombre);
 
-        const editVariableModal = new bootstrap.Modal(document.getElementById('editVariable'));
-        document.getElementById('confirmDelete').setAttribute('hidden','true');
-        editVariableModal.show();
+            const editVariableModal = new bootstrap.Modal(document.getElementById('editVariable'));
+            document.getElementById('confirmDelete').setAttribute('hidden', 'true');
+            editVariableModal.show();
 
-        cargarDatos(id, nombre) ;
-    });
-}
+            cargarDatos(id, nombre);
+        });
+    }
 
-const CancelarEditButton = document.getElementById('Cancelar2');
+    const CancelarEditButton = document.getElementById('Cancelar2');
 
-if (CancelarEditButton) {
-    CancelarEditButton.addEventListener('click', () => {
-        const editRolModal = new bootstrap.Modal(document.getElementById('editVariable'));
-        editRolModal.hide();
+    if (CancelarEditButton) {
+        CancelarEditButton.addEventListener('click', () => {
+            const editRolModal = new bootstrap.Modal(document.getElementById('editVariable'));
+            editRolModal.hide();
 
-        //Eliminar la clase .modal-backdrop
-        const mocalBackdrop = document.querySelector('.modal-backdrop');
-        if (mocalBackdrop) {
-            mocalBackdrop.remove();
-        }
-    });
-}
+            //Eliminar la clase .modal-backdrop
+            const mocalBackdrop = document.querySelector('.modal-backdrop');
+            if (mocalBackdrop) {
+                mocalBackdrop.remove();
+            }
+        });
+    }
 
-function cargarDatos(id, nombre) {
+    function cargarDatos(id, nombre) {
         const modalTitle = editVariable.querySelector('.modal-title')
         const idInput = editVariable.querySelector('#txtId')
         const nombreInput = editVariable.querySelector('#txtNombre')
-        
+
         modalTitle.textContent = `Modificar Variable ${id}`
 
         idInput.value = id
         nombreInput.value = nombre
-        
-}
+
+    }
 
     const deleteVariable = document.getElementById('deleteVariable')
     if (deleteVariable) {

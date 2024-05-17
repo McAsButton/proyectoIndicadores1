@@ -68,8 +68,7 @@ if ($loginBoton == "Login") {
             <div class="col-lg-3 col-md-5 col-6 d-md-flex align-items-md-stretch">
               <div class="count-box">
                 <i class="bi bi-emoji-smile"></i>
-                <span data-purecounter-start="0" data-purecounter-end="125" data-purecounter-duration="1"
-                  class="purecounter"></span>
+                <span data-purecounter-start="0" data-purecounter-end="125" data-purecounter-duration="1" class="purecounter"></span>
                 <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
                 <p>Clientes Felices</p>
               </div>
@@ -78,8 +77,7 @@ if ($loginBoton == "Login") {
             <div class="col-lg-3 col-md-5 col-6 d-md-flex align-items-md-stretch">
               <div class="count-box">
                 <i class="bi bi-journal-richtext"></i>
-                <span data-purecounter-start="0" data-purecounter-end="85" data-purecounter-duration="1"
-                  class="purecounter"></span>
+                <span data-purecounter-start="0" data-purecounter-end="85" data-purecounter-duration="1" class="purecounter"></span>
                 <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
                 <p>Proyectos</p>
               </div>
@@ -88,8 +86,7 @@ if ($loginBoton == "Login") {
             <div class="col-lg-3 col-md-5 col-6 d-md-flex align-items-md-stretch">
               <div class="count-box">
                 <i class="bi bi-clock"></i>
-                <span data-purecounter-start="0" data-purecounter-end="35" data-purecounter-duration="1"
-                  class="purecounter"></span>
+                <span data-purecounter-start="0" data-purecounter-end="35" data-purecounter-duration="1" class="purecounter"></span>
                 <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
                 <p>Años de experiencia</p>
               </div>
@@ -98,8 +95,7 @@ if ($loginBoton == "Login") {
             <div class="col-lg-3 col-md-5 col-6 d-md-flex align-items-md-stretch">
               <div class="count-box">
                 <i class="bi bi-award"></i>
-                <span data-purecounter-start="0" data-purecounter-end="48" data-purecounter-duration="1"
-                  class="purecounter"></span>
+                <span data-purecounter-start="0" data-purecounter-end="48" data-purecounter-duration="1" class="purecounter"></span>
                 <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
                 <p>Premios</p>
               </div>
@@ -543,8 +539,7 @@ if ($loginBoton == "Login") {
             <h4>FitTracker</h4>
             <p>Una aplicación que realiza un seguimiento de tus actividades físicas diarias, como correr, caminar y
               hacer ejercicio, y te ayuda a mantenerte en forma.</p>
-            <a href="assets/img/portfolio/portfolio-1.jpeg" data-gallery="portfolioGallery"
-              class="portfolio-lightbox preview-link" title="FitTracker"><i class="bx bx-plus"></i></a>
+            <a href="assets/img/portfolio/portfolio-1.jpeg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="FitTracker"><i class="bx bx-plus"></i></a>
           </div>
         </div>
 
@@ -554,8 +549,7 @@ if ($loginBoton == "Login") {
             <h4>AdventureSeekers.net</h4>
             <p>Un sitio web para amantes de la aventura que ofrece guías de viaje, consejos de aventura y reseñas de
               destinos.</p>
-            <a href="assets/img/portfolio/portfolio-2.jpeg" data-gallery="portfolioGallery"
-              class="portfolio-lightbox preview-link" title="AdventureSeekers.net"><i class="bx bx-plus"></i></a>
+            <a href="assets/img/portfolio/portfolio-2.jpeg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="AdventureSeekers.net"><i class="bx bx-plus"></i></a>
           </div>
         </div>
 
@@ -565,8 +559,7 @@ if ($loginBoton == "Login") {
             <h4>CookEasy</h4>
             <p>Una aplicación de cocina que ofrece recetas fáciles de seguir, listas de compras y consejos útiles para
               cocinar en casa.</p>
-            <a href="assets/img/portfolio/portfolio-3.jpeg" data-gallery="portfolioGallery"
-              class="portfolio-lightbox preview-link" title="CookEasy"><i class="bx bx-plus"></i></a>
+            <a href="assets/img/portfolio/portfolio-3.jpeg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="CookEasy"><i class="bx bx-plus"></i></a>
           </div>
         </div>
 
@@ -576,8 +569,7 @@ if ($loginBoton == "Login") {
             <h4>BizConnect</h4>
             <p>Una tarjeta digital diseñada para profesionales que facilita la conexión y el intercambio de información
               de contacto de forma rápida y sencilla.</p>
-            <a href="assets/img/portfolio/portfolio-4.jpeg" data-gallery="portfolioGallery"
-              class="portfolio-lightbox preview-link" title="BizConnect"><i class="bx bx-plus"></i></a>
+            <a href="assets/img/portfolio/portfolio-4.jpeg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="BizConnect"><i class="bx bx-plus"></i></a>
           </div>
         </div>
 
@@ -587,8 +579,7 @@ if ($loginBoton == "Login") {
             <h4>EcoGreenLiving.com</h4>
             <p>Un sitio web dedicado a proporcionar información sobre prácticas sostenibles y consejos para un estilo de
               vida ecológico.</p>
-            <a href="assets/img/portfolio/portfolio-5.jpeg" data-gallery="portfolioGallery"
-              class="portfolio-lightbox preview-link" title="EcoGreenLiving.com"><i class="bx bx-plus"></i></a>
+            <a href="assets/img/portfolio/portfolio-5.jpeg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="EcoGreenLiving.com"><i class="bx bx-plus"></i></a>
           </div>
         </div>
 
@@ -598,8 +589,7 @@ if ($loginBoton == "Login") {
             <h4>MindfulMoments</h4>
             <p>Una aplicación de meditación que te ayuda a encontrar momentos de calma y tranquilidad en tu día a día.
             </p>
-            <a href="assets/img/portfolio/portfolio-6.jpeg" data-gallery="portfolioGallery"
-              class="portfolio-lightbox preview-link" title="MindfulMoments"><i class="bx bx-plus"></i></a>
+            <a href="assets/img/portfolio/portfolio-6.jpeg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="MindfulMoments"><i class="bx bx-plus"></i></a>
           </div>
         </div>
 
@@ -609,8 +599,7 @@ if ($loginBoton == "Login") {
             <h4>CreativeCard</h4>
             <p>Una tarjeta digital para creativos que muestra su trabajo, experiencia y contacto de manera interactiva y
               atractiva.</p>
-            <a href="assets/img/portfolio/portfolio-7.jpeg" data-gallery="portfolioGallery"
-              class="portfolio-lightbox preview-link" title="CreativeCard"><i class="bx bx-plus"></i></a>
+            <a href="assets/img/portfolio/portfolio-7.jpeg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="CreativeCard"><i class="bx bx-plus"></i></a>
           </div>
         </div>
 
@@ -620,8 +609,7 @@ if ($loginBoton == "Login") {
             <h4>HealthCard</h4>
             <p>Una tarjeta digital que contiene información de salud personal, como alergias y medicamentos recetados,
               para emergencias médicas.</p>
-            <a href="assets/img/portfolio/portfolio-8.jpeg" data-gallery="portfolioGallery"
-              class="portfolio-lightbox preview-link" title="HealthCard"><i class="bx bx-plus"></i></a>
+            <a href="assets/img/portfolio/portfolio-8.jpeg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="HealthCard"><i class="bx bx-plus"></i></a>
           </div>
         </div>
 
@@ -631,8 +619,7 @@ if ($loginBoton == "Login") {
             <h4>TechHub.com</h4>
             <p>Un sitio web que ofrece noticias de tecnología, reseñas de productos y tutoriales para entusiastas de la
               tecnología.</p>
-            <a href="assets/img/portfolio/portfolio-9.jpeg" data-gallery="portfolioGallery"
-              class="portfolio-lightbox preview-link" title="TechHub.com"><i class="bx bx-plus"></i></a>
+            <a href="assets/img/portfolio/portfolio-9.jpeg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="TechHub.com"><i class="bx bx-plus"></i></a>
           </div>
         </div>
 

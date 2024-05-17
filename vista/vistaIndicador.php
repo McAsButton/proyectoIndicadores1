@@ -300,15 +300,12 @@ switch ($boton) {
                             </div>
                             <div class="col-sm">
                                 <form class="d-flex" method="post" action="VistaIndicador.php">
-                                    <input class="form-control mr-2 mb-1" type="search" placeholder="Buscar id"
-                                        aria-label="Search" id="txtConsultarId" name="txtConsultarId">
-                                    <button class="btn btn-outline-success" type="submit" formmethod="post" name="bt"
-                                        value="Consultar"><i class="bi bi-search"></i></button>
+                                    <input class="form-control mr-2 mb-1" type="search" placeholder="Buscar id" aria-label="Search" id="txtConsultarId" name="txtConsultarId">
+                                    <button class="btn btn-outline-success" type="submit" formmethod="post" name="bt" value="Consultar"><i class="bi bi-search"></i></button>
                                 </form>
                             </div>
                             <div class="col-sm">
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#addIndicador"><i class="bi bi-person-plus"></i><span>Nuevo
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addIndicador"><i class="bi bi-person-plus"></i><span>Nuevo
                                         Indicador</span></button>
                             </div>
                         </div>
@@ -466,7 +463,7 @@ switch ($boton) {
                                         $idVariableString .= $idVariable . ', ';
                                     }
                                 }
-                                ?>
+                            ?>
                                 <tr>
                                     <td><?= $num_registro ?></td>
                                     <td><?= $getid ?></td>
@@ -488,37 +485,16 @@ switch ($boton) {
                                         <div class="btn-group" role="group">
                                             <form method="post" action="VistaIndicador.php" enctype="multipart/form-data">
                                                 <!-- cspell:disable -->
-                                                <button type="button" class="btn btn-warning btn-sm btn-edit botonModificar" 
-                                                    name="modificar" data-bs-toggle="modal" data-bs-target="#editIndicador"
-                                                    data-bs-id="<?= $getid ?>" data-bs-codigo="<?= $getcodigo ?>"
-                                                    data-bs-nombre="<?= $getnombre ?>"
-                                                    data-bs-objetivo="<?= $getobjetivo ?>"
-                                                    data-bs-alcance="<?= $getalcance ?>"
-                                                    data-bs-formula="<?= $getformula ?>"
-                                                    data-bs-tipoIndicador="<?= $getIdTipoIndicador ?>"
-                                                    data-bs-unidadMedicion="<?= $getIdUnidadMedicion ?>"
-                                                    data-bs-meta="<?= $getmeta ?>" data-bs-sentido="<?= $getIdSentido ?>"
-                                                    data-bs-frecuencia="<?= $getIdFrecuencia ?>"
-                                                    data-bs-articulo="<?= $articulo ?>" data-bs-literal="<?= $literal ?>"
-                                                    data-bs-numeral="<?= $numeral ?>" data-bs-paragrafo="<?= $paragrafo ?>"
-                                                    data-bs-represenvisual="<?= $idRepresenVisualString ?>"
-                                                    data-bs-actores="<?= $idActorString ?>"
-                                                    data-bs-fuentes="<?= $idFuenteString ?>"
-                                                    data-bs-variables="<?= $idVariableString ?>"><i
-                                                        class="bi bi-pencil-square"
-                                                        style="font-size: 0.75rem;"></i></button>   
+                                                <button type="button" class="btn btn-warning btn-sm btn-edit botonModificar" name="modificar" data-bs-toggle="modal" data-bs-target="#editIndicador" data-bs-id="<?= $getid ?>" data-bs-codigo="<?= $getcodigo ?>" data-bs-nombre="<?= $getnombre ?>" data-bs-objetivo="<?= $getobjetivo ?>" data-bs-alcance="<?= $getalcance ?>" data-bs-formula="<?= $getformula ?>" data-bs-tipoIndicador="<?= $getIdTipoIndicador ?>" data-bs-unidadMedicion="<?= $getIdUnidadMedicion ?>" data-bs-meta="<?= $getmeta ?>" data-bs-sentido="<?= $getIdSentido ?>" data-bs-frecuencia="<?= $getIdFrecuencia ?>" data-bs-articulo="<?= $articulo ?>" data-bs-literal="<?= $literal ?>" data-bs-numeral="<?= $numeral ?>" data-bs-paragrafo="<?= $paragrafo ?>" data-bs-represenvisual="<?= $idRepresenVisualString ?>" data-bs-actores="<?= $idActorString ?>" data-bs-fuentes="<?= $idFuenteString ?>" data-bs-variables="<?= $idVariableString ?>"><i class="bi bi-pencil-square" style="font-size: 0.75rem;"></i></button>
                                             </form>
                                             <form method="post" action="VistaIndicador.php" enctype="multipart/form-data">
-                                                <button type="button" class="btn btn-danger btn-sm" name="delete"
-                                                    data-bs-toggle="modal" data-bs-target="#deleteIndicador"
-                                                    data-bs-id="<?= $getid ?>"><i class="bi bi-trash-fill"
-                                                        style="font-size: 0.75rem;"></i></button>
-                                            </form><!-- cspell:enable -->  
+                                                <button type="button" class="btn btn-danger btn-sm" name="delete" data-bs-toggle="modal" data-bs-target="#deleteIndicador" data-bs-id="<?= $getid ?>"><i class="bi bi-trash-fill" style="font-size: 0.75rem;"></i></button>
+                                            </form><!-- cspell:enable -->
 
                                         </div>
                                     </td>
                                 </tr>
-                                <?php
+                            <?php
                             }
                             $registros_mostrados = min($registros_por_pagina, $total_registros - $inicio);
                             ?>
@@ -567,31 +543,24 @@ switch ($boton) {
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
                             <!-- cspell:disable -->
-                            <input type="text" id="txtCodigo" name="txtCodigo" value="" class="form-control"
-                                placeholder="Codigo" aria-label="Codigo" aria-describedby="basic-addon1" required>
-                            <!-- cspell:enable -->  
+                            <input type="text" id="txtCodigo" name="txtCodigo" value="" class="form-control" placeholder="Codigo" aria-label="Codigo" aria-describedby="basic-addon1" required>
+                            <!-- cspell:enable -->
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" id="txtNombre" name="txtNombre" value="" class="form-control"
-                                placeholder="Nombre" aria-label="Nombre" aria-describedby="basic-addon1" required>
+                            <input type="text" id="txtNombre" name="txtNombre" value="" class="form-control" placeholder="Nombre" aria-label="Nombre" aria-describedby="basic-addon1" required>
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
-                            <textarea id="txtObjetivo" name="txtObjetivo" value="" class="form-control"
-                                placeholder="Objetivo" aria-label="Objetivo" aria-describedby="basic-addon1"
-                                required></textarea>
+                            <textarea id="txtObjetivo" name="txtObjetivo" value="" class="form-control" placeholder="Objetivo" aria-label="Objetivo" aria-describedby="basic-addon1" required></textarea>
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
-                            <textarea id="txtAlcance" name="txtAlcance" value="" class="form-control"
-                                placeholder="Alcance" aria-label="Alcance" aria-describedby="basic-addon1"
-                                required></textarea>
+                            <textarea id="txtAlcance" name="txtAlcance" value="" class="form-control" placeholder="Alcance" aria-label="Alcance" aria-describedby="basic-addon1" required></textarea>
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" id="txtFormula" name="txtFormula" value="" class="form-control"
-                                placeholder="Formula" aria-label="Formula" aria-describedby="basic-addon1" required>
+                            <input type="text" id="txtFormula" name="txtFormula" value="" class="form-control" placeholder="Formula" aria-label="Formula" aria-describedby="basic-addon1" required>
                         </div>
                         <div class="input-group mb-3">
                             <select class="form-select" id="txtTipoIndicador" name="txtTipoIndicador" required>
@@ -619,8 +588,7 @@ switch ($boton) {
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
-                            <textarea id="txtMeta" name="txtMeta" value="" class="form-control" placeholder="Meta"
-                                aria-label="Meta" aria-describedby="basic-addon1" required></textarea>
+                            <textarea id="txtMeta" name="txtMeta" value="" class="form-control" placeholder="Meta" aria-label="Meta" aria-describedby="basic-addon1" required></textarea>
                         </div>
                         <div class="input-group mb-3">
                             <select class="form-select" id="txtSentido" name="txtSentido" required>
@@ -703,8 +671,7 @@ switch ($boton) {
                                 $id = $arregloRepresenVisual[$i]->__get('id');
                                 $nombre = $arregloRepresenVisual[$i]->__get('nombre'); ?>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="represen_modal[<?= $id ?>]"
-                                        value="<?= $id ?>" id="opcion<?= $id ?>_modal"> <!-- cspell:disable-line -->
+                                    <input class="form-check-input" type="checkbox" name="represen_modal[<?= $id ?>]" value="<?= $id ?>" id="opcion<?= $id ?>_modal"> <!-- cspell:disable-line -->
                                     <label class="form-check-label" for="opcion<?= $id ?>_modal"> <!-- cspell:disable-line -->
                                         <?= $nombre ?>
                                     </label>
@@ -724,7 +691,7 @@ switch ($boton) {
                                 }
                                 ?>
                             </select>
-                                    
+
                             <p>Manten presionado el boton Ctrl (windows) o Command (Mac) para seleccionar multiples opciones.</p>
                         </div>
                         <h5>Selecciona las Fuentes:</h5>
@@ -733,8 +700,7 @@ switch ($boton) {
                                 $id = $arregloFuente[$i]->__get('id');
                                 $nombre = $arregloFuente[$i]->__get('nombre'); ?>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="fuentes_modal[<?= $id ?>]"
-                                        value="<?= $id ?>" id="opcion<?= $id ?>_modal"> <!-- cspell:disable-line -->
+                                    <input class="form-check-input" type="checkbox" name="fuentes_modal[<?= $id ?>]" value="<?= $id ?>" id="opcion<?= $id ?>_modal"> <!-- cspell:disable-line -->
                                     <label class="form-check-label" for="opcion<?= $id ?>_modal"> <!-- cspell:disable-line -->
                                         <?= $nombre ?>
                                     </label>
@@ -747,8 +713,7 @@ switch ($boton) {
                                 $id = $arregloVariable[$i]->__get('id');
                                 $nombre = $arregloVariable[$i]->__get('nombre'); ?>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="variables_modal[<?= $id ?>]"
-                                        value="<?= $id ?>" id="opcion<?= $id ?>_modal"> <!-- cspell:disable-line -->
+                                    <input class="form-check-input" type="checkbox" name="variables_modal[<?= $id ?>]" value="<?= $id ?>" id="opcion<?= $id ?>_modal"> <!-- cspell:disable-line -->
                                     <label class="form-check-label" for="opcion<?= $id ?>_modal"> <!-- cspell:disable-line -->
                                         <?= $nombre ?>
                                     </label>
@@ -759,8 +724,7 @@ switch ($boton) {
                     <div class="modal-footer">
                         <input type="hidden" name="action" value="guardar">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary" formmethod="post" name="bt"
-                            value="Guardar">Guardar</button>
+                        <button type="submit" class="btn btn-primary" formmethod="post" name="bt" value="Guardar">Guardar</button>
                     </div>
                 </form>
             </div>
@@ -777,37 +741,29 @@ switch ($boton) {
                     <div class="modal-body">
                         <div class="input-group mb-3" hidden>
                             <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" id="txtId" name="txtId" value="" class="form-control" placeholder="Id"
-                                aria-label="Id" aria-describedby="basic-addon1" required>
+                            <input type="text" id="txtId" name="txtId" value="" class="form-control" placeholder="Id" aria-label="Id" aria-describedby="basic-addon1" required>
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
                             <!-- cspell:disable -->
-                            <input type="text" id="txtCodigo" name="txtCodigo" value="" class="form-control"
-                                placeholder="Codigo" aria-label="Codigo" aria-describedby="basic-addon1" required>
-                            <!-- cspell:enable -->  
+                            <input type="text" id="txtCodigo" name="txtCodigo" value="" class="form-control" placeholder="Codigo" aria-label="Codigo" aria-describedby="basic-addon1" required>
+                            <!-- cspell:enable -->
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" id="txtNombre" name="txtNombre" value="" class="form-control"
-                                placeholder="Nombre" aria-label="Nombre" aria-describedby="basic-addon1" required>
+                            <input type="text" id="txtNombre" name="txtNombre" value="" class="form-control" placeholder="Nombre" aria-label="Nombre" aria-describedby="basic-addon1" required>
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
-                            <textarea id="txtObjetivo" name="txtObjetivo" value="" class="form-control"
-                                placeholder="Objetivo" aria-label="Objetivo" aria-describedby="basic-addon1"
-                                required></textarea>
+                            <textarea id="txtObjetivo" name="txtObjetivo" value="" class="form-control" placeholder="Objetivo" aria-label="Objetivo" aria-describedby="basic-addon1" required></textarea>
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
-                            <textarea id="txtAlcance" name="txtAlcance" value="" class="form-control"
-                                placeholder="Alcance" aria-label="Alcance" aria-describedby="basic-addon1"
-                                required></textarea>
+                            <textarea id="txtAlcance" name="txtAlcance" value="" class="form-control" placeholder="Alcance" aria-label="Alcance" aria-describedby="basic-addon1" required></textarea>
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" id="txtFormula" name="txtFormula" value="" class="form-control"
-                                placeholder="Formula" aria-label="Formula" aria-describedby="basic-addon1" required>
+                            <input type="text" id="txtFormula" name="txtFormula" value="" class="form-control" placeholder="Formula" aria-label="Formula" aria-describedby="basic-addon1" required>
                         </div>
                         <div class="input-group mb-3">
                             <select class="form-select" id="txtTipoIndicador" name="txtTipoIndicador" required>
@@ -835,8 +791,7 @@ switch ($boton) {
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
-                            <textarea id="txtMeta" name="txtMeta" value="" class="form-control" placeholder="Meta"
-                                aria-label="Meta" aria-describedby="basic-addon1" required></textarea>
+                            <textarea id="txtMeta" name="txtMeta" value="" class="form-control" placeholder="Meta" aria-label="Meta" aria-describedby="basic-addon1" required></textarea>
                         </div>
                         <div class="input-group mb-3">
                             <select class="form-select" id="txtSentido" name="txtSentido" required>
@@ -919,8 +874,7 @@ switch ($boton) {
                                 $id = $arregloRepresenVisual[$i]->__get('id');
                                 $nombre = $arregloRepresenVisual[$i]->__get('nombre'); ?>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="represen_modal[<?= $id ?>]"
-                                        value="<?= $id ?>" id="represen_modal<?= $id ?>_modal">
+                                    <input class="form-check-input" type="checkbox" name="represen_modal[<?= $id ?>]" value="<?= $id ?>" id="represen_modal<?= $id ?>_modal">
                                     <label class="form-check-label" for="represen_modal<?= $id ?>_modal">
                                         <?= $nombre ?>
                                     </label>
@@ -938,7 +892,7 @@ switch ($boton) {
                                     echo "<option id='opcion$id' value='$id'>$nombre</option>"; //cspell:disable-line
                                 }
                                 ?>
-                            </select>    
+                            </select>
                             <p>Manten presionado el boton Ctrl (windows) o Command (Mac) para seleccionar multiples opciones.</p>
                         </div>
                         <h5>Selecciona las Fuentes:</h5>
@@ -947,8 +901,7 @@ switch ($boton) {
                                 $id = $arregloFuente[$i]->__get('id');
                                 $nombre = $arregloFuente[$i]->__get('nombre'); ?>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="fuentes_modal[<?= $id ?>]"
-                                        value="<?= $id ?>" id="fuentes_modal<?= $id ?>_modal">
+                                    <input class="form-check-input" type="checkbox" name="fuentes_modal[<?= $id ?>]" value="<?= $id ?>" id="fuentes_modal<?= $id ?>_modal">
                                     <label class="form-check-label" for="fuentes_modal<?= $id ?>_modal">
                                         <?= $nombre ?>
                                     </label>
@@ -961,8 +914,7 @@ switch ($boton) {
                                 $id = $arregloVariable[$i]->__get('id');
                                 $nombre = $arregloVariable[$i]->__get('nombre'); ?>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="variables_modal[<?= $id ?>]"
-                                        value="<?= $id ?>" id="variables_modal<?= $id ?>_modal">
+                                    <input class="form-check-input" type="checkbox" name="variables_modal[<?= $id ?>]" value="<?= $id ?>" id="variables_modal<?= $id ?>_modal">
                                     <label class="form-check-label" for="variables_modal<?= $id ?>_modal">
                                         <?= $nombre ?>
                                     </label>
@@ -972,12 +924,9 @@ switch ($boton) {
                     </div>
                     <div class="modal-footer">
                         <input type="hidden" name="action" value="modificar">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                            id="botonCancelar2">Cancelar</button> <!-- cspell:disable-line -->
-                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt"
-                            value="Modificar">Modificar</button>
-                        <button type="submit" class="btn btn-danger" formmethod="post" name="bt" id="confirmDelete"
-                            value="Eliminar" hidden>Eliminar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="botonCancelar2">Cancelar</button> <!-- cspell:disable-line -->
+                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt" value="Modificar">Modificar</button>
+                        <button type="submit" class="btn btn-danger" formmethod="post" name="bt" id="confirmDelete" value="Eliminar" hidden>Eliminar</button>
                     </div>
                 </form>
             </div>
@@ -999,8 +948,7 @@ switch ($boton) {
                     <div class="modal-footer">
                         <input type="hidden" name="txtId" value="" id="txtId">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt" id="confirmDelete"
-                            value="Eliminar">Eliminar</button>
+                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt" id="confirmDelete" value="Eliminar">Eliminar</button>
                     </div>
                 </form>
             </div>
@@ -1067,7 +1015,7 @@ switch ($boton) {
     const openEditModalButtons = document.getElementsByClassName('botonModificar'); //cspell:disable-line
 
     for (let i = 0; i < openEditModalButtons.length; i++) {
-        openEditModalButtons[i].addEventListener('click', function () {
+        openEditModalButtons[i].addEventListener('click', function() {
             const id = this.getAttribute('data-bs-id');
             const codigo = this.getAttribute('data-bs-codigo'); //cspell:disable-line
             const nombre = this.getAttribute('data-bs-nombre');

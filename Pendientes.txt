@@ -1,8 +1,8 @@
-Control de acceso en botones
+Control de acceso en botones segun lo siguiente:
 
 Perfiles de Usuario:
-Admin: Tiene acceso a todos los menus y tiene acceso al crud de todas las tablas incluido la de usuarios.
-Visitante: No tiene acceso a los menus y por los tanto no puede acceder a los crud.
-Verificador: Tiene acceso a los menus,  tiene acceso al consultar, pero no puede acceder a los botones de agregar modificar o eliminar.
-Validador: Tiene acceso a los menus,  tiene acceso al consultar, al boton de modificar y al boton de eliminar, pero no puede acceder al boton de agregar.
-Admninistrativo: Tiene acceso a los menus y tiene acceso al crud de todas las tablas excepto la de usuarios.
+Admin: Tiene acceso a todos los menus y tiene acceso al crud de todas las tablas incluido la de usuarios. ✅☑️
+Invitado: No tiene acceso a los menus y por los tanto no puede acceder a los crud. ✅☑️
+Verificador: Tiene acceso a los menus,  tiene acceso al consultar, pero no puede acceder a los botones de agregar modificar o eliminar. ✅☑️
+Validador: Tiene acceso a los menus,  tiene acceso al consultar, al boton de modificar y al boton de eliminar, pero no puede acceder al boton de agregar. ✅☑️
+Admninistrativo: Tiene acceso a los menus y tiene acceso al crud de todas las tablas excepto la de usuarios. ✅☑️

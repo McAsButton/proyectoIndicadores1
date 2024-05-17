@@ -98,15 +98,12 @@ switch ($boton) {
                                 </div>
                                 <div class="col-sm">
                                     <form class="d-flex" method="post" action="vistaUnidadMedicion.php">
-                                        <input class="form-control mr-2 mb-1" type="search" placeholder="Buscar id"
-                                            aria-label="Search" id="txtConsultarId" name="txtConsultarId">
-                                        <button class="btn btn-outline-success" type="submit" formmethod="post"
-                                            name="bt" value="Consultar"><i class="bi bi-search"></i></button>
+                                        <input class="form-control mr-2 mb-1" type="search" placeholder="Buscar id" aria-label="Search" id="txtConsultarId" name="txtConsultarId">
+                                        <button class="btn btn-outline-success" type="submit" formmethod="post" name="bt" value="Consultar"><i class="bi bi-search"></i></button>
                                     </form>
                                 </div>
                                 <div class="col-sm">
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#addUnidadMedicion"><i class="bi bi-person-plus"></i><span>Nueva
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUnidadMedicion"><i class="bi bi-person-plus"></i><span>Nueva
                                             Unidad de Medición</span></button>
                                     <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
                                 </div>
@@ -137,7 +134,7 @@ switch ($boton) {
                                     $num_registro = $i + 1;
                                     $getid = $arregloUnidadesMedicion[$i]->__get('id');
                                     $getdescricipcion = $arregloUnidadesMedicion[$i]->__get('descripcion');
-                                    ?>
+                                ?>
                                     <tr>
                                         <td><?= $num_registro ?></td>
                                         <td><?= $getid ?></td>
@@ -145,31 +142,20 @@ switch ($boton) {
                                         <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
                                         <td>
                                             <div class="btn-group" role="group">
-                                                <form method="post" action="VistaUnidadMedicion.php"
-                                                    enctype="multipart/form-data">
+                                                <form method="post" action="VistaUnidadMedicion.php" enctype="multipart/form-data">
                                                     <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
-                                                    <button type="button" class="btn btn-warning btn-sm botonModificar"
-                                                        name="modificar" data-bs-toggle="modal"
-                                                        data-bs-target="#editUnidadMedicion"
-                                                        data-bs-whatever="<?= $getid ?>"
-                                                        data-bs-descripcion="<?= $getdescricipcion ?>"><i
-                                                            class="bi bi-pencil-square"
-                                                            style="font-size: 0.75rem;"></i></button>
+                                                    <button type="button" class="btn btn-warning btn-sm botonModificar" name="modificar" data-bs-toggle="modal" data-bs-target="#editUnidadMedicion" data-bs-whatever="<?= $getid ?>" data-bs-descripcion="<?= $getdescricipcion ?>"><i class="bi bi-pencil-square" style="font-size: 0.75rem;"></i></button>
                                                     <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
                                                 </form>
-                                                <form method="post" action="VistaUnidadMedicion.php"
-                                                    enctype="multipart/form-data">
+                                                <form method="post" action="VistaUnidadMedicion.php" enctype="multipart/form-data">
                                                     <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
-                                                    <button type="button" class="btn btn-danger btn-sm" name="delete"
-                                                        data-bs-toggle="modal" data-bs-target="#deleteUnidadMedicion"
-                                                        data-bs-id="<?= $getid ?>"><i class="bi bi-trash-fill"
-                                                            style="font-size: 0.75rem;"></i></button>
+                                                    <button type="button" class="btn btn-danger btn-sm" name="delete" data-bs-toggle="modal" data-bs-target="#deleteUnidadMedicion" data-bs-id="<?= $getid ?>"><i class="bi bi-trash-fill" style="font-size: 0.75rem;"></i></button>
                                                     <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
                                                 </form>
                                             </div>
                                         </td>
                                     </tr>
-                                    <?php
+                                <?php
                                 }
                                 $registros_mostrados = min($registros_por_pagina, $total_registros - $inicio);
                                 ?>
@@ -178,7 +164,8 @@ switch ($boton) {
                         <!-- Mostrar enlaces de paginación -->
                         <div class="clearfix">
                             <div class="hint-text">Mostrando <b><?= $registros_mostrados ?></b> de
-                                <b><?= $total_registros ?></b> unidades de medicion</div>
+                                <b><?= $total_registros ?></b> unidades de medicion
+                            </div>
                             <ul class="pagination">
                                 <?php
                                 // Botón "Anterior"
@@ -221,23 +208,20 @@ switch ($boton) {
                 </div> -->
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtDescripcion' id="txtDescripcion" class="form-control"
-                                placeholder="descripción" aria-label="descripcion" aria-describedby="basic-addon1">
+                            <input type="text" name='txtDescripcion' id="txtDescripcion" class="form-control" placeholder="descripción" aria-label="descripcion" aria-describedby="basic-addon1">
                             <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary" formmethod="post" name="bt"
-                            value="Guardar">Guardar</button>
+                        <button type="submit" class="btn btn-primary" formmethod="post" name="bt" value="Guardar">Guardar</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
     <!-- Edit Modal HTML -->
-    <div class="modal fade" id="editUnidadMedicion" tabindex="-1" aria-labelledby="editUnidadMedicion"
-        aria-hidden="true"> <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
+    <div class="modal fade" id="editUnidadMedicion" tabindex="-1" aria-labelledby="editUnidadMedicion" aria-hidden="true"> <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
         <div class="modal-dialog">
             <div class="modal-content">
                 <form method="post" action="VistaUnidadMedicion.php" enctype="multipart/form-data">
@@ -249,31 +233,25 @@ switch ($boton) {
                     <div class="modal-body">
                         <div class="input-group mb-3" hidden>
                             <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtId' id="txtId" value="" class="form-control" placeholder="Id"
-                                aria-label="Id" aria-describedby="basic-addon1" id="id" readonly>
+                            <input type="text" name='txtId' id="txtId" value="" class="form-control" placeholder="Id" aria-label="Id" aria-describedby="basic-addon1" id="id" readonly>
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtDescripcion' id="txtDescripcion" class="form-control"
-                                placeholder="Descripción" aria-label="descripcion" aria-describedby="basic-addon1">
+                            <input type="text" name='txtDescripcion' id="txtDescripcion" class="form-control" placeholder="Descripción" aria-label="descripcion" aria-describedby="basic-addon1">
                             <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                            id="Cancelar2">Cancelar</button>
-                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt"
-                            value="Modificar">Guardar</button>
-                        <button type="submit" class="btn btn-danger" formmethod="post" name="bt" value="Eliminar"
-                            id="confirmDelete" hidden>Eliminar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="Cancelar2">Cancelar</button>
+                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt" value="Modificar">Guardar</button>
+                        <button type="submit" class="btn btn-danger" formmethod="post" name="bt" value="Eliminar" id="confirmDelete" hidden>Eliminar</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
     <!-- Delete Modal HTML -->
-    <div class="modal fade" id="deleteUnidadMedicion" tabindex="-1" aria-labelledby="deleteUnidadMedicion"
-        aria-hidden="true"> <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
+    <div class="modal fade" id="deleteUnidadMedicion" tabindex="-1" aria-labelledby="deleteUnidadMedicion" aria-hidden="true"> <!-- cspell:disable-line <- desabilita el corrector ortografico para esta linea -->
         <div class="modal-dialog">
             <div class="modal-content">
                 <form id="deleteForm" method="post" action="VistaUnidadMedicion.php" enctype="multipart/form-data">
@@ -289,8 +267,7 @@ switch ($boton) {
                     <div class="modal-footer">
                         <input type="hidden" name="txtId" value="" id="txtId">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt" value="Eliminar"
-                            id="confirmDelete">Eliminar</button>
+                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt" value="Eliminar" id="confirmDelete">Eliminar</button>
                     </div>
                 </form>
             </div>
@@ -330,7 +307,7 @@ switch ($boton) {
     const openEditModalButton = document.getElementsByClassName('botonModificar');
 
     for (let i = 0; i < openEditModalButton.length; i++) {
-        openEditModalButton[i].addEventListener('click', function () {
+        openEditModalButton[i].addEventListener('click', function() {
             const id = this.getAttribute('data-bs-whatever');
             const descripcion = this.getAttribute('data-bs-descripcion');
             const editUnidadMedicionModal = new bootstrap.Modal(document.getElementById('editUnidadMedicion'));

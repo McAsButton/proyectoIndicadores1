@@ -145,15 +145,12 @@ switch ($boton) {
                             </div>
                             <div class="col-sm">
                                 <form class="d-flex" method="post" action="VistaUsuario.php">
-                                    <input class="form-control mr-2 mb-1" type="search" placeholder="Buscar email"
-                                        aria-label="Search" id="txtConsultarEmail" name="txtConsultarEmail">
-                                    <button class="btn btn-outline-success" type="submit" formmethod="post" name="bt"
-                                        value="Consultar"><i class="bi bi-search"></i></button>
+                                    <input class="form-control mr-2 mb-1" type="search" placeholder="Buscar email" aria-label="Search" id="txtConsultarEmail" name="txtConsultarEmail">
+                                    <button class="btn btn-outline-success" type="submit" formmethod="post" name="bt" value="Consultar"><i class="bi bi-search"></i></button>
                                 </form>
                             </div>
                             <div class="col-sm">
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#addUser"><i class="bi bi-person-plus"></i><span>Nuevo
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUser"><i class="bi bi-person-plus"></i><span>Nuevo
                                         Usuario</span></button>
                             </div>
 
@@ -190,7 +187,7 @@ switch ($boton) {
                                 $idRolesString = '';
                                 foreach ($arregloRolesConsulta as $objeto) {
                                     $propiedades = $objeto->obtenerPropiedades(); // Suponiendo que tienes un método obtenerPropiedades en la clase Entidad
-                            
+
                                     if (isset($propiedades['fkidrol'])) {
                                         $fkidrol = $propiedades['fkidrol'];
                                         $idRolesString .= $fkidrol . ', '; // Agregar el id al string con una coma y un espacio
@@ -201,13 +198,13 @@ switch ($boton) {
                                 $nombreRolesString = '';
                                 foreach ($arregloRolesConsulta as $objetoConsulta) {
                                     $propiedadesConsulta = $objetoConsulta->obtenerPropiedades(); // Suponiendo que tienes un método obtenerPropiedades en la clase Entidad
-                            
+
                                     if (isset($propiedadesConsulta['fkidrol'])) {
                                         $fkidrolConsulta = $propiedadesConsulta['fkidrol'];
 
                                         foreach ($arregloRoles as $objetoRol) {
                                             $propiedadesRol = $objetoRol->obtenerPropiedades(); // Suponiendo que tienes un método obtenerPropiedades en la clase Entidad
-                            
+
                                             if (isset($propiedadesRol['id']) && $propiedadesRol['id'] == $fkidrolConsulta) {
                                                 $nombreRolesString .= $propiedadesRol['nombre'] . ', ';
                                                 break; // Salir del bucle interno una vez encontrado el rol
@@ -218,7 +215,7 @@ switch ($boton) {
 
                                 // Eliminar la última coma y espacio del string
                                 $nombreRolesString = rtrim($nombreRolesString, ', ');
-                                ?>
+                            ?>
                                 <tr>
                                     <td><?= $num_registro ?></td>
                                     <td><?= $getemail; ?></td>
@@ -227,22 +224,15 @@ switch ($boton) {
                                     <td>
                                         <div class="btn-group" role="group">
                                             <form method="post" action="VistaUsuario.php" enctype="multipart/form-data">
-                                                <button type="button" class="btn btn-warning btn-sm btn-edit botonModificar"
-                                                    name="modificar" data-bs-toggle="modal" data-bs-target="#editUser"
-                                                    data-bs-roles='<?= $idRolesString ?>' data-bs-email="<?= $getemail ?>"
-                                                    data-bs-pass="<?= $getcontrasena ?>"><i class="bi bi-pencil-square"
-                                                        style="font-size: 0.75rem;"></i></button>
+                                                <button type="button" class="btn btn-warning btn-sm btn-edit botonModificar" name="modificar" data-bs-toggle="modal" data-bs-target="#editUser" data-bs-roles='<?= $idRolesString ?>' data-bs-email="<?= $getemail ?>" data-bs-pass="<?= $getcontrasena ?>"><i class="bi bi-pencil-square" style="font-size: 0.75rem;"></i></button>
                                             </form>
                                             <form method="post" action="VistaUsuario.php" enctype="multipart/form-data">
-                                                <button type="button" class="btn btn-danger btn-sm" name="delete"
-                                                    data-bs-toggle="modal" data-bs-target="#deleteUser"
-                                                    data-bs-email="<?= $getemail ?>"><i class="bi bi-trash-fill"
-                                                        style="font-size: 0.75rem;"></i></button>
+                                                <button type="button" class="btn btn-danger btn-sm" name="delete" data-bs-toggle="modal" data-bs-target="#deleteUser" data-bs-email="<?= $getemail ?>"><i class="bi bi-trash-fill" style="font-size: 0.75rem;"></i></button>
                                             </form>
                                         </div>
                                     </td>
                                 </tr>
-                                <?php
+                            <?php
                             }
                             $registros_mostrados = min($registros_por_pagina, $total_registros - $inicio);
                             ?>
@@ -290,14 +280,11 @@ switch ($boton) {
                     <div class="modal-body">
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">@</span>
-                            <input type="email" id="txtEmail" name="txtEmail" value="" class="form-control"
-                                placeholder="Email" aria-label="Email" aria-describedby="basic-addon1" required>
+                            <input type="email" id="txtEmail" name="txtEmail" value="" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1" required>
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">**</span>
-                            <input type="password" id="txtContrasena" name="txtContrasena" class="form-control"
-                                placeholder="Contraseña" aria-label="Contrasena" aria-describedby="basic-addon1"
-                                required>
+                            <input type="password" id="txtContrasena" name="txtContrasena" class="form-control" placeholder="Contraseña" aria-label="Contrasena" aria-describedby="basic-addon1" required>
                         </div>
                         <h5>Selecciona el rol:</h5>
                         <div class="container mt-3">
@@ -305,8 +292,7 @@ switch ($boton) {
                                 $id = $arregloRoles[$i]->__get('id');
                                 $nombre = $arregloRoles[$i]->__get('nombre'); ?>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="roles_modal[<?= $id ?>]"
-                                        value="<?= $id ?>" id="opcion<?= $id ?>_modal1">
+                                    <input class="form-check-input" type="checkbox" name="roles_modal[<?= $id ?>]" value="<?= $id ?>" id="opcion<?= $id ?>_modal1">
                                     <label class="form-check-label" for="opcion<?= $id ?>_modal">
                                         <?= $nombre ?>
                                     </label>
@@ -317,8 +303,7 @@ switch ($boton) {
                     <div class="modal-footer">
                         <input type="hidden" name="action" value="guardar">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary" formmethod="post" name="bt"
-                            value="Guardar">Guardar</button>
+                        <button type="submit" class="btn btn-primary" formmethod="post" name="bt" value="Guardar">Guardar</button>
                     </div>
                 </form>
             </div>
@@ -335,15 +320,11 @@ switch ($boton) {
                     <div class="modal-body">
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">@</span>
-                            <input type="email" id="txtEmail" name='txtEmail' value="" class="form-control"
-                                placeholder="Email" aria-label="Email" aria-describedby="basic-addon1" id="email"
-                                readonly>
+                            <input type="email" id="txtEmail" name='txtEmail' value="" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1" id="email" readonly>
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">**</span>
-                            <input type="password" id="txtContrasena" name='txtContrasena' class="form-control"
-                                placeholder="Contraseña" aria-label="Contrasena" aria-describedby="basic-addon1"
-                                id="contrasena">
+                            <input type="password" id="txtContrasena" name='txtContrasena' class="form-control" placeholder="Contraseña" aria-label="Contrasena" aria-describedby="basic-addon1" id="contrasena">
                         </div>
                         <h5>Selecciona el rol:</h5>
                         <div class="container mt-3">
@@ -351,8 +332,7 @@ switch ($boton) {
                                 $id = $arregloRoles[$i]->__get('id');
                                 $nombre = $arregloRoles[$i]->__get('nombre'); ?>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="roles_modal[<?= $id ?>]"
-                                        value="<?= $id ?>" id="opcion<?= $id ?>_modal">
+                                    <input class="form-check-input" type="checkbox" name="roles_modal[<?= $id ?>]" value="<?= $id ?>" id="opcion<?= $id ?>_modal">
                                     <label class="form-check-label" for="opcion<?= $id ?>_modal">
                                         <?= $nombre ?>
                                     </label>
@@ -362,12 +342,9 @@ switch ($boton) {
                     </div>
                     <div class="modal-footer">
                         <input type="hidden" name="action" value="modificar">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                            id="botonCancelar2">Cancelar</button>
-                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt"
-                            value="Modificar">Guardar</button>
-                        <button type="submit" class="btn btn-danger" formmethod="post" name="bt" id="confirmDelete"
-                            value="Eliminar" hidden>Eliminar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="botonCancelar2">Cancelar</button>
+                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt" value="Modificar">Guardar</button>
+                        <button type="submit" class="btn btn-danger" formmethod="post" name="bt" id="confirmDelete" value="Eliminar" hidden>Eliminar</button>
                     </div>
                 </form>
             </div>
@@ -389,8 +366,7 @@ switch ($boton) {
                     <div class="modal-footer">
                         <input type="hidden" name="txtEmail" value="" id="txtEmail">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt" id="confirmDelete"
-                            value="Eliminar">Eliminar</button>
+                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt" id="confirmDelete" value="Eliminar">Eliminar</button>
                     </div>
                 </form>
             </div>
@@ -435,7 +411,7 @@ switch ($boton) {
     const openEditModalButtons = document.getElementsByClassName('botonModificar');
 
     for (let i = 0; i < openEditModalButtons.length; i++) {
-        openEditModalButtons[i].addEventListener('click', function () {
+        openEditModalButtons[i].addEventListener('click', function() {
             const email = this.getAttribute('data-bs-email');
             const pass = this.getAttribute('data-bs-pass');
             const roles = this.getAttribute('data-bs-roles').split(',').map(Number); // Convertir a array de números
@@ -602,8 +578,6 @@ switch ($boton) {
     // Llamar a la función cuando se cargue la página y también cuando cambie el tamaño de la ventana
     window.addEventListener('load', ajustarAlturaHero);
     window.addEventListener('resize', ajustarAlturaHero);
-
-
 </script>
 
 <?php include 'footer.html'; ?>

@@ -28,4 +28,3 @@ class Entidad
         return $this->propiedades;
     }
 }
-?>

@@ -56,7 +56,7 @@ switch ($boton) {
                 $resultado = $objResultadoIndicador->__get('resultado');
                 $fechacalculo = $objResultadoIndicador->__get('fechacalculo');
                 $fkidindicador = $objResultadoIndicador->__get('fkidindicador');
-                header('Location: vistaResultadoIndicador.php?id=' . $consultarId . '&resultado=' . $resultado . '&fechacalculo=' . $fechacalculo. '&fkidindicador=' . $fkidindicador);
+                header('Location: vistaResultadoIndicador.php?id=' . $consultarId . '&resultado=' . $resultado . '&fechacalculo=' . $fechacalculo . '&fkidindicador=' . $fkidindicador);
             } else {
                 header('Location: vistaResultadoIndicador.php?spawnNote=0');
             }
@@ -100,15 +100,12 @@ switch ($boton) {
                             </div>
                             <div class="col-sm">
                                 <form class="d-flex" method="post" action="VistaResultadoIndicador.php">
-                                    <input class="form-control mr-2 mb-1" type="search" placeholder="Buscar id"
-                                        aria-label="Search" id="txtConsultarId" name="txtConsultarId">
-                                    <button class="btn btn-outline-success" type="submit" formmethod="post" name="bt"
-                                        value="Consultar"><i class="bi bi-search"></i></button>
+                                    <input class="form-control mr-2 mb-1" type="search" placeholder="Buscar id" aria-label="Search" id="txtConsultarId" name="txtConsultarId">
+                                    <button class="btn btn-outline-success" type="submit" formmethod="post" name="bt" value="Consultar"><i class="bi bi-search"></i></button>
                                 </form>
                             </div>
                             <div class="col-sm">
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#addResultadoIndicador"><i class="bi bi-person-plus"></i><span>Nuevo
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addResultadoIndicador"><i class="bi bi-person-plus"></i><span>Nuevo
                                         Resultado Indicador</span></button>
                             </div>
                         </div>
@@ -149,7 +146,7 @@ switch ($boton) {
                                 $arregloResultadoIndicador = $objControlIndicador->consultar($sql, $parametros);
                                 $getfkidindicador = $arregloResultadoIndicador[0]->__get('nombre');
                                 $getfkidindicadorid = $arregloResultadoIndicador[0]->__get('id');
-                                ?>
+                            ?>
                                 <tr>
                                     <td><?= $num_registro ?></td>
                                     <td><?= $getid ?></td>
@@ -158,28 +155,16 @@ switch ($boton) {
                                     <td><?= $getfkidindicador ?></td>
                                     <td>
                                         <div class="btn-group" role="group">
-                                            <form method="post" action="VistaResultadoIndicador.php"
-                                                enctype="multipart/form-data">
-                                                <button type="button" class="btn btn-warning btn-sm botonModificar" name="modificar"
-                                                    data-bs-toggle="modal" data-bs-target="#editResultadoIndicador"
-                                                    data-bs-whatever="<?= $getid ?>"
-                                                    data-bs-resultado="<?= $getresultado ?>"
-                                                    data-bs-fechacalculo="<?= $getfechacalculo ?>"
-                                                    data-bs-fkidindicador="<?= $getfkidindicadorid ?>"><i
-                                                        class="bi bi-pencil-square"
-                                                        style="font-size: 0.75rem;"></i></button>
+                                            <form method="post" action="VistaResultadoIndicador.php" enctype="multipart/form-data">
+                                                <button type="button" class="btn btn-warning btn-sm botonModificar" name="modificar" data-bs-toggle="modal" data-bs-target="#editResultadoIndicador" data-bs-whatever="<?= $getid ?>" data-bs-resultado="<?= $getresultado ?>" data-bs-fechacalculo="<?= $getfechacalculo ?>" data-bs-fkidindicador="<?= $getfkidindicadorid ?>"><i class="bi bi-pencil-square" style="font-size: 0.75rem;"></i></button>
                                             </form>
-                                            <form method="post" action="VistaResultadoIndicador.php"
-                                                enctype="multipart/form-data">
-                                                <button type="button" class="btn btn-danger btn-sm" name="delete"
-                                                    data-bs-toggle="modal" data-bs-target="#deleteResultadoIndicador"
-                                                    data-bs-id="<?= $getid ?>"><i class="bi bi-trash-fill"
-                                                        style="font-size: 0.75rem;"></i></button>
+                                            <form method="post" action="VistaResultadoIndicador.php" enctype="multipart/form-data">
+                                                <button type="button" class="btn btn-danger btn-sm" name="delete" data-bs-toggle="modal" data-bs-target="#deleteResultadoIndicador" data-bs-id="<?= $getid ?>"><i class="bi bi-trash-fill" style="font-size: 0.75rem;"></i></button>
                                             </form>
                                         </div>
                                     </td>
                                 </tr>
-                                <?php
+                            <?php
                             }
                             $registros_mostrados = min($registros_por_pagina, $total_registros - $inicio);
                             ?>
@@ -188,7 +173,8 @@ switch ($boton) {
                     <!-- Mostrar enlaces de paginación -->
                     <div class="clearfix">
                         <div class="hint-text">Mostrando <b><?= $registros_mostrados ?></b> de
-                            <b><?= $total_registros ?></b> tipos de indicadores</div>
+                            <b><?= $total_registros ?></b> tipos de indicadores
+                        </div>
                         <ul class="pagination">
                             <?php
                             // Botón "Anterior"
@@ -215,8 +201,7 @@ switch ($boton) {
 
 <main id="main">
     <!-- Add Modal HTML -->
-    <div class="modal fade" id="addResultadoIndicador" tabindex="-1" aria-labelledby="addResultadoIndicador"
-        aria-hidden="true">
+    <div class="modal fade" id="addResultadoIndicador" tabindex="-1" aria-labelledby="addResultadoIndicador" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form method="post" action="VistaResultadoIndicador.php" enctype="multipart/form-data">
@@ -231,40 +216,35 @@ switch ($boton) {
                 </div> -->
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtResultado' id="txtResultado" class="form-control"
-                                placeholder="Resultado" aria-label="resultado" aria-describedby="basic-addon1">
+                            <input type="text" name='txtResultado' id="txtResultado" class="form-control" placeholder="Resultado" aria-label="resultado" aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group mb-3" hidden>
                             <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtFechaCalculo' id="txtFechaCalculo" class="form-control"
-                                placeholder="FechaCalculo" aria-label="fechacalculo" aria-describedby="basic-addon1"
-                                value="<?= $fecha_y_hora ?>">
+                            <input type="text" name='txtFechaCalculo' id="txtFechaCalculo" class="form-control" placeholder="FechaCalculo" aria-label="fechacalculo" aria-describedby="basic-addon1" value="<?= $fecha_y_hora ?>">
                         </div>
                         <div class="input-group mb-3">
-                        <select class="form-select" id="txtFkidIndicador" name="txtFkidIndicador" required>
-                        <option selected disabled value="">Indicador</option>
-                        <?php
-                        for ($i = 0; $i < count($arregloIndicador); $i++) {
-                            $id = $arregloIndicador[$i]->__get('id');
-                            $nombre = $arregloIndicador[$i]->__get('nombre');
-                            echo "<option value='$id'>$nombre</option>";
-                        }
-                        ?>
-                        </select>
+                            <select class="form-select" id="txtFkidIndicador" name="txtFkidIndicador" required>
+                                <option selected disabled value="">Indicador</option>
+                                <?php
+                                for ($i = 0; $i < count($arregloIndicador); $i++) {
+                                    $id = $arregloIndicador[$i]->__get('id');
+                                    $nombre = $arregloIndicador[$i]->__get('nombre');
+                                    echo "<option value='$id'>$nombre</option>";
+                                }
+                                ?>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary" formmethod="post" name="bt"
-                            value="Guardar">Guardar</button>
+                        <button type="submit" class="btn btn-primary" formmethod="post" name="bt" value="Guardar">Guardar</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
     <!-- Edit Modal HTML -->
-    <div class="modal fade" id="editResultadoIndicador" tabindex="-1" aria-labelledby="editResultadoIndicador"
-        aria-hidden="true">
+    <div class="modal fade" id="editResultadoIndicador" tabindex="-1" aria-labelledby="editResultadoIndicador" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form method="post" action="VistaResultadoIndicador.php" enctype="multipart/form-data">
@@ -274,44 +254,39 @@ switch ($boton) {
                     <div class="modal-body">
                         <div class="input-group mb-3" hidden>
                             <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtId' id="txtId" value="" class="form-control" placeholder="Id"
-                                aria-label="id" aria-describedby="basic-addon1" id="id" readonly>
+                            <input type="text" name='txtId' id="txtId" value="" class="form-control" placeholder="Id" aria-label="id" aria-describedby="basic-addon1" id="id" readonly>
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtResultado' id="txtResultado" class="form-control"
-                                placeholder="Resultado" aria-label="Resultado" aria-describedby="basic-addon1">
+                            <input type="text" name='txtResultado' id="txtResultado" class="form-control" placeholder="Resultado" aria-label="Resultado" aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group mb-3" hidden>
                             <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtFechaCalculo' id="txtFechaCalculo" class="form-control"
-                                placeholder="Fecha Calculo" aria-label="fechacalculo" aria-describedby="basic-addon1">
+                            <input type="text" name='txtFechaCalculo' id="txtFechaCalculo" class="form-control" placeholder="Fecha Calculo" aria-label="fechacalculo" aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group mb-3">
-                        <select class="form-select" id="txtFkidIndicador" name="txtFkidIndicador" required>
-                        <option selected disabled value="">Indicador</option>
-                        <?php
-                        for ($i = 0; $i < count($arregloIndicador); $i++) {
-                            $id = $arregloIndicador[$i]->__get('id');
-                            $nombre = $arregloIndicador[$i]->__get('nombre');
-                            echo "<option value='$id'>$nombre</option>";
-                        }
-                        ?>
-                        </select>
+                            <select class="form-select" id="txtFkidIndicador" name="txtFkidIndicador" required>
+                                <option selected disabled value="">Indicador</option>
+                                <?php
+                                for ($i = 0; $i < count($arregloIndicador); $i++) {
+                                    $id = $arregloIndicador[$i]->__get('id');
+                                    $nombre = $arregloIndicador[$i]->__get('nombre');
+                                    echo "<option value='$id'>$nombre</option>";
+                                }
+                                ?>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt"
-                            Value="Modificar">Guardar</button>
+                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt" Value="Modificar">Guardar</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
     <!-- Delete Modal HTML -->
-    <div class="modal fade" id="deleteResultadoIndicador" tabindex="-1" aria-labelledby="deleteResultadoIndicador"
-        aria-hidden="true">
+    <div class="modal fade" id="deleteResultadoIndicador" tabindex="-1" aria-labelledby="deleteResultadoIndicador" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form id="deleteForm" method="post" action="VistaResultadoIndicador.php" enctype="multipart/form-data">
@@ -326,8 +301,7 @@ switch ($boton) {
                     <div class="modal-footer">
                         <input type="hidden" name="txtId" value="" id="txtId">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt" value="Eliminar"
-                            id="confirmDelete">Eliminar</button>
+                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt" value="Eliminar" id="confirmDelete">Eliminar</button>
                     </div>
                 </form>
             </div>
@@ -366,53 +340,53 @@ switch ($boton) {
 
     const openEditModalButton = document.getElementsByClassName('botonModificar');
 
-for (let i = 0; i < openEditModalButton.length; i++) {
-    openEditModalButton[i].addEventListener('click', function () {
-        const id = this.getAttribute('data-bs-whatever')
-        const resultado = this.getAttribute('data-bs-resultado')
-        const fechacalculo = this.getAttribute('data-bs-fechacalculo')
-        const fkidindicador = this.getAttribute('data-bs-fkidindicador')
-        console.log(id);
-        console.log(resultado);
-        console.log(fechacalculo);
-        console.log(fkidindicador);
+    for (let i = 0; i < openEditModalButton.length; i++) {
+        openEditModalButton[i].addEventListener('click', function() {
+            const id = this.getAttribute('data-bs-whatever')
+            const resultado = this.getAttribute('data-bs-resultado')
+            const fechacalculo = this.getAttribute('data-bs-fechacalculo')
+            const fkidindicador = this.getAttribute('data-bs-fkidindicador')
+            console.log(id);
+            console.log(resultado);
+            console.log(fechacalculo);
+            console.log(fkidindicador);
 
-        const editResultadoIndicador = new bootstrap.Modal(document.getElementById('editResultadoIndicador'));
-        document.getElementById('confirmDelete').setAttribute('hidden','true');
-        editResultadoIndicador.show();
+            const editResultadoIndicador = new bootstrap.Modal(document.getElementById('editResultadoIndicador'));
+            document.getElementById('confirmDelete').setAttribute('hidden', 'true');
+            editResultadoIndicador.show();
 
-        cargarDatos(id, resultado, fechacalculo, fkidindicador);
-    });
-}
+            cargarDatos(id, resultado, fechacalculo, fkidindicador);
+        });
+    }
 
-const CancelarEditButton = document.getElementById('Cancelar2');
+    const CancelarEditButton = document.getElementById('Cancelar2');
 
-if (CancelarEditButton) {
-    CancelarEditButton.addEventListener('click', () => {
-        const editRolModal = new bootstrap.Modal(document.getElementById('editResultadoIndicador'));
-        editRolModal.hide();
+    if (CancelarEditButton) {
+        CancelarEditButton.addEventListener('click', () => {
+            const editRolModal = new bootstrap.Modal(document.getElementById('editResultadoIndicador'));
+            editRolModal.hide();
 
-        //Eliminar la clase .modal-backdrop
-        const mocalBackdrop = document.querySelector('.modal-backdrop');
-        if (mocalBackdrop) {
-            mocalBackdrop.remove();
-        }
-    });
-}
+            //Eliminar la clase .modal-backdrop
+            const mocalBackdrop = document.querySelector('.modal-backdrop');
+            if (mocalBackdrop) {
+                mocalBackdrop.remove();
+            }
+        });
+    }
 
-function cargarDatos(id, resultado, fechacalculo, fkidindicador) {
-    const modalTitle = editResultadoIndicador.querySelector('.modal-title')
-    const resultadoInput = editResultadoIndicador.querySelector('#txtResultado')
-    const fechacalculoInput = editResultadoIndicador.querySelector('#txtFechaCalculo')
-    const fkidindicadorInput = editResultadoIndicador.querySelector('#txtFkidIndicador')
+    function cargarDatos(id, resultado, fechacalculo, fkidindicador) {
+        const modalTitle = editResultadoIndicador.querySelector('.modal-title')
+        const resultadoInput = editResultadoIndicador.querySelector('#txtResultado')
+        const fechacalculoInput = editResultadoIndicador.querySelector('#txtFechaCalculo')
+        const fkidindicadorInput = editResultadoIndicador.querySelector('#txtFkidIndicador')
 
-    modalTitle.textContent = `Modificar Resultado Indicador ${id}`
+        modalTitle.textContent = `Modificar Resultado Indicador ${id}`
 
-    resultadoInput.value = resultado
-    fechacalculoInput.value = fechacalculo
-    fkidindicadorInput.value = fkidindicador
-    
-}
+        resultadoInput.value = resultado
+        fechacalculoInput.value = fechacalculo
+        fkidindicadorInput.value = fkidindicador
+
+    }
 
     const deleteResultadoIndicador = document.getElementById('deleteResultadoIndicador')
     if (deleteResultadoIndicador) {

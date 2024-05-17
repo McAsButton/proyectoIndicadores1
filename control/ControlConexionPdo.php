@@ -84,7 +84,4 @@ class ControlConexionPdo
             return false;
         }
     }
-
 }
-
-?>

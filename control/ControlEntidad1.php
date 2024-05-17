@@ -91,4 +91,3 @@ class ControlEntidad
     // ... [El resto de tu clase se mantiene igual]
 }
 //$clavesPrimarias = ['id' => 123, 'tipo' => 'general'];
-?>

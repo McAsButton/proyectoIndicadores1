@@ -11,13 +11,11 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="Username">Usuario<span class="text-danger">*</span></label>
-                        <input type="text" name="txtLoginEmail" class="form-control" id="txtLoginEmail"
-                            placeholder="Ingrese Usuario">
+                        <input type="text" name="txtLoginEmail" class="form-control" id="txtLoginEmail" placeholder="Ingrese Usuario">
                     </div>
                     <div class="mb-3">
                         <label for="Password">Contraseña<span class="text-danger">*</span></label>
-                        <input type="password" name="txtLoginContrasena" class="form-control" id="txtLoginContrasena"
-                            placeholder="Ingrese Contraseña">
+                        <input type="password" name="txtLoginContrasena" class="form-control" id="txtLoginContrasena" placeholder="Ingrese Contraseña">
                     </div>
                     <div class="mb-3">
                         <input class="form-check-input" type="checkbox" value="" id="remember">
@@ -26,8 +24,7 @@
                     </div>
                 </div>
                 <div class="modal-footer pt-4">
-                    <button type="submit" name="btnLogin" id="btnLogin" value="Login"
-                        class="btn btn-success mx-auto w-100">Iniciar Sesión</button>
+                    <button type="submit" name="btnLogin" id="btnLogin" value="Login" class="btn btn-success mx-auto w-100">Iniciar Sesión</button>
                 </div>
                 <p class="text-center">No tienea una cuenta, <a href="#">Regístrate</a></p>
             </form>
