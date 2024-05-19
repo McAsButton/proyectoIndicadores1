@@ -11,11 +11,8 @@ session_start();
 if ($_SESSION['email'] == null)
     header('Location: index.php');
 $permisoParaEntrar = false;
-$listaRolesDelUsuario = $_SESSION['listaRolesDelUsuario'];
-for ($i = 0; $i < count($listaRolesDelUsuario); $i++) {
-    if ($listaRolesDelUsuario[$i]->__get('nombre') == "Admin")
-        $permisoParaEntrar = true;
-}
+if (isset($_SESSION['admin']))
+    $permisoParaEntrar = true;
 if (!$permisoParaEntrar)
     header('Location: index.php');
 

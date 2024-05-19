@@ -12,11 +12,9 @@ session_start();
 if ($_SESSION['email'] == null)
     header('Location: index.php');
 $permisoParaEntrar = false;
-$listaRolesDelUsuario = $_SESSION['listaRolesDelUsuario'];
-for ($i = 0; $i < count($listaRolesDelUsuario); $i++) {
-    if ($listaRolesDelUsuario[$i]->__get('nombre') == "Admin")
-        $permisoParaEntrar = true;
-}
+if (isset($_SESSION['admin']) || isset($_SESSION['verificador']) || isset($_SESSION['validador']) || isset($_SESSION['administrativo']))
+    $permisoParaEntrar = true;
+
 if (!$permisoParaEntrar)
     header('Location: index.php');
 
@@ -101,8 +99,19 @@ switch ($boton) {
                                 </form>
                             </div>
                             <div class="col-sm">
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTipoIndicador"><i class="bi bi-person-plus"></i><span>Nuevo Tipo
-                                        Indicador</span></button>
+                                <?php
+                                if (isset($_SESSION['admin']) || isset($_SESSION['administrativo'])) {
+                                ?>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTipoIndicador"><i class="bi bi-person-plus"></i><span>Nuevo Tipo
+                                            Indicador</span></button>
+                                <?php
+                                } else {
+                                ?>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTipoIndicador" disabled><i class="bi bi-person-plus"></i><span>Nuevo Tipo
+                                            Indicador</span></button>
+                                <?php
+                                }
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -137,12 +146,27 @@ switch ($boton) {
                                     <td><?= $getnombre ?></td>
                                     <td>
                                         <div class="btn-group" role="group">
-                                            <form method="post" action="VistaTipoIndicador.php" enctype="multipart/form-data">
-                                                <button type="button" class="btn btn-warning btn-sm botonModificar" name="modificar" data-bs-toggle="modal" data-bs-target="#editTipoIndicador" data-bs-whatever="<?= $getid ?>" data-bs-name="<?= $getnombre ?>"><i class="bi bi-pencil-square" style="font-size: 0.75rem;"></i></button>
-                                            </form>
-                                            <form method="post" action="VistaTipoIndicador.php" enctype="multipart/form-data">
-                                                <button type="button" class="btn btn-danger btn-sm" name="delete" data-bs-toggle="modal" data-bs-target="#deleteTipoIndicador" data-bs-id="<?= $getid ?>"><i class="bi bi-trash-fill" style="font-size: 0.75rem;"></i></button>
-                                            </form>
+                                            <?php
+                                            if (isset($_SESSION['admin']) || isset($_SESSION['administrativo']) || isset($_SESSION['validador'])) {
+                                            ?>
+                                                <form method="post" action="VistaTipoIndicador.php" enctype="multipart/form-data">
+                                                    <button type="button" class="btn btn-warning btn-sm botonModificar" name="modificar" data-bs-toggle="modal" data-bs-target="#editTipoIndicador" data-bs-whatever="<?= $getid ?>" data-bs-name="<?= $getnombre ?>"><i class="bi bi-pencil-square" style="font-size: 0.75rem;"></i></button>
+                                                </form>
+                                                <form method="post" action="VistaTipoIndicador.php" enctype="multipart/form-data">
+                                                    <button type="button" class="btn btn-danger btn-sm" name="delete" data-bs-toggle="modal" data-bs-target="#deleteTipoIndicador" data-bs-id="<?= $getid ?>"><i class="bi bi-trash-fill" style="font-size: 0.75rem;"></i></button>
+                                                </form>
+                                            <?php
+                                            } else {
+                                            ?>
+                                                <form method="post" action="VistaTipoIndicador.php" enctype="multipart/form-data">
+                                                    <button type="button" class="btn btn-warning btn-sm botonModificar" name="modificar" data-bs-toggle="modal" data-bs-target="#editTipoIndicador" data-bs-whatever="<?= $getid ?>" data-bs-name="<?= $getnombre ?>" disabled><i class="bi bi-pencil-square" style="font-size: 0.75rem;"></i></button>
+                                                </form>
+                                                <form method="post" action="VistaTipoIndicador.php" enctype="multipart/form-data">
+                                                    <button type="button" class="btn btn-danger btn-sm" name="delete" data-bs-toggle="modal" data-bs-target="#deleteTipoIndicador" data-bs-id="<?= $getid ?>" disabled><i class="bi bi-trash-fill" style="font-size: 0.75rem;"></i></button>
+                                                </form>
+                                            <?php
+                                            }
+                                            ?>
                                         </div>
                                     </td>
                                 </tr>
@@ -230,8 +254,21 @@ switch ($boton) {
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="Cancelar2">Cancelar</button>
-                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt" Value="Modificar">Guardar</button>
-                        <button type="submit" class="btn btn-danger" formmethod="post" name="bt" value="Eliminar" id="confirmDelete" hidden>Eliminar</button>
+
+
+                        <?php
+                        if (isset($_SESSION['admin']) || isset($_SESSION['administrativo']) || isset($_SESSION['validador'])) {
+                        ?>
+                            <button type="submit" class="btn btn-warning" formmethod="post" name="bt" Value="Modificar">Guardar</button>
+                            <button type="submit" class="btn btn-danger" formmethod="post" name="bt" value="Eliminar" id="confirmDelete" hidden>Eliminar</button>
+                        <?php
+                        } else {
+                        ?>
+                            <button type="submit" class="btn btn-warning" formmethod="post" name="bt" Value="Modificar" disabled>Guardar</button>
+                            <button type="submit" class="btn btn-danger" formmethod="post" name="bt" value="Eliminar" id="confirmDelete" hidden disabled>Eliminar</button>
+                        <?php
+                        }
+                        ?>
                     </div>
                 </form>
             </div>

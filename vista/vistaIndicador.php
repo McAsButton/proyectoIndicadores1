@@ -12,12 +12,8 @@ session_start();
 if ($_SESSION['email'] == null)
     header('Location: index.php');
 $permisoParaEntrar = false;
-$listaRolesDelUsuario = $_SESSION['listaRolesDelUsuario'];
-for ($i = 0; $i < count($listaRolesDelUsuario); $i++) {
-    if ($listaRolesDelUsuario[$i]->__get('nombre') == "Admin" or $listaRolesDelUsuario[$i]->__get('nombre') == "Verificador" or $listaRolesDelUsuario[$i]->__get('nombre') == "Validador" or $listaRolesDelUsuario[$i]->__get('nombre') == "Administrativo" or $listaRolesDelUsuario[$i]->__get('nombre') == "Invitado") {
-        $permisoParaEntrar = true;
-    }
-}
+if (isset($_SESSION['admin']) || isset($_SESSION['verificador']) || isset($_SESSION['validador']) || isset($_SESSION['administrativo']))
+    $permisoParaEntrar = true;
 if (!$permisoParaEntrar)
     header('Location: index.php');
 
@@ -305,8 +301,19 @@ switch ($boton) {
                                 </form>
                             </div>
                             <div class="col-sm">
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addIndicador"><i class="bi bi-person-plus"></i><span>Nuevo
-                                        Indicador</span></button>
+                                <?php
+                                if (isset($_SESSION['admin']) || isset($_SESSION['administrativo'])) {
+                                ?>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addIndicador"><i class="bi bi-person-plus"></i><span>Nuevo
+                                            Indicador</span></button>
+                                <?php
+                                } else {
+                                ?>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addIndicador" disabled><i class="bi bi-person-plus"></i><span>Nuevo
+                                            Indicador</span></button>
+                                <?php
+                                }
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -483,14 +490,31 @@ switch ($boton) {
                                     <td><?= $paragrafo ?></td>
                                     <td>
                                         <div class="btn-group" role="group">
-                                            <form method="post" action="VistaIndicador.php" enctype="multipart/form-data">
-                                                <!-- cspell:disable -->
-                                                <button type="button" class="btn btn-warning btn-sm btn-edit botonModificar" name="modificar" data-bs-toggle="modal" data-bs-target="#editIndicador" data-bs-id="<?= $getid ?>" data-bs-codigo="<?= $getcodigo ?>" data-bs-nombre="<?= $getnombre ?>" data-bs-objetivo="<?= $getobjetivo ?>" data-bs-alcance="<?= $getalcance ?>" data-bs-formula="<?= $getformula ?>" data-bs-tipoIndicador="<?= $getIdTipoIndicador ?>" data-bs-unidadMedicion="<?= $getIdUnidadMedicion ?>" data-bs-meta="<?= $getmeta ?>" data-bs-sentido="<?= $getIdSentido ?>" data-bs-frecuencia="<?= $getIdFrecuencia ?>" data-bs-articulo="<?= $articulo ?>" data-bs-literal="<?= $literal ?>" data-bs-numeral="<?= $numeral ?>" data-bs-paragrafo="<?= $paragrafo ?>" data-bs-represenvisual="<?= $idRepresenVisualString ?>" data-bs-actores="<?= $idActorString ?>" data-bs-fuentes="<?= $idFuenteString ?>" data-bs-variables="<?= $idVariableString ?>"><i class="bi bi-pencil-square" style="font-size: 0.75rem;"></i></button>
-                                            </form>
-                                            <form method="post" action="VistaIndicador.php" enctype="multipart/form-data">
-                                                <button type="button" class="btn btn-danger btn-sm" name="delete" data-bs-toggle="modal" data-bs-target="#deleteIndicador" data-bs-id="<?= $getid ?>"><i class="bi bi-trash-fill" style="font-size: 0.75rem;"></i></button>
-                                            </form><!-- cspell:enable -->
+                                            <?php
+                                            if (isset($_SESSION['admin']) || isset($_SESSION['administrativo']) || isset($_SESSION['validador'])) {
+                                            ?>
+                                                <form method="post" action="VistaIndicador.php" enctype="multipart/form-data">
+                                                    <!-- cspell:disable -->
+                                                    <button type="button" class="btn btn-warning btn-sm btn-edit botonModificar" name="modificar" data-bs-toggle="modal" data-bs-target="#editIndicador" data-bs-id="<?= $getid ?>" data-bs-codigo="<?= $getcodigo ?>" data-bs-nombre="<?= $getnombre ?>" data-bs-objetivo="<?= $getobjetivo ?>" data-bs-alcance="<?= $getalcance ?>" data-bs-formula="<?= $getformula ?>" data-bs-tipoIndicador="<?= $getIdTipoIndicador ?>" data-bs-unidadMedicion="<?= $getIdUnidadMedicion ?>" data-bs-meta="<?= $getmeta ?>" data-bs-sentido="<?= $getIdSentido ?>" data-bs-frecuencia="<?= $getIdFrecuencia ?>" data-bs-articulo="<?= $articulo ?>" data-bs-literal="<?= $literal ?>" data-bs-numeral="<?= $numeral ?>" data-bs-paragrafo="<?= $paragrafo ?>" data-bs-represenvisual="<?= $idRepresenVisualString ?>" data-bs-actores="<?= $idActorString ?>" data-bs-fuentes="<?= $idFuenteString ?>" data-bs-variables="<?= $idVariableString ?>"><i class="bi bi-pencil-square" style="font-size: 0.75rem;"></i></button>
+                                                </form>
+                                                <form method="post" action="VistaIndicador.php" enctype="multipart/form-data">
+                                                    <button type="button" class="btn btn-danger btn-sm" name="delete" data-bs-toggle="modal" data-bs-target="#deleteIndicador" data-bs-id="<?= $getid ?>"><i class="bi bi-trash-fill" style="font-size: 0.75rem;"></i></button>
+                                                </form><!-- cspell:enable -->
 
+                                            <?php
+                                            } else {
+                                            ?>
+                                                <form method="post" action="VistaIndicador.php" enctype="multipart/form-data">
+                                                    <!-- cspell:disable -->
+                                                    <button type="button" class="btn btn-warning btn-sm btn-edit botonModificar" name="modificar" data-bs-toggle="modal" data-bs-target="#editIndicador" data-bs-id="<?= $getid ?>" data-bs-codigo="<?= $getcodigo ?>" data-bs-nombre="<?= $getnombre ?>" data-bs-objetivo="<?= $getobjetivo ?>" data-bs-alcance="<?= $getalcance ?>" data-bs-formula="<?= $getformula ?>" data-bs-tipoIndicador="<?= $getIdTipoIndicador ?>" data-bs-unidadMedicion="<?= $getIdUnidadMedicion ?>" data-bs-meta="<?= $getmeta ?>" data-bs-sentido="<?= $getIdSentido ?>" data-bs-frecuencia="<?= $getIdFrecuencia ?>" data-bs-articulo="<?= $articulo ?>" data-bs-literal="<?= $literal ?>" data-bs-numeral="<?= $numeral ?>" data-bs-paragrafo="<?= $paragrafo ?>" data-bs-represenvisual="<?= $idRepresenVisualString ?>" data-bs-actores="<?= $idActorString ?>" data-bs-fuentes="<?= $idFuenteString ?>" data-bs-variables="<?= $idVariableString ?>" disabled><i class="bi bi-pencil-square" style="font-size: 0.75rem;"></i></button>
+                                                </form>
+                                                <form method="post" action="VistaIndicador.php" enctype="multipart/form-data">
+                                                    <button type="button" class="btn btn-danger btn-sm" name="delete" data-bs-toggle="modal" data-bs-target="#deleteIndicador" data-bs-id="<?= $getid ?>" disabled><i class="bi bi-trash-fill" style="font-size: 0.75rem;"></i></button>
+                                                </form><!-- cspell:enable -->
+
+                                            <?php
+                                            }
+                                            ?>
                                         </div>
                                     </td>
                                 </tr>
@@ -925,8 +949,19 @@ switch ($boton) {
                     <div class="modal-footer">
                         <input type="hidden" name="action" value="modificar">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="botonCancelar2">Cancelar</button> <!-- cspell:disable-line -->
-                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt" value="Modificar">Modificar</button>
-                        <button type="submit" class="btn btn-danger" formmethod="post" name="bt" id="confirmDelete" value="Eliminar" hidden>Eliminar</button>
+                        <?php
+                        if (isset($_SESSION['admin']) || isset($_SESSION['administrativo']) || isset($_SESSION['validador'])) {
+                        ?>
+                            <button type="submit" class="btn btn-warning" formmethod="post" name="bt" value="Modificar">Modificar</button>
+                            <button type="submit" class="btn btn-danger" formmethod="post" name="bt" id="confirmDelete" value="Eliminar" hidden>Eliminar</button>
+                        <?php
+                        } else {
+                        ?>
+                            <button type="submit" class="btn btn-warning" formmethod="post" name="bt" value="Modificar" disabled>Modificar</button>
+                            <button type="submit" class="btn btn-danger" formmethod="post" name="bt" id="confirmDelete" value="Eliminar" hidden disabled>Eliminar</button>
+                        <?php
+                        }
+                        ?>
                     </div>
                 </form>
             </div>

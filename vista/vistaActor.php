@@ -4,19 +4,17 @@ ob_start();
 <?php
 include_once '../control/configBd.php';
 include_once '../control/ControlEntidad.php';
-include_once '../control/ControlConexionPdo.php';
+include_once '../control/ControlConexionPdo.php'; // cspell:disable-line <- desabilita el corrector ortografico para esta linea
 include_once '../modelo/Entidad.php';
-include_once 'notificacion.html';
+include_once 'notificacion.html'; // cspell:disable-line <- desabilita el corrector ortografico para esta linea
 
 session_start();
 if ($_SESSION['email'] == null)
     header('Location: index.php');
 $permisoParaEntrar = false;
-$listaRolesDelUsuario = $_SESSION['listaRolesDelUsuario'];
-for ($i = 0; $i < count($listaRolesDelUsuario); $i++) {
-    if ($listaRolesDelUsuario[$i]->__get('nombre') == "Admin")
-        $permisoParaEntrar = true;
-}
+if (isset($_SESSION['admin']) || isset($_SESSION['verificador']) || isset($_SESSION['validador']) || isset($_SESSION['administrativo']))
+    $permisoParaEntrar = true;
+
 if (!$permisoParaEntrar)
     header('Location: index.php');
 
@@ -26,15 +24,15 @@ $arregloActor = $objControlActor->listar();
 $boton = $_POST['bt'] ?? ''; // Captura el valor del botón
 $id = $_POST['txtId'] ?? ''; // Captura el valor del id
 $nombre = $_POST['txtNombre'] ?? ''; // Captura el valor del nombre
-$fkidtipoactor = $_POST['txtFkidTipoActor'] ?? '';
+$fkidtipoactor = $_POST['txtFkidTipoActor'] ?? ''; // Captura el valor del fkidtipoactor // cspell:disable-line <- desabilita el corrector ortografico para esta linea
 $consultarId = $_POST['txtConsultarId'] ?? '';
-$objControlTipoActor = new ControlEntidad('tipoactor');
+$objControlTipoActor = new ControlEntidad('tipoactor'); // cspell:disable-line <- desabilita el corrector ortografico para esta linea
 $arregloTipoActor = $objControlTipoActor->listar();
 
 switch ($boton) {
     case 'Guardar':
         try {
-            $datosActor = ['id' => $id, 'nombre' => $nombre, 'fkidtipoactor' => $fkidtipoactor];
+            $datosActor = ['id' => $id, 'nombre' => $nombre, 'fkidtipoactor' => $fkidtipoactor]; // cspell:disable-line <- desabilita el corrector ortografico para esta linea
             $objActor = new Entidad($datosActor);
             $objControlActor = new ControlEntidad('actor');
             $objControlActor->guardar($objActor);
@@ -52,8 +50,8 @@ switch ($boton) {
 
             if ($objActor !== null) {
                 $nombre = $objActor->__get('nombre');
-                $tipoactor = $objActor->__get('fkidtipoactor');
-                header('Location: vistaActor.php?id=' . $consultarId . '&nombre=' . $nombre . '&fkidtipoactor=' . $tipoactor);
+                $tipoactor = $objActor->__get('fkidtipoactor'); // cspell:disable-line <- desabilita el corrector ortografico para esta linea
+                header('Location: vistaActor.php?id=' . $consultarId . '&nombre=' . $nombre . '&fkidtipoactor=' . $tipoactor); // cspell:disable-line <- desabilita el corrector ortografico para esta linea
             } else {
                 header('Location: vistaActor.php?spawnNote=0');
             }
@@ -63,7 +61,7 @@ switch ($boton) {
         break;
     case 'Modificar':
         try {
-            $datosActor = ['id' => $id, 'nombre' => $nombre, 'fkidtipoactor' => $fkidtipoactor];
+            $datosActor = ['id' => $id, 'nombre' => $nombre, 'fkidtipoactor' => $fkidtipoactor]; // cspell:disable-line <- desabilita el corrector ortografico para esta linea
             $objActor = new Entidad($datosActor);
             $objControlActor = new ControlEntidad('actor');
             $objControlActor->modificar('id', $id, $objActor);
@@ -101,16 +99,24 @@ switch ($boton) {
                             </div>
                             <div class="col-sm">
                                 <form class="d-flex" method="post" action="VistaActor.php">
-                                    <input class="form-control mr-2 mb-1" type="search" placeholder="Buscar id"
-                                        aria-label="Search" id="txtConsultarId" name="txtConsultarId">
-                                    <button class="btn btn-outline-success" type="submit" formmethod="post" name="bt"
-                                        value="Consultar"><i class="bi bi-search"></i></button>
+                                    <input class="form-control mr-2 mb-1" type="search" placeholder="Buscar id" aria-label="Search" id="txtConsultarId" name="txtConsultarId">
+                                    <button class="btn btn-outline-success" type="submit" formmethod="post" name="bt" value="Consultar"><i class="bi bi-search"></i></button>
                                 </form>
                             </div>
                             <div class="col-sm">
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#addActor"><i class="bi bi-person-plus"></i><span>Nuevo
-                                        Actor</span></button>
+                                <?php
+                                if (isset($_SESSION['admin']) || isset($_SESSION['administrativo'])) {
+                                ?>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addActor"><i class="bi bi-person-plus"></i><span>Nuevo
+                                            Actor</span></button>
+                                <?php
+                                } else {
+                                ?>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addActor" disabled><i class="bi bi-person-plus"></i><span>Nuevo
+                                            Actor</span></button>
+                                <?php
+                                }
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -140,14 +146,14 @@ switch ($boton) {
                                 $getid = $arregloActor[$i]->__get('id');
                                 $getnombre = $arregloActor[$i]->__get('nombre');
 
-                                $tipoactor = $arregloActor[$i]->__get('fkidtipoactor');
-                                $objControlTipoActor = new ControlEntidad('tipoactor');
-                                $sql = "SELECT * FROM tipoactor WHERE id = ?";
+                                $tipoactor = $arregloActor[$i]->__get('fkidtipoactor'); // cspell:disable-line <- desabilita el corrector ortografico para esta linea
+                                $objControlTipoActor = new ControlEntidad('tipoactor'); // cspell:disable-line <- desabilita el corrector ortografico para esta linea
+                                $sql = "SELECT * FROM tipoactor WHERE id = ?"; // cspell:disable-line <- desabilita el corrector ortografico para esta linea
                                 $parametros = [$tipoactor];
                                 $arreglotipoactor = $objControlTipoActor->consultar($sql, $parametros);
                                 $getfkidtipoactor = $arreglotipoactor[0]->__get('nombre');
                                 $getfkidtipoactorid = $arreglotipoactor[0]->__get('id');
-                                ?>
+                            ?>
                                 <tr>
                                     <td><?= $num_registro ?></td>
                                     <td><?= $getid ?></td>
@@ -155,24 +161,32 @@ switch ($boton) {
                                     <td><?= $getfkidtipoactor ?></td>
                                     <td>
                                         <div class="btn-group" role="group">
-                                            <form method="post" action="VistaActor.php" enctype="multipart/form-data">
-                                                <button type="button" class="btn btn-warning btn-sm botonModificar"
-                                                    name="modificar" data-bs-toggle="modal" data-bs-target="#editActor"
-                                                    data-bs-whatever="<?= $getid ?>" data-bs-nombre="<?= $getnombre ?>"
-                                                    data-bs-fkidtipoactor="<?= $getfkidtipoactorid ?>"><i
-                                                        class="bi bi-pencil-square"
-                                                        style="font-size: 0.75rem;"></i></button>
-                                            </form>
-                                            <form method="post" action="VistaActor.php" enctype="multipart/form-data">
-                                                <button type="button" class="btn btn-danger btn-sm" name="delete"
-                                                    data-bs-toggle="modal" data-bs-target="#deleteActor"
-                                                    data-bs-id="<?= $getid ?>"><i class="bi bi-trash-fill"
-                                                        style="font-size: 0.75rem;"></i></button>
-                                            </form>
+                                            <?php
+                                            if (isset($_SESSION['admin']) || isset($_SESSION['administrativo']) || isset($_SESSION['validador'])) {
+                                            ?>
+                                                <form method="post" action="VistaActor.php" enctype="multipart/form-data">
+
+                                                    <button type="button" class="btn btn-warning btn-sm botonModificar" name="modificar" data-bs-toggle="modal" data-bs-target="#editActor" data-bs-whatever="<?= $getid ?>" data-bs-nombre="<?= $getnombre ?>" data-bs-fkidtipoactor="<?= $getfkidtipoactorid ?>"><i class="bi bi-pencil-square" style="font-size: 0.75rem;"></i></button>
+                                                </form>
+                                                <form method="post" action="VistaActor.php" enctype="multipart/form-data">
+                                                    <button type="button" class="btn btn-danger btn-sm" name="delete" data-bs-toggle="modal" data-bs-target="#deleteActor" data-bs-id="<?= $getid ?>"><i class="bi bi-trash-fill" style="font-size: 0.75rem;"></i></button>
+                                                </form>
+                                            <?php
+                                            } else {
+                                            ?>
+                                                <form method="post" action="VistaActor.php" enctype="multipart/form-data">
+                                                    <button type="button" class="btn btn-warning btn-sm botonModificar" name="modificar" data-bs-toggle="modal" data-bs-target="#editActor" data-bs-whatever="<?= $getid ?>" data-bs-nombre="<?= $getnombre ?>" data-bs-fkidtipoactor="<?= $getfkidtipoactorid ?>" disabled><i class="bi bi-pencil-square" style="font-size: 0.75rem;"></i></button>
+                                                </form>
+                                                <form method="post" action="VistaActor.php" enctype="multipart/form-data">
+                                                    <button type="button" class="btn btn-danger btn-sm" name="delete" data-bs-toggle="modal" data-bs-target="#deleteActor" data-bs-id="<?= $getid ?>" disabled><i class="bi bi-trash-fill" style="font-size: 0.75rem;"></i></button>
+                                                </form>
+                                            <?php
+                                            }
+                                            ?>
                                         </div>
                                     </td>
                                 </tr>
-                                <?php
+                            <?php
                             }
                             $registros_mostrados = min($registros_por_pagina, $total_registros - $inicio);
                             ?>
@@ -220,22 +234,20 @@ switch ($boton) {
                     <div class="modal-body">
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtId' id="txtId" value="" class="form-control" placeholder="Id"
-                                aria-label="id" aria-describedby="basic-addon1">
+                            <input type="text" name='txtId' id="txtId" value="" class="form-control" placeholder="Id" aria-label="id" aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtNombre' id="txtNombre" class="form-control" placeholder="Nombre"
-                                aria-label="Nombre" aria-describedby="basic-addon1">
+                            <input type="text" name='txtNombre' id="txtNombre" class="form-control" placeholder="Nombre" aria-label="Nombre" aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group mb-3">
-                        <select class="form-select" id="txtFkidTipoActor" name="txtFkidTipoActor" required>
+                            <select class="form-select" id="txtFkidTipoActor" name="txtFkidTipoActor" required>
                                 <option selected disabled value="">Tipo Actor</option>
                                 <?php
                                 for ($i = 0; $i < count($arregloTipoActor); $i++) {
                                     $id = $arregloTipoActor[$i]->__get('id');
                                     $nombre = $arregloTipoActor[$i]->__get('nombre');
-                                    $fkidtipoactor = $arregloTipoActor[$i]->__get('fkidtipoactor');
+                                    $fkidtipoactor = $arregloTipoActor[$i]->__get('fkidtipoactor'); // cspell:disable-line <- desabilita el corrector ortografico para esta linea
                                     echo "<option value='$id'>$nombre</option>";
                                 }
                                 ?>
@@ -261,22 +273,20 @@ switch ($boton) {
                     <div class="modal-body">
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtId' id="txtId" value="" class="form-control" placeholder="Id"
-                                aria-label="id" aria-describedby="basic-addon1" id="id" readonly>
+                            <input type="text" name='txtId' id="txtId" value="" class="form-control" placeholder="Id" aria-label="id" aria-describedby="basic-addon1" id="id" readonly>
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">A</span>
-                            <input type="text" name='txtNombre' id="txtNombre" class="form-control" placeholder="Nombre"
-                                aria-label="nombre" aria-describedby="basic-addon1">
+                            <input type="text" name='txtNombre' id="txtNombre" class="form-control" placeholder="Nombre" aria-label="nombre" aria-describedby="basic-addon1">
                         </div>
                         <div class="input-group mb-3">
-                        <select class="form-select" id="txtFkidTipoActor" name="txtFkidTipoActor" required>
+                            <select class="form-select" id="txtFkidTipoActor" name="txtFkidTipoActor" required>
                                 <option selected disabled value="">Tipo Actor</option>
                                 <?php
                                 for ($i = 0; $i < count($arregloTipoActor); $i++) {
                                     $id = $arregloTipoActor[$i]->__get('id');
                                     $nombre = $arregloTipoActor[$i]->__get('nombre');
-                                    $fkidtipoactor = $arregloTipoActor[$i]->__get('fkidtipoactor');
+                                    $fkidtipoactor = $arregloTipoActor[$i]->__get('fkidtipoactor'); // cspell:disable-line <- desabilita el corrector ortografico para esta linea
                                     echo "<option value='$id'>$nombre</option>";
                                 }
                                 ?>
@@ -284,12 +294,20 @@ switch ($boton) {
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                            id="Cancelar2">Cancelar</button>
-                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt"
-                            Value="Modificar">Guardar</button>
-                        <button type="submit" class="btn btn-danger" formmethod="post" name="bt" value="Eliminar"
-                        id="confirmDelete" hidden>Eliminar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="Cancelar2">Cancelar</button>
+                        <?php
+                        if (isset($_SESSION['admin']) || isset($_SESSION['administrativo']) || isset($_SESSION['validador'])) {
+                        ?>
+                            <button type="submit" class="btn btn-warning" formmethod="post" name="bt" Value="Modificar">Guardar</button>
+                            <button type="submit" class="btn btn-danger" formmethod="post" name="bt" value="Eliminar" id="confirmDelete" hidden>Eliminar</button>
+                        <?php
+                        } else {
+                        ?>
+                            <button type="submit" class="btn btn-warning" formmethod="post" name="bt" Value="Modificar" disabled>Guardar</button>
+                            <button type="submit" class="btn btn-danger" formmethod="post" name="bt" value="Eliminar" id="confirmDelete" hidden disabled>Eliminar</button>
+                        <?php
+                        }
+                        ?>
                     </div>
                 </form>
             </div>
@@ -311,8 +329,7 @@ switch ($boton) {
                     <div class="modal-footer">
                         <input type="hidden" name="txtId" value="" id="txtId">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt" value="Eliminar"
-                            id="confirmDelete">Eliminar</button>
+                        <button type="submit" class="btn btn-warning" formmethod="post" name="bt" value="Eliminar" id="confirmDelete">Eliminar</button>
                     </div>
                 </form>
             </div>
@@ -335,10 +352,10 @@ switch ($boton) {
             // Llamar al método spawnNote con el valor obtenido
             nc.spawnNote(spawnNoteValue);
         }
-        if (params.has('id') && params.has('nombre') && params.has('fkidtipoactor')) {
+        if (params.has('id') && params.has('nombre') && params.has('fkidtipoactor')) { // cspell:disable-line <- desabilita el corrector ortografico para esta linea
             const id = params.get('id');
             const nombre = params.get('nombre');
-            const fkidtipoactor = params.get('fkidtipoactor');
+            const fkidtipoactor = params.get('fkidtipoactor'); // cspell:disable-line <- desabilita el corrector ortografico para esta linea
 
             const editActorModal = new bootstrap.Modal(document.getElementById('editActor'));
             document.getElementById('confirmDelete').removeAttribute('hidden');
@@ -348,16 +365,16 @@ switch ($boton) {
         }
     });
 
-    const openEditModalButton = document.getElementsByClassName('botonModificar');
+    const openEditModalButton = document.getElementsByClassName('botonModificar'); // cspell:disable-line <- desabilita el corrector ortografico para esta linea
 
     for (let i = 0; i < openEditModalButton.length; i++) {
-        openEditModalButton[i].addEventListener('click', function () {
+        openEditModalButton[i].addEventListener('click', function() {
             const id = this.getAttribute('data-bs-whatever');
             const nombre = this.getAttribute('data-bs-nombre');
-            const fkidtipoactor = this.getAttribute('data-bs-fkidtipoactor');
+            const fkidtipoactor = this.getAttribute('data-bs-fkidtipoactor'); // cspell:disable-line <- desabilita el corrector ortografico para esta linea
 
             const editActorModal = new bootstrap.Modal(document.getElementById('editActor'));
-            document.getElementById('confirmDelete').setAttribute('hidden','true');
+            document.getElementById('confirmDelete').setAttribute('hidden', 'true');
             editActorModal.show();
 
             cargarDatos(id, nombre, fkidtipoactor);
@@ -383,7 +400,7 @@ switch ($boton) {
         const modalTitle = editActor.querySelector('.modal-title');
         const idInput = editActor.querySelector('#txtId');
         const nombreInput = editActor.querySelector('#txtNombre');
-        const fkidtipoactorInput = editActor.querySelector('#txtFkidTipoActor');
+        const fkidtipoactorInput = editActor.querySelector('#txtFkidTipoActor'); // cspell:disable-line <- desabilita el corrector ortografico para esta linea
 
         modalTitle.textContent = `Modificar Actor ${id}`;
         idInput.value = id;
@@ -399,7 +416,7 @@ switch ($boton) {
             // Extract info from data-bs-* attributes
             const id = button.getAttribute('data-bs-id')
             const nombre = button.getAttribute('data-bs-nombre')
-            const fkidtipoactor = button.getAttribute('data-bs-fkidtipoactor')
+            const fkidtipoactor = button.getAttribute('data-bs-fkidtipoactor') // cspell:disable-line <- desabilita el corrector ortografico para esta linea
             // If necessary, you could initiate an Ajax request here
             // and then do the updating in a callback.
 
