@@ -6,3 +6,8 @@ Invitado: No tiene acceso a los menus y por los tanto no puede acceder a los cru
 Verificador: Tiene acceso a los menus,  tiene acceso al consultar, pero no puede acceder a los botones de agregar modificar o eliminar. ✅☑️
 Validador: Tiene acceso a los menus,  tiene acceso al consultar, al boton de modificar y al boton de eliminar, pero no puede acceder al boton de agregar. ✅☑️
 Admninistrativo: Tiene acceso a los menus y tiene acceso al crud de todas las tablas excepto la de usuarios. ✅☑️
+
+
+Datos de las variables, textbox  inactivo segun checkbox de la variable.
+Consultas en un listbox y que genere la tabla.
+Guardar con literales y numerales vacios o generar una opcion N/A (corregir listener para mostrar siempre el NA)
