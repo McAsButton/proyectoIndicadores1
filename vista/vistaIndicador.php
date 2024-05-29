@@ -47,6 +47,11 @@ $arregloFuente = $objControlFuente->listar();
 $objControlVariable = new ControlEntidad('variable');
 $arregloVariable = $objControlVariable->listar();
 
+// Extraer solo los valores de 'id' en un nuevo array
+$arregloIdsVariables = array_map(function ($obj) {
+    return $obj->id;
+}, $arregloVariable);
+
 $boton = $_POST['bt'] ?? ''; // Captura el valor del botón
 $id = $_POST['txtId'] ?? ''; // Captura el valor del campo Id
 $codigo = $_POST['txtCodigo'] ?? ''; // Captura el valor del campo Codigo //cspell:disable-line
@@ -67,6 +72,7 @@ $represenVisual = $_POST['represen_modal'] ?? []; // Captura el valor del campo 
 $actor = $_POST['txtActor'] ?? []; // Captura el valor del campo Actor
 $fuente = $_POST['fuentes_modal'] ?? []; // Captura el valor del campo Fuente
 $variable = $_POST['variables_modal'] ?? []; // Captura el valor del campo Variable
+$valores_variables = $_POST['valor_variable_modal'] ?? []; //Captura el valor de la variable seleccionada
 $fecha_y_hora = date("Y-m-d H:i:s");
 $consultarId = $_POST['txtConsultarId'] ?? ''; // Captura el valor del campo Consultar Id
 
@@ -111,10 +117,13 @@ switch ($boton) {
 
             if (!empty($variable)) {
                 foreach ($variable as $key => $value) {
-                    $datosVariablePorIndicador = ['fkidvariable' => $value, 'fkidindicador' => $idIndicador, 'dato' => '0', 'fkemailusuario' => $_SESSION['email'], 'fechadato' => $fecha_y_hora]; //cspell:disable-line
-                    $objVariablePorIndicador = new Entidad($datosVariablePorIndicador);
-                    $objControlVariablePorIndicador = new ControlEntidad('variablesporindicador'); //cspell:disable-line
-                    $objControlVariablePorIndicador->guardar($objVariablePorIndicador);
+                    if (isset($valores_variables[$key])) {
+                        $valorTexto = $valores[$key];
+                        $datosVariablePorIndicador = ['fkidvariable' => $value, 'fkidindicador' => $idIndicador, 'dato' => $valorTexto, 'fkemailusuario' => $_SESSION['email'], 'fechadato' => $fecha_y_hora]; //cspell:disable-line
+                        $objVariablePorIndicador = new Entidad($datosVariablePorIndicador);
+                        $objControlVariablePorIndicador = new ControlEntidad('variablesporindicador'); //cspell:disable-line
+                        $objControlVariablePorIndicador->guardar($objVariablePorIndicador);
+                    }
                 }
             }
 
@@ -258,10 +267,24 @@ switch ($boton) {
 
             if (!empty($variable)) {
                 foreach ($variable as $key => $value) {
-                    $datosVariablePorIndicador = ['fkidvariable' => $value, 'fkidindicador' => $id, 'dato' => '0', 'fkemailusuario' => $_SESSION['email'], 'fechadato' => $fecha_y_hora]; //cspell:disable-line
-                    $objVariablePorIndicador = new Entidad($datosVariablePorIndicador);
-                    $objControlVariablePorIndicador = new ControlEntidad('variablesporindicador'); //cspell:disable-line
-                    $objControlVariablePorIndicador->guardar($objVariablePorIndicador);
+                    if (isset($valores_variables[$key])) {
+                        $valorTexto = $valores_variables[$key];
+                        var_dump($valorTexto);
+
+                        $datosVariablePorIndicador = [
+                            'fkidvariable' => $value,
+                            'fkidindicador' => $id,
+                            'dato' => $valorTexto,
+                            'fkemailusuario' => $_SESSION['email'],
+                            'fechadato' => $fecha_y_hora
+                        ];
+
+                        $objVariablePorIndicador = new Entidad($datosVariablePorIndicador);
+
+                        $objControlVariablePorIndicador = new ControlEntidad('variablesporindicador');
+
+                        $result = $objControlVariablePorIndicador->guardar($objVariablePorIndicador);
+                    }
                 }
             }
             header('Location: VistaIndicador.php?spawnNote=1');
@@ -459,15 +482,20 @@ switch ($boton) {
                                 }
 
                                 $objControlVariablePorIndicador = new ControlEntidad('variablesporindicador'); //cspell:disable-line
-                                $sql = "SELECT fkidvariable FROM variablesporindicador WHERE fkidindicador = ?"; //cspell:disable-line
+                                $sql = "SELECT fkidvariable, dato FROM variablesporindicador WHERE fkidindicador = ?"; //cspell:disable-line
                                 $parametros = [$getid];
                                 $arregloVariablePorIndicador = $objControlVariablePorIndicador->consultar($sql, $parametros);
                                 $idVariableString = '';
+                                $valorVariableString = '';
                                 foreach ($arregloVariablePorIndicador as $objeto) {
                                     $propiedades = $objeto->obtenerPropiedades();
                                     if (isset($propiedades['fkidvariable'])) { //cspell:disable-line
                                         $idVariable = $propiedades['fkidvariable']; //cspell:disable-line
                                         $idVariableString .= $idVariable . ', ';
+                                    }
+                                    if (isset($propiedades['dato'])) {
+                                        $valorVariable = $propiedades['dato'];
+                                        $valorVariableString .= $valorVariable . ', ';
                                     }
                                 }
                             ?>
@@ -495,7 +523,7 @@ switch ($boton) {
                                             ?>
                                                 <form method="post" action="VistaIndicador.php" enctype="multipart/form-data">
                                                     <!-- cspell:disable -->
-                                                    <button type="button" class="btn btn-warning btn-sm btn-edit botonModificar" name="modificar" data-bs-toggle="modal" data-bs-target="#editIndicador" data-bs-id="<?= $getid ?>" data-bs-codigo="<?= $getcodigo ?>" data-bs-nombre="<?= $getnombre ?>" data-bs-objetivo="<?= $getobjetivo ?>" data-bs-alcance="<?= $getalcance ?>" data-bs-formula="<?= $getformula ?>" data-bs-tipoIndicador="<?= $getIdTipoIndicador ?>" data-bs-unidadMedicion="<?= $getIdUnidadMedicion ?>" data-bs-meta="<?= $getmeta ?>" data-bs-sentido="<?= $getIdSentido ?>" data-bs-frecuencia="<?= $getIdFrecuencia ?>" data-bs-articulo="<?= $articulo ?>" data-bs-literal="<?= $literal ?>" data-bs-numeral="<?= $numeral ?>" data-bs-paragrafo="<?= $paragrafo ?>" data-bs-represenvisual="<?= $idRepresenVisualString ?>" data-bs-actores="<?= $idActorString ?>" data-bs-fuentes="<?= $idFuenteString ?>" data-bs-variables="<?= $idVariableString ?>"><i class="bi bi-pencil-square" style="font-size: 0.75rem;"></i></button>
+                                                    <button type="button" class="btn btn-warning btn-sm btn-edit botonModificar" name="modificar" data-bs-toggle="modal" data-bs-target="#editIndicador" data-bs-id="<?= $getid ?>" data-bs-codigo="<?= $getcodigo ?>" data-bs-nombre="<?= $getnombre ?>" data-bs-objetivo="<?= $getobjetivo ?>" data-bs-alcance="<?= $getalcance ?>" data-bs-formula="<?= $getformula ?>" data-bs-tipoIndicador="<?= $getIdTipoIndicador ?>" data-bs-unidadMedicion="<?= $getIdUnidadMedicion ?>" data-bs-meta="<?= $getmeta ?>" data-bs-sentido="<?= $getIdSentido ?>" data-bs-frecuencia="<?= $getIdFrecuencia ?>" data-bs-articulo="<?= $articulo ?>" data-bs-literal="<?= $literal ?>" data-bs-numeral="<?= $numeral ?>" data-bs-paragrafo="<?= $paragrafo ?>" data-bs-represenvisual="<?= $idRepresenVisualString ?>" data-bs-actores="<?= $idActorString ?>" data-bs-fuentes="<?= $idFuenteString ?>" data-bs-variables="<?= $idVariableString ?>" data-bs-dato="<?= $valorVariableString ?>"><i class="bi bi-pencil-square" style="font-size: 0.75rem;"></i></button>
                                                 </form>
                                                 <form method="post" action="VistaIndicador.php" enctype="multipart/form-data">
                                                     <button type="button" class="btn btn-danger btn-sm" name="delete" data-bs-toggle="modal" data-bs-target="#deleteIndicador" data-bs-id="<?= $getid ?>"><i class="bi bi-trash-fill" style="font-size: 0.75rem;"></i></button>
@@ -506,7 +534,7 @@ switch ($boton) {
                                             ?>
                                                 <form method="post" action="VistaIndicador.php" enctype="multipart/form-data">
                                                     <!-- cspell:disable -->
-                                                    <button type="button" class="btn btn-warning btn-sm btn-edit botonModificar" name="modificar" data-bs-toggle="modal" data-bs-target="#editIndicador" data-bs-id="<?= $getid ?>" data-bs-codigo="<?= $getcodigo ?>" data-bs-nombre="<?= $getnombre ?>" data-bs-objetivo="<?= $getobjetivo ?>" data-bs-alcance="<?= $getalcance ?>" data-bs-formula="<?= $getformula ?>" data-bs-tipoIndicador="<?= $getIdTipoIndicador ?>" data-bs-unidadMedicion="<?= $getIdUnidadMedicion ?>" data-bs-meta="<?= $getmeta ?>" data-bs-sentido="<?= $getIdSentido ?>" data-bs-frecuencia="<?= $getIdFrecuencia ?>" data-bs-articulo="<?= $articulo ?>" data-bs-literal="<?= $literal ?>" data-bs-numeral="<?= $numeral ?>" data-bs-paragrafo="<?= $paragrafo ?>" data-bs-represenvisual="<?= $idRepresenVisualString ?>" data-bs-actores="<?= $idActorString ?>" data-bs-fuentes="<?= $idFuenteString ?>" data-bs-variables="<?= $idVariableString ?>" disabled><i class="bi bi-pencil-square" style="font-size: 0.75rem;"></i></button>
+                                                    <button type="button" class="btn btn-warning btn-sm btn-edit botonModificar" name="modificar" data-bs-toggle="modal" data-bs-target="#editIndicador" data-bs-id="<?= $getid ?>" data-bs-codigo="<?= $getcodigo ?>" data-bs-nombre="<?= $getnombre ?>" data-bs-objetivo="<?= $getobjetivo ?>" data-bs-alcance="<?= $getalcance ?>" data-bs-formula="<?= $getformula ?>" data-bs-tipoIndicador="<?= $getIdTipoIndicador ?>" data-bs-unidadMedicion="<?= $getIdUnidadMedicion ?>" data-bs-meta="<?= $getmeta ?>" data-bs-sentido="<?= $getIdSentido ?>" data-bs-frecuencia="<?= $getIdFrecuencia ?>" data-bs-articulo="<?= $articulo ?>" data-bs-literal="<?= $literal ?>" data-bs-numeral="<?= $numeral ?>" data-bs-paragrafo="<?= $paragrafo ?>" data-bs-represenvisual="<?= $idRepresenVisualString ?>" data-bs-actores="<?= $idActorString ?>" data-bs-fuentes="<?= $idFuenteString ?>" data-bs-variables="<?= $idVariableString ?> data-bs-dato=" <?= $valorVariableString ?>"" disabled><i class="bi bi-pencil-square" style="font-size: 0.75rem;"></i></button>
                                                 </form>
                                                 <form method="post" action="VistaIndicador.php" enctype="multipart/form-data">
                                                     <button type="button" class="btn btn-danger btn-sm" name="delete" data-bs-toggle="modal" data-bs-target="#deleteIndicador" data-bs-id="<?= $getid ?>" disabled><i class="bi bi-trash-fill" style="font-size: 0.75rem;"></i></button>
@@ -651,40 +679,52 @@ switch ($boton) {
                             </select>
                         </div>
                         <div class="input-group mb-3">
-                            <select class="form-select" id="txtLiteral" name="txtLiteral">
+                            <select class="form-select" id="txtLiteral" name="txtLiteral" required>
                                 <option selected disabled value="">Literal</option>
                                 <?php
                                 for ($i = 0; $i < count($arregloLiteral); $i++) {
                                     $id = $arregloLiteral[$i]->__get('id');
                                     $descripcion = $arregloLiteral[$i]->__get('descripcion'); //cspell:disable-line
                                     $fkidarticulo = $arregloLiteral[$i]->__get('fkidarticulo'); //cspell:disable-line
-                                    echo "<option value='$id' data-bs-articulo='$fkidarticulo' hidden>$descripcion</option>"; //cspell:disable-line
+                                    if ($id == 0) {
+                                        echo "<option value='$id' data-bs-articulo='$fkidarticulo'>$descripcion</option>"; //cspell:disable-line
+                                    } else {
+                                        echo "<option value='$id' data-bs-articulo='$fkidarticulo' hidden>$descripcion</option>"; //cspell:disable-line
+                                    }
                                 }
                                 ?>
                             </select>
                         </div>
                         <div class="input-group mb-3">
-                            <select class="form-select" id="txtNumeral" name="txtNumeral">
+                            <select class="form-select" id="txtNumeral" name="txtNumeral" required>
                                 <option selected disabled value="">Numeral</option>
                                 <?php
                                 for ($i = 0; $i < count($arregloNumeral); $i++) {
                                     $id = $arregloNumeral[$i]->__get('id');
                                     $descripcion = $arregloNumeral[$i]->__get('descripcion'); //cspell:disable-line
                                     $fkidliteral = $arregloNumeral[$i]->__get('fkidliteral'); //cspell:disable-line
-                                    echo "<option value='$id' data-bs-literal='$fkidliteral' hidden>$descripcion</option>"; //cspell:disable-line
+                                    if ($id == 0) {
+                                        echo "<option value='$id' data-bs-literal='$fkidliteral'>$descripcion</option>"; //cspell:disable-line
+                                    }else{
+                                        echo "<option value='$id' data-bs-literal='$fkidliteral' hidden>$descripcion</option>"; //cspell:disable-line
+                                    }
                                 }
                                 ?>
                             </select>
                         </div>
                         <div class="input-group mb-3">
-                            <select class="form-select" id="txtParagrafo" name="txtParagrafo"> <!-- cspell:disable-line -->
+                            <select class="form-select" id="txtParagrafo" name="txtParagrafo" required> <!-- cspell:disable-line -->
                                 <option selected disabled value="">Paragrafo</option>
                                 <?php
                                 for ($i = 0; $i < count($arregloParagrafo); $i++) {
                                     $id = $arregloParagrafo[$i]->__get('id');
                                     $descripcion = $arregloParagrafo[$i]->__get('descripcion'); //cspell:disable-line
                                     $fkidarticulo = $arregloParagrafo[$i]->__get('fkidarticulo'); //cspell:disable-line
-                                    echo "<option value='$id' data-bs-articulo='$fkidarticulo' hidden>$descripcion</option>"; //cspell:disable-line
+                                    if ($id == 0) {
+                                        echo "<option value='$id' data-bs-articulo='$fkidarticulo'>$descripcion</option>"; //cspell:disable-line
+                                    }else{
+                                        echo "<option value='$id' data-bs-articulo='$fkidarticulo' hidden>$descripcion</option>"; //cspell:disable-line
+                                    }
                                 }
                                 ?>
                             </select>
@@ -704,7 +744,6 @@ switch ($boton) {
                         </div>
                         <h5>Selecciona los responsables:</h5>
                         <div class="container mt-3">
-
                             <select class="form-select" id="txtActor" name="txtActor[]" required multiple>
                                 <option selected disabled value="">Actor</option>
                                 <?php
@@ -737,10 +776,11 @@ switch ($boton) {
                                 $id = $arregloVariable[$i]->__get('id');
                                 $nombre = $arregloVariable[$i]->__get('nombre'); ?>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="variables_modal[<?= $id ?>]" value="<?= $id ?>" id="opcion<?= $id ?>_modal"> <!-- cspell:disable-line -->
-                                    <label class="form-check-label" for="opcion<?= $id ?>_modal"> <!-- cspell:disable-line -->
+                                    <input class="form-check-input" type="checkbox" name="variables_modal[<?= $id ?>]" value="<?= $id ?>" id="opcion<?= $id ?>_modal" onclick="toggleTextbox(this)">
+                                    <label class="form-check-label" for="opcion<?= $id ?>_modal">
                                         <?= $nombre ?>
                                     </label>
+                                    <input type="text" name="valor_variable_modal[<?= $id ?>]" id="textbox<?= $id ?>" placeholder="Ingrese valor para <?= $nombre ?>" disabled>
                                 </div>
                             <?php } ?>
                         </div>
@@ -854,40 +894,52 @@ switch ($boton) {
                             </select>
                         </div>
                         <div class="input-group mb-3">
-                            <select class="form-select" id="txtLiteralEdit" name="txtLiteral">
+                            <select class="form-select" id="txtLiteralEdit" name="txtLiteral" required>
                                 <option selected disabled value="">Literal</option>
                                 <?php
                                 for ($i = 0; $i < count($arregloLiteral); $i++) {
                                     $id = $arregloLiteral[$i]->__get('id');
                                     $descripcion = $arregloLiteral[$i]->__get('descripcion'); //cspell:disable-line
                                     $fkidarticulo = $arregloLiteral[$i]->__get('fkidarticulo'); //cspell:disable-line
-                                    echo "<option value='$id' data-bs-articulo='$fkidarticulo' hidden>$descripcion</option>"; //cspell:disable-line
+                                    if ($id == 0) {
+                                        echo "<option value='$id' data-bs-articulo='$fkidarticulo'>$descripcion</option>"; //cspell:disable-line
+                                    } else {
+                                        echo "<option value='$id' data-bs-articulo='$fkidarticulo' hidden>$descripcion</option>"; //cspell:disable-line
+                                    }
                                 }
                                 ?>
                             </select>
                         </div>
                         <div class="input-group mb-3">
-                            <select class="form-select" id="txtNumeralEdit" name="txtNumeral">
+                            <select class="form-select" id="txtNumeralEdit" name="txtNumeral" required>
                                 <option selected disabled value="">Numeral</option>
                                 <?php
                                 for ($i = 0; $i < count($arregloNumeral); $i++) {
                                     $id = $arregloNumeral[$i]->__get('id');
                                     $descripcion = $arregloNumeral[$i]->__get('descripcion'); //cspell:disable-line
                                     $fkidliteral = $arregloNumeral[$i]->__get('fkidliteral'); //cspell:disable-line
-                                    echo "<option value='$id' data-bs-literal='$fkidliteral'>$descripcion</option>"; //cspell:disable-line
+                                    if ($id == 0) {
+                                        echo "<option value='$id' data-bs-literal='$fkidliteral'>$descripcion</option>"; //cspell:disable-line
+                                    }else{
+                                        echo "<option value='$id' data-bs-literal='$fkidliteral' hidden>$descripcion</option>"; //cspell:disable-line
+                                    }
                                 }
                                 ?>
                             </select>
                         </div>
                         <div class="input-group mb-3">
-                            <select class="form-select" id="txtParagrafoEdit" name="txtParagrafo"> <!-- cspell:disable-line -->
+                            <select class="form-select" id="txtParagrafoEdit" name="txtParagrafo" required> <!-- cspell:disable-line -->
                                 <option selected disabled value="">Paragrafo</option>
                                 <?php
                                 for ($i = 0; $i < count($arregloParagrafo); $i++) {
                                     $id = $arregloParagrafo[$i]->__get('id');
                                     $descripcion = $arregloParagrafo[$i]->__get('descripcion'); //cspell:disable-line
                                     $fkidarticulo = $arregloParagrafo[$i]->__get('fkidarticulo'); //cspell:disable-line
-                                    echo "<option value='$id' data-bs-articulo='$fkidarticulo'>$descripcion</option>"; //cspell:disable-line
+                                    if ($id == 0) {
+                                        echo "<option value='$id' data-bs-articulo='$fkidarticulo'>$descripcion</option>"; //cspell:disable-line
+                                    }else{
+                                        echo "<option value='$id' data-bs-articulo='$fkidarticulo' hidden>$descripcion</option>"; //cspell:disable-line
+                                    }
                                 }
                                 ?>
                             </select>
@@ -938,10 +990,11 @@ switch ($boton) {
                                 $id = $arregloVariable[$i]->__get('id');
                                 $nombre = $arregloVariable[$i]->__get('nombre'); ?>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="variables_modal[<?= $id ?>]" value="<?= $id ?>" id="variables_modal<?= $id ?>_modal">
-                                    <label class="form-check-label" for="variables_modal<?= $id ?>_modal">
+                                    <input class="form-check-input" type="checkbox" name="variables_modal[<?= $id ?>]" value="<?= $id ?>" id="opcion_edit<?= $id ?>_modal" onclick="toggleTextboxEdit(this)">
+                                    <label class="form-check-label" for="opcion_edit<?= $id ?>_modal">
                                         <?= $nombre ?>
                                     </label>
+                                    <input type="text" name="valor_variable_modal[<?= $id ?>]" id="textbox_edit<?= $id ?>" placeholder="Ingrese valor para <?= $nombre ?>" disabled>
                                 </div>
                             <?php } ?>
                         </div>
@@ -1070,6 +1123,8 @@ switch ($boton) {
             const actores = this.getAttribute('data-bs-actores').split(',').map(Number); // Convertir a array de números
             const fuentes = this.getAttribute('data-bs-fuentes').split(',').map(Number); // Convertir a array de números
             const variables = this.getAttribute('data-bs-variables').split(',').map(Number); // Convertir a array de números
+            const valoresVariables = this.getAttribute('data-bs-dato').split(', ').map(Number);
+
             // Abrir el modal editIndicador
             const editUserModal = new bootstrap.Modal(document.getElementById('editIndicador'));
 
@@ -1078,27 +1133,65 @@ switch ($boton) {
             editUserModal.show();
 
             // Cargar datos en el modal
-            cargarDatos(id, codigo, nombre, objetivo, alcance, formula, tipoIndicador, unidadMedicion, meta, sentido, frecuencia, articulo, literal, numeral, paragrafo, represenVisual, actores, fuentes, variables);
+            cargarDatos(id, codigo, nombre, objetivo, alcance, formula, tipoIndicador, unidadMedicion, meta, sentido, frecuencia, articulo, literal, numeral, paragrafo, represenVisual, actores, fuentes, variables, valoresVariables);
         });
     }
 
-    const CancelarEditButton = document.getElementById('botonCancelar2'); //cspell:disable-line
+    // const CancelarEditButton = document.getElementById('botonCancelar2'); //cspell:disable-line
 
-    if (CancelarEditButton) {
-        CancelarEditButton.addEventListener('click', () => {
-            const editUserModal = new bootstrap.Modal(document.getElementById('editIndicador'));
-            editUserModal.hide();
+    // if (CancelarEditButton) {
+    //     CancelarEditButton.addEventListener('click', () => {
+    //         // Obtener la instancia existente del modal
+    //         const modalElement = document.getElementById('editIndicador');
+    //         const modalInstance = bootstrap.Modal.getInstance(modalElement);
 
-            // Eliminar la clase .modal-backdrop
-            const modalBackdrop = document.querySelector('.modal-backdrop');
-            if (modalBackdrop) {
-                modalBackdrop.remove();
-            }
+    //         if (modalInstance) {
+    //             modalInstance.hide(); // Usar el método hide de Bootstrap para cerrar el modal
+
+    //             // Eliminar cualquier backdrop restante
+    //             const backdrops = document.querySelectorAll('.modal-backdrop');
+    //             backdrops.forEach(backdrop => backdrop.remove());
+
+    //             // Asegurarse de que la clase .modal-open se elimine del body
+    //             document.body.classList.remove('modal-open');
+    //             // Restaurar el estilo del body
+    //             document.body.style.overflow = '';
+    //             document.body.style.paddingRight = '';
+    //         }
+    //     });
+    // }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const CancelarEditButton = document.getElementById('botonCancelar2');
+        const modalElement = document.getElementById('editIndicador');
+
+        if (CancelarEditButton) {
+            CancelarEditButton.addEventListener('click', () => {
+                // Obtener la instancia existente del modal
+                const modalInstance = bootstrap.Modal.getInstance(modalElement);
+
+                if (modalInstance) {
+                    modalInstance.hide(); // Usar el método hide de Bootstrap para cerrar el modal
+                }
+            });
+        }
+
+        // Añadir un listener para el evento 'hidden.bs.modal' para limpiar cualquier rastro
+        modalElement.addEventListener('hidden.bs.modal', () => {
+            // Eliminar cualquier backdrop restante
+            const backdrops = document.querySelectorAll('.modal-backdrop');
+            backdrops.forEach(backdrop => backdrop.remove());
+
+            // Asegurarse de que la clase .modal-open se elimine del body
+            document.body.classList.remove('modal-open');
+            // Restaurar el estilo del body
+            document.body.style.overflow = '';
+            document.body.style.paddingRight = '';
         });
-    }
+    });
 
     // Función para cargar los datos en el modal
-    function cargarDatos(id, codigo, nombre, objetivo, alcance, formula, tipoIndicador, unidadMedicion, meta, sentido, frecuencia, articulo, literal, numeral, paragrafo, represenVisual, actores, fuentes, variables) {
+    function cargarDatos(id, codigo, nombre, objetivo, alcance, formula, tipoIndicador, unidadMedicion, meta, sentido, frecuencia, articulo, literal, numeral, paragrafo, represenVisual, actores, fuentes, variables, valoresVariables) {
         const modalTitle = editIndicador.querySelector('.modal-title');
         const idInput = editIndicador.querySelector('#txtId');
         const codigoInput = editIndicador.querySelector('#txtCodigo'); //cspell:disable-line
@@ -1160,12 +1253,49 @@ switch ($boton) {
             }
         });
 
-        variables.forEach(id => {
-            const checkbox = document.getElementById(`variables_modal${id}_modal`);
+        const posiblesVariables = <?php echo json_encode($arregloIdsVariables); ?>;
+        console.log(posiblesVariables)
+
+        // Desactivar y limpiar todos los textbox correspondientes a todos los posibles checkboxes
+        posiblesVariables.forEach(id => {
+            const checkbox = document.getElementById(`opcion_edit${id}_modal`);
             if (checkbox) {
-                checkbox.checked = true;
+                const textbox = document.getElementById('textbox_edit' + checkbox.value);
+                if (textbox) {
+                    textbox.disabled = true;
+                    textbox.value = ''; // Limpiar el valor del textbox
+                }
             }
         });
+
+        variables.forEach((id, index) => {
+            const checkbox = document.getElementById(`opcion_edit${id}_modal`);
+            if (checkbox) {
+                checkbox.checked = true;
+
+                // Encontrar el textbox correspondiente
+                var textbox = document.getElementById('textbox_edit' + checkbox.value);
+                if (textbox) {
+                    // Encontrar el valor correspondiente en el arreglo valoresVariables
+                    var valorTexto = valoresVariables[index]; // Usar el índice para obtener el valor correspondiente
+
+                    if (checkbox.checked) {
+                        textbox.disabled = false;
+                        textbox.value = valorTexto !== undefined ? valorTexto : ''; // Asignar el valor al textbox
+                    } else {
+                        textbox.disabled = true;
+                        textbox.value = ''; // Limpiar el textbox si el checkbox no está marcado
+                    }
+                } else {
+                    // No hacer nada si no se encuentra el textbox
+                }
+            } else {
+                // No hacer nada si no se encuentra el checkbox
+            }
+        });
+
+        console.log(variables)
+        console.log(valoresVariables)
     }
 
     const deleteUser = document.getElementById('deleteIndicador')
@@ -1187,18 +1317,18 @@ switch ($boton) {
         })
     }
 
-    // Obtener los selectores
+    // Obtener los selectores del modal de agregar
     const selectArticulo = document.getElementById('txtArticulo');
     const selectLiteral = document.getElementById('txtLiteral');
     const selectNumeral = document.getElementById('txtNumeral');
     const selectParagrafo = document.getElementById('txtParagrafo'); //cspell:disable-line
 
-    // Filtrar literales según el artículo seleccionado
+    // Filtrar literales según el artículo seleccionado del modal de agregar
     selectArticulo.addEventListener('change', function() {
         const idArticulo = this.value;
         // Mostrar las opciones correspondientes en selectLiteral
         [...selectLiteral.options].forEach(option => {
-            if (option.getAttribute('data-bs-articulo') === idArticulo || option.value === '') {
+            if (option.getAttribute('data-bs-articulo') === idArticulo || option.value == '0') {
                 option.hidden = false;
             } else {
                 option.hidden = true;
@@ -1207,12 +1337,12 @@ switch ($boton) {
         selectLiteral.value = '';
     });
 
-    // Filtrar numerales según el literal seleccionado
+    // Filtrar numerales según el literal seleccionado del modal de agregar
     selectLiteral.addEventListener('change', function() {
         const idLiteral = this.value;
         // Mostrar las opciones correspondientes en selectNumeral
         [...selectNumeral.options].forEach(option => {
-            if (option.getAttribute('data-bs-literal') === idLiteral || option.value === '') {
+            if (option.getAttribute('data-bs-literal') === idLiteral || option.value == '0') {
                 option.hidden = false;
             } else {
                 option.hidden = true;
@@ -1221,12 +1351,12 @@ switch ($boton) {
         selectNumeral.value = '';
     });
 
-    // Filtrar párrafos según el artículo seleccionado
+    // Filtrar párrafos según el artículo seleccionado del modal de agregar
     selectArticulo.addEventListener('change', function() {
         const idArticulo = this.value;
         // Mostrar las opciones correspondientes en selectParagrafo
         [...selectParagrafo.options].forEach(option => {
-            if (option.getAttribute('data-bs-articulo') === idArticulo || option.value === '') {
+            if (option.getAttribute('data-bs-articulo') === idArticulo || option.value == '0') {
                 option.hidden = false;
             } else {
                 option.hidden = true;
@@ -1235,18 +1365,18 @@ switch ($boton) {
         selectParagrafo.value = '';
     });
 
-    // Obtener los selectores
+    // Obtener los selectores del modal de editar
     const selectArticuloEdit = document.getElementById('txtArticuloEdit');
     const selectLiteralEdit = document.getElementById('txtLiteralEdit');
     const selectNumeralEdit = document.getElementById('txtNumeralEdit');
     const selectParagrafoEdit = document.getElementById('txtParagrafoEdit'); //cspell:disable-line
 
-    // Filtrar literales según el artículo seleccionado
+    // Filtrar literales según el artículo seleccionado del modal de editar
     selectArticuloEdit.addEventListener('change', function() {
         const idArticulo = this.value;
         // Mostrar las opciones correspondientes en selectLiteral
         [...selectLiteralEdit.options].forEach(option => {
-            if (option.getAttribute('data-bs-articulo') === idArticulo || option.value === '') {
+            if (option.getAttribute('data-bs-articulo') === idArticulo || option.value == '0') {
                 option.hidden = false;
             } else {
                 option.hidden = true;
@@ -1256,12 +1386,12 @@ switch ($boton) {
         selectNumeralEdit.value = '';
     });
 
-    // Filtrar numerales según el literal seleccionado
+    // Filtrar numerales según el literal seleccionado del modal de editar
     selectLiteralEdit.addEventListener('change', function() {
         const idLiteral = this.value;
         // Mostrar las opciones correspondientes en selectNumeral
         [...selectNumeralEdit.options].forEach(option => {
-            if (option.getAttribute('data-bs-literal') === idLiteral || option.value === '') {
+            if (option.getAttribute('data-bs-literal') === idLiteral || option.value == '0') {
                 option.hidden = false;
             } else {
                 option.hidden = true;
@@ -1270,12 +1400,12 @@ switch ($boton) {
         selectNumeralEdit.value = '';
     });
 
-    // Filtrar párrafos según el artículo seleccionado
+    // Filtrar párrafos según el artículo seleccionado del modal de editar
     selectArticuloEdit.addEventListener('change', function() {
         const idArticulo = this.value;
         // Mostrar las opciones correspondientes en selectParagrafo
         [...selectParagrafoEdit.options].forEach(option => {
-            if (option.getAttribute('data-bs-articulo') === idArticulo || option.value === '') {
+            if (option.getAttribute('data-bs-articulo') === idArticulo || option.value == '0') {
                 option.hidden = false;
             } else {
                 option.hidden = true;
@@ -1283,6 +1413,26 @@ switch ($boton) {
         });
         selectParagrafoEdit.value = '';
     });
+
+    function toggleTextbox(checkbox) {
+        var textbox = document.getElementById('textbox' + checkbox.value);
+        if (checkbox.checked) {
+            textbox.disabled = false;
+        } else {
+            textbox.disabled = true;
+            textbox.value = ''; // Clear the textbox if checkbox is unchecked
+        }
+    }
+
+    function toggleTextboxEdit(checkbox) {
+        var textbox = document.getElementById('textbox_edit' + checkbox.value);
+        if (checkbox.checked) {
+            textbox.disabled = false;
+        } else {
+            textbox.disabled = true;
+            textbox.value = ''; // Clear the textbox if checkbox is unchecked
+        }
+    }
 </script>
 
 <?php include 'footer.html'; ?>

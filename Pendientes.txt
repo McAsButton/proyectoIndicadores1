@@ -8,6 +8,6 @@ Validador: Tiene acceso a los menus,  tiene acceso al consultar, al boton de mod
 Admninistrativo: Tiene acceso a los menus y tiene acceso al crud de todas las tablas excepto la de usuarios. ✅☑️
 
 
-Datos de las variables, textbox  inactivo segun checkbox de la variable.
+Datos de las variables, textbox  inactivo segun checkbox de la variable. ✅
 Consultas en un listbox y que genere la tabla.
-Guardar con literales y numerales vacios o generar una opcion N/A (corregir listener para mostrar siempre el NA)
+Guardar con literales y numerales vacios o generar una opcion N/A (corregir listener para mostrar siempre el NA) ✅
