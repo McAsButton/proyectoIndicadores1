@@ -118,10 +118,14 @@ switch ($boton) {
             if (!empty($variable)) {
                 foreach ($variable as $key => $value) {
                     if (isset($valores_variables[$key])) {
-                        $valorTexto = $valores[$key];
-                        $datosVariablePorIndicador = ['fkidvariable' => $value, 'fkidindicador' => $idIndicador, 'dato' => $valorTexto, 'fkemailusuario' => $_SESSION['email'], 'fechadato' => $fecha_y_hora]; //cspell:disable-line
+                        $valorTexto = $valores_variables[$key];
+
+                        $datosVariablePorIndicador = ['fkidvariable' => $value, 'fkidindicador' => $idIndicador, 'dato' => $valorTexto, 'fkemailusuario' => $_SESSION['email'], 'fechadato' => $fecha_y_hora];
+
                         $objVariablePorIndicador = new Entidad($datosVariablePorIndicador);
-                        $objControlVariablePorIndicador = new ControlEntidad('variablesporindicador'); //cspell:disable-line
+
+                        $objControlVariablePorIndicador = new ControlEntidad('variablesporindicador');
+
                         $objControlVariablePorIndicador->guardar($objVariablePorIndicador);
                     }
                 }
@@ -283,7 +287,7 @@ switch ($boton) {
 
                         $objControlVariablePorIndicador = new ControlEntidad('variablesporindicador');
 
-                        $result = $objControlVariablePorIndicador->guardar($objVariablePorIndicador);
+                        $objControlVariablePorIndicador->guardar($objVariablePorIndicador);
                     }
                 }
             }
@@ -560,18 +564,18 @@ switch ($boton) {
                         <ul class="pagination">
                             <?php
                             // Botón "Anterior"
-                            echo "<li class='page-item " . ($pagina_actual == 1 ? 'disabled' : '') . "' style='" . ($pagina_actual == 1 ? 'display: none;' : '') . "'><a href='vistaUsuario.php?pagina=" . ($pagina_actual - 1) . "' class='page-link'>Anterior</a></li>";
+                            echo "<li class='page-item " . ($pagina_actual == 1 ? 'disabled' : '') . "' style='" . ($pagina_actual == 1 ? 'display: none;' : '') . "'><a href='VistaIndicador.php?pagina=" . ($pagina_actual - 1) . "' class='page-link'>Anterior</a></li>";
 
                             // Números de página
                             for ($i = 1; $i <= $total_paginas; $i++) {
                                 if ($pagina_actual == $i) {
-                                    echo "<li class='page-item active'><a href='vistaUsuario.php?pagina=$i' class='page-link'>$i</a></li>";
+                                    echo "<li class='page-item active'><a href='VistaIndicador.php?pagina=$i' class='page-link'>$i</a></li>";
                                 } else {
-                                    echo "<li class='page-item'><a href='vistaUsuario.php?pagina=$i' class='page-link'>$i</a></li>";
+                                    echo "<li class='page-item'><a href='VistaIndicador.php?pagina=$i' class='page-link'>$i</a></li>";
                                 }
                             }
                             // Botón "Siguiente"
-                            echo "<li class='page-item " . ($pagina_actual == $total_paginas ? 'disabled' : '') . "' style='" . ($pagina_actual == $total_paginas ? 'display: none;' : '') . "'><a href='vistaUsuario.php?pagina=" . ($pagina_actual + 1) . "' class='page-link'>Siguiente</a></li>";
+                            echo "<li class='page-item " . ($pagina_actual == $total_paginas ? 'disabled' : '') . "' style='" . ($pagina_actual == $total_paginas ? 'display: none;' : '') . "'><a href='VistaIndicador.php?pagina=" . ($pagina_actual + 1) . "' class='page-link'>Siguiente</a></li>";
                             ?>
                         </ul>
                     </div>
@@ -705,7 +709,7 @@ switch ($boton) {
                                     $fkidliteral = $arregloNumeral[$i]->__get('fkidliteral'); //cspell:disable-line
                                     if ($id == 0) {
                                         echo "<option value='$id' data-bs-literal='$fkidliteral'>$descripcion</option>"; //cspell:disable-line
-                                    }else{
+                                    } else {
                                         echo "<option value='$id' data-bs-literal='$fkidliteral' hidden>$descripcion</option>"; //cspell:disable-line
                                     }
                                 }
@@ -722,7 +726,7 @@ switch ($boton) {
                                     $fkidarticulo = $arregloParagrafo[$i]->__get('fkidarticulo'); //cspell:disable-line
                                     if ($id == 0) {
                                         echo "<option value='$id' data-bs-articulo='$fkidarticulo'>$descripcion</option>"; //cspell:disable-line
-                                    }else{
+                                    } else {
                                         echo "<option value='$id' data-bs-articulo='$fkidarticulo' hidden>$descripcion</option>"; //cspell:disable-line
                                     }
                                 }
@@ -771,16 +775,16 @@ switch ($boton) {
                             <?php } ?>
                         </div>
                         <h5>Selecciona las Variables:</h5>
-                        <div class="container mt-3">
+                        <div class="container mt-3" style="display: flex; flex-direction: column; gap: 15px;">
                             <?php for ($i = 0; $i < count($arregloVariable); $i++) {
                                 $id = $arregloVariable[$i]->__get('id');
                                 $nombre = $arregloVariable[$i]->__get('nombre'); ?>
-                                <div class="form-check">
+                                <div class="form-check" style="display: flex; align-items: center; gap: 10px;">
                                     <input class="form-check-input" type="checkbox" name="variables_modal[<?= $id ?>]" value="<?= $id ?>" id="opcion<?= $id ?>_modal" onclick="toggleTextbox(this)">
-                                    <label class="form-check-label" for="opcion<?= $id ?>_modal">
+                                    <label class="form-check-label" for="opcion<?= $id ?>_modal" style="flex: 1;">
                                         <?= $nombre ?>
                                     </label>
-                                    <input type="text" name="valor_variable_modal[<?= $id ?>]" id="textbox<?= $id ?>" placeholder="Ingrese valor para <?= $nombre ?>" disabled>
+                                    <input type="text" name="valor_variable_modal[<?= $id ?>]" id="textbox<?= $id ?>" placeholder="Ingrese valor para <?= $nombre ?>" disabled style="width: 200px; margin-left: auto;">
                                 </div>
                             <?php } ?>
                         </div>
@@ -920,7 +924,7 @@ switch ($boton) {
                                     $fkidliteral = $arregloNumeral[$i]->__get('fkidliteral'); //cspell:disable-line
                                     if ($id == 0) {
                                         echo "<option value='$id' data-bs-literal='$fkidliteral'>$descripcion</option>"; //cspell:disable-line
-                                    }else{
+                                    } else {
                                         echo "<option value='$id' data-bs-literal='$fkidliteral' hidden>$descripcion</option>"; //cspell:disable-line
                                     }
                                 }
@@ -937,7 +941,7 @@ switch ($boton) {
                                     $fkidarticulo = $arregloParagrafo[$i]->__get('fkidarticulo'); //cspell:disable-line
                                     if ($id == 0) {
                                         echo "<option value='$id' data-bs-articulo='$fkidarticulo'>$descripcion</option>"; //cspell:disable-line
-                                    }else{
+                                    } else {
                                         echo "<option value='$id' data-bs-articulo='$fkidarticulo' hidden>$descripcion</option>"; //cspell:disable-line
                                     }
                                 }
@@ -985,16 +989,16 @@ switch ($boton) {
                             <?php } ?>
                         </div>
                         <h5>Selecciona las Variables:</h5>
-                        <div class="container mt-3">
+                        <div class="container mt-3" style="display: flex; flex-direction: column; gap: 15px;">
                             <?php for ($i = 0; $i < count($arregloVariable); $i++) {
                                 $id = $arregloVariable[$i]->__get('id');
                                 $nombre = $arregloVariable[$i]->__get('nombre'); ?>
-                                <div class="form-check">
+                                <div class="form-check" style="display: flex; align-items: center; gap: 10px;">
                                     <input class="form-check-input" type="checkbox" name="variables_modal[<?= $id ?>]" value="<?= $id ?>" id="opcion_edit<?= $id ?>_modal" onclick="toggleTextboxEdit(this)">
-                                    <label class="form-check-label" for="opcion_edit<?= $id ?>_modal">
+                                    <label class="form-check-label" for="opcion_edit<?= $id ?>_modal" style="flex: 1;">
                                         <?= $nombre ?>
                                     </label>
-                                    <input type="text" name="valor_variable_modal[<?= $id ?>]" id="textbox_edit<?= $id ?>" placeholder="Ingrese valor para <?= $nombre ?>" disabled>
+                                    <input type="text" name="valor_variable_modal[<?= $id ?>]" id="textbox_edit<?= $id ?>" placeholder="Ingrese valor para <?= $nombre ?>" disabled style="width: 200px; margin-left: auto;">
                                 </div>
                             <?php } ?>
                         </div>

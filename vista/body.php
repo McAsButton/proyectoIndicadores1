@@ -47,6 +47,7 @@
                             echo '<li class="dropdown"><a href="#"><span>Indicadores</span> <i class="bi bi-chevron-down"></i></a>';
                             echo '<ul>';
                             echo '<li><a href="vistaActor.php">Actor</a></li>';
+                            echo '<li><a href="vistaConsultas.php">Consultas</a></li>';
                             echo '<li><a href="vistaFrecuencia.php">Frecuencia</a></li>';
                             echo '<li><a href="vistaFuente.php">Fuente</a></li>';
                             echo '<li><a href="vistaIndicador.php">Indicador</a></li>';
@@ -65,14 +66,14 @@
                     <li>
                         <?php
                         if (isset($_SESSION['email'])) {
-                            echo $_SESSION['email'] . '<br>';
-                            $roles = ['admin' => 'Admin', 'verificador' => 'Verificador', 'validador' => 'Validador', 'administrativo' => 'Administrativo', 'invitado' => 'Invitado'];
-
+                            echo '<p id="parrafoUsuario">' . $_SESSION['email'] . '<br> Rol: ';
+                            $roles = ['admin' => 'Admin <i class="bi bi-person-gear"></i>', 'verificador' => 'Verificador <i class="bi bi-person-exclamation"></i>', 'validador' => 'Validador <i class="bi bi-person-check"></i>', 'administrativo' => 'Administrativo <i class="bi bi-person-add"></i>', 'invitado' => 'Invitado <i class="bi bi-person-lock"></i>'];
                             foreach ($roles as $key => $value) {
                                 if (isset($_SESSION[$key])) {
-                                    echo 'Rol: ' . $value;
+                                    echo $value . ' ';
                                 }
                             }
+                            echo '</p>';
                             echo '<a class="nav-link scrollto" href="cerrarSesion.php">Cerrar Sesión</a>'; // cspell:disable-line <- desabilita el corrector ortografico para esta linea
                         } else {
                             echo '<a class="nav-link scrollto" data-bs-toggle="modal" data-bs-target="#ModalLogin" role="button">Login</a>'; // cspell:disable-line <- desabilita el corrector ortografico para esta linea
@@ -83,4 +84,23 @@
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->
         </div>
-    </header><!-- End Header -->
+    </header>
+    <script>
+        window.addEventListener("DOMContentLoaded", () => {
+            const parrafo = document.querySelector("#parrafoUsuario");
+
+            function actualizarClase() {
+                if (window.innerWidth < 992) {
+                    parrafo.classList.remove("text-light");
+                    parrafo.classList.add("text-black");
+                } else {
+                    parrafo.classList.remove("text-black");
+                    parrafo.classList.add("text-light");
+                }
+            }
+
+            actualizarClase(); // Actualizar clase al cargar la página
+
+            window.addEventListener("resize", actualizarClase); // Actualizar clase al cambiar el tamaño de la ventana
+        });
+    </script><!-- End Header -->

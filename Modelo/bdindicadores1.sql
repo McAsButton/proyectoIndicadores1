@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-04-2024 a las 22:33:37
+-- Tiempo de generación: 01-06-2024 a las 15:02:54
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -209,9 +209,16 @@ CREATE TABLE `fuentesporindicador` (
 
 INSERT INTO `fuentesporindicador` (`fkidfuente`, `fkidindicador`) VALUES
 (1, 31),
+(1, 68),
+(1, 69),
+(1, 75),
 (3, 30),
 (3, 31),
+(3, 68),
+(3, 69),
 (4, 31),
+(4, 68),
+(4, 69),
 (7, 31);
 
 -- --------------------------------------------------------
@@ -244,7 +251,10 @@ CREATE TABLE `indicador` (
 
 INSERT INTO `indicador` (`id`, `codigo`, `nombre`, `objetivo`, `alcance`, `formula`, `fkidtipoindicador`, `fkidunidadmedicion`, `meta`, `fkidsentido`, `fkidfrecuencia`, `fkidarticulo`, `fkidliteral`, `fkidnumeral`, `fkidparagrafo`) VALUES
 (30, 'COD 555', 'NPM 555', 'Objetivo Indicador COD 555', 'Alcance Indicador COD 555', '(sin(x)*sin(y))**2', 5, 15, 'Meta Indicador COD 555 modifi', 5, 5, '2.5.3.2.11.5', '0', '0', '0'),
-(31, 'COD 111', 'NPM 111', 'Objetivo Indicador COD 111', 'Alcance Indicador COD 111', '(sin(x)*sin(y))**2', 1, 12, 'Meta Indicador COD 111', 3, 1, '2.5.3.2.11.1', '0', '0', '0');
+(31, 'COD 111', 'NPM 111', 'Objetivo Indicador COD 111', 'Alcance Indicador COD 111', '(sin(x)*sin(y))**2', 1, 12, 'Meta Indicador COD 111', 3, 1, '2.5.3.2.11.1', '0', '0', '0'),
+(68, 'Cod 1', 'Nombre 1', 'Objetivo 1', 'Alcance 1', 'Formula 1', 2, 13, 'Meta 1', 2, 3, '2.5.3.2.3.1.7', 'b2.5.3.2.3.1.7', '1b2.5.3.2.3.1.7', '12.5.3.2.3.1.7'),
+(69, 'Cod 2', 'Nombre 2', 'Objetivo 2', 'Alcance 2', 'Formula 2', 3, 14, 'Meta 2', 3, 3, '2.5.3.2.3.1.7', 'b2.5.3.2.3.1.7', '1b2.5.3.2.3.1.7', '12.5.3.2.3.1.7'),
+(75, 'a', 'a', 'a', 'a', 'a', 1, 12, 'a', 2, 1, '2.5.3.2.11.5', '0', '0', '0');
 
 -- --------------------------------------------------------
 
@@ -453,7 +463,17 @@ INSERT INTO `represenvisualporindicador` (`fkidindicador`, `fkidrepresenvisual`)
 (31, 1),
 (31, 2),
 (31, 3),
-(31, 4);
+(31, 4),
+(68, 1),
+(68, 2),
+(68, 3),
+(68, 4),
+(69, 1),
+(69, 2),
+(69, 3),
+(75, 1),
+(75, 2),
+(75, 3);
 
 -- --------------------------------------------------------
 
@@ -473,9 +493,16 @@ CREATE TABLE `responsablesporindicador` (
 
 INSERT INTO `responsablesporindicador` (`fkidresponsable`, `fkidindicador`, `fechaasignacion`) VALUES
 ('1', 30, '2023-08-05 09:53:03'),
+('1', 68, '2024-05-29 20:40:04'),
+('1', 69, '2024-05-30 09:32:37'),
+('1', 75, '2024-05-29 21:10:09'),
 ('1234567', 30, '2023-08-05 09:53:03'),
+('1234567', 68, '2024-05-29 20:40:04'),
+('1234567', 69, '2024-05-30 09:32:37'),
 ('17', 30, '2023-08-05 09:53:03'),
 ('17', 31, '2023-08-05 09:34:11'),
+('17', 68, '2024-05-29 20:40:04'),
+('17', 69, '2024-05-30 09:32:37'),
 ('2', 30, '2023-08-05 09:53:03'),
 ('2', 31, '2023-08-05 09:34:10'),
 ('3', 30, '2023-08-05 09:53:03'),
@@ -496,6 +523,13 @@ CREATE TABLE `resultadoindicador` (
   `fechacalculo` datetime NOT NULL COMMENT 'TRIAL',
   `fkidindicador` int(11) NOT NULL COMMENT 'TRIAL'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='TRIAL';
+
+--
+-- Volcado de datos para la tabla `resultadoindicador`
+--
+
+INSERT INTO `resultadoindicador` (`id`, `resultado`, `fechacalculo`, `fkidindicador`) VALUES
+(2, 1.2, '2024-04-16 19:40:02', 31);
 
 -- --------------------------------------------------------
 
@@ -544,15 +578,9 @@ INSERT INTO `rol_usuario` (`fkemail`, `fkidrol`) VALUES
 ('carlosarturo.castrocastro@gmail.com', 3),
 ('carlosarturo.castrocastro@gmail.com', 5),
 ('hugo@empresa.com', 5),
-('masa3@correo.com', 1),
-('masa3@correo.com', 2),
-('masa3@correo.com', 3),
+('masa2@correo.com', 3),
 ('masa3@correo.com', 4),
-('masa@correo.com', 1),
 ('masa@correo.com', 2),
-('masa@correo.com', 3),
-('masa@correo.com', 4),
-('masa@correo.com', 5),
 ('paraborrar2@empresa.com', 1),
 ('paraborrar2@empresa.com', 2),
 ('paraborrar2@empresa.com', 3),
@@ -721,8 +749,9 @@ INSERT INTO `usuario` (`email`, `contrasena`) VALUES
 ('admin@empresa.com', '1234567'),
 ('carlosarturo.castrocastro@gmail.com', 'e0bc614e4fd035a488619799853b075143deea596c477b8dc077e309c0fe42e9'),
 ('hugo@empresa.com', '1234567'),
-('masa3@correo.com', '4263465fghdfghdfh'),
-('masa@correo.com', 'sdfasfsaf25243543'),
+('masa2@correo.com', '1234567'),
+('masa3@correo.com', '1234567'),
+('masa@correo.com', '1234567'),
 ('paraborrar2@empresa.com', 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'),
 ('paraborrar3@empresa.com', '8bb0cf6eb9b17d0f7d22b456f121257dc1254e1f01665370476383ea776df414'),
 ('paraborrar@empresa.com', '');
@@ -772,7 +801,13 @@ CREATE TABLE `variablesporindicador` (
 INSERT INTO `variablesporindicador` (`id`, `fkidvariable`, `fkidindicador`, `dato`, `fkemailusuario`, `fechadato`) VALUES
 (20, 5, 30, 10, 'admin@empresa.com', '2023-08-03 13:50:00'),
 (21, 5, 30, 20, 'admin@empresa.com', '2023-08-03 13:50:00'),
-(22, 5, 30, 30, 'admin@empresa.com', '2023-08-03 13:50:00');
+(22, 5, 30, 30, 'admin@empresa.com', '2023-08-03 13:50:00'),
+(48, 1, 68, 45, 'admin@empresa.com', '2024-05-29 20:40:04'),
+(49, 2, 68, 65, 'admin@empresa.com', '2024-05-29 20:40:04'),
+(50, 3, 68, 34, 'admin@empresa.com', '2024-05-29 20:40:04'),
+(51, 5, 68, 234, 'admin@empresa.com', '2024-05-29 20:40:04'),
+(74, 1, 75, 45, 'admin@empresa.com', '2024-05-29 21:10:09'),
+(75, 2, 69, 65, 'admin@empresa.com', '2024-05-30 09:32:37');
 
 --
 -- Índices para tablas volcadas
@@ -959,25 +994,25 @@ ALTER TABLE `frecuencia`
 -- AUTO_INCREMENT de la tabla `fuente`
 --
 ALTER TABLE `fuente`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `indicador`
 --
 ALTER TABLE `indicador`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT de la tabla `represenvisual`
 --
 ALTER TABLE `represenvisual`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `resultadoindicador`
 --
 ALTER TABLE `resultadoindicador`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL';
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -989,25 +1024,25 @@ ALTER TABLE `rol`
 -- AUTO_INCREMENT de la tabla `sentido`
 --
 ALTER TABLE `sentido`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `tipoactor`
 --
 ALTER TABLE `tipoactor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `tipoindicador`
 --
 ALTER TABLE `tipoindicador`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `unidadmedicion`
 --
 ALTER TABLE `unidadmedicion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `variable`
@@ -1019,7 +1054,7 @@ ALTER TABLE `variable`
 -- AUTO_INCREMENT de la tabla `variablesporindicador`
 --
 ALTER TABLE `variablesporindicador`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'TRIAL', AUTO_INCREMENT=76;
 
 --
 -- Restricciones para tablas volcadas
